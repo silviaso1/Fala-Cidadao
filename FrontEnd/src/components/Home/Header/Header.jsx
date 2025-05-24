@@ -10,8 +10,8 @@ const Header = () => {
           <img src="" alt="Logo" />
         </div>
         <nav className="cabecalho-menu">
-          <Link to="/login" className="botao botao-primario">Entrar</Link>
-          <Link to="/registrar" className="botao botao-primario">Criar conta</Link>
+          <Link to="/auth" className="botao botao-primario">Entrar</Link>
+          <Link to="/auth" className="botao botao-primario">Criar conta</Link>
         </nav>
       </div>
     </header>
