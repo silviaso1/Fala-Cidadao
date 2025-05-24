@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaMapMarkerAlt, FaThumbsUp, FaComment, FaShare, FaBullhorn } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaThumbsUp, FaComment,  FaBullhorn } from 'react-icons/fa';
 import './Topo.scss';
 
 const Topo = () => {
@@ -49,7 +49,6 @@ const Topo = () => {
                 <div className="post-acoes">
                   <div className="post-acao"><FaThumbsUp /> 42</div>
                   <div className="post-acao"><FaComment /> 7</div>
-                  <div className="post-acao"><FaShare /> Compartilhar</div>
                 </div>
               </div>
               <div className="post-destaque">

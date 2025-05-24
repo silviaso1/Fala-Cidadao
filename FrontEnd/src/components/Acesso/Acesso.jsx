@@ -20,8 +20,11 @@ function Acesso() {
     return (
         <div className="container-fluid min-vh-100 d-md-flex align-items-center p-0">
 
-            <div className="col-md-6 d-flex flex-column justify-content-center p-5 text-white">
-                <img src="/logo.png" alt="logo" className="mb-4" width={60} />
+            <div className="col-md-6 d-flex flex-column justify-content-center p-5 text-white text-center lado">
+                <div>
+                    <img src="/logo.png" alt="logo" className="mb-4" width={60} />
+                </div>
+                
                 <h1 className="fw-bold mb-3">Bem-vindo</h1>
                 <p className="text-light">
                     Conecte-se com outros cidadãos para reportar problemas urbanos e acompanhar soluções em tempo real.
@@ -29,9 +32,9 @@ function Acesso() {
             </div>
 
             <section className="d-flex justify-content-center flex-fill px-5">
-                <div className="w-100 auth-container">
+                <div className="w-75 auth-container">
                     <div className="auth-card p-4">
-                        <h2 className="text-center fw-semibold mb-3">{modoLogin ? 'Entrar na conta' : 'Criar nova conta'}</h2>
+                        <h5 className="text-center fw-semibold mb-3">{modoLogin ? 'Entrar na conta' : 'Criar nova conta'}</h5>
 
                         <form className='d-flex flex-column gap-3'>
                             {!modoLogin && (

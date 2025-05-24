@@ -27,6 +27,13 @@ body {
             rgba(253, 121, 168, 0.15) 0%,
             transparent 40%
         );
+
+        .lado{
+          background: linear-gradient(135deg, #292955 0%, #522a48 50%, #1f2c44 100%);
+ 
+            height: 100vh;
+           
+        }
 }
 
 .auth-container {
