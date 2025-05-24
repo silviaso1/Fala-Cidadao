@@ -1,0 +1,72 @@
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+
+  .container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--cor-primaria);
+
+    .logo-icon {
+      font-size: 2.2rem;
+      color: var(--cor-destaque);
+    }
+  }
+
+  &-menu {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    a {
+      color: var(--cor-texto);
+      font-weight: 600;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background-color: var(--cor-destaque);
+        transition: width 0.3s ease;
+        border-radius: 3px;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+
+      &:hover {
+        color: var(--cor-secundaria);
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .cabecalho {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cabecalho-menu {
+    gap: 15px;
+  }
+}
