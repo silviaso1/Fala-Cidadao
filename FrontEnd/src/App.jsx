@@ -1,20 +1,23 @@
 import './styles/App.scss';
-import Header from "./components/Home/Header/Header";
-import Topo from "./components/Home/Topo/Topo";
-import Features from './components/Home/Features/Features';
-import Footer from './components/Home/Footer/Footer';
-import CTA from './components/Home/Diferenca/Diferenca';
-function App() {
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import HomePage from './Pages/Home/HomePage';
+import Login from './components/Acesso/Login'
+import Cadastrar from './components/Acesso/Cadastrar'
+
+function App() {
   return (
-    <section id='app'>
-      <Header />
-      <Topo />
-      <Features />
-      <CTA />
-      <Footer />
-    </section>
-  )
+    <Router>
+      <section id='app'>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/registrar' element={<Cadastrar />} />
+
+        </Routes>
+      </section>
+    </Router>
+  );
 }
 
-export default App
+export default App;
