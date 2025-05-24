@@ -1,5 +1,6 @@
-
 import './Header.scss';
+import { Link } from 'react-router-dom';
+
 
 const Header = () => {
   return (
@@ -9,8 +10,8 @@ const Header = () => {
           <img src="" alt="Logo" />
         </div>
         <nav className="cabecalho-menu">
-          <a href="login.html" className="botao botao-primario">Entrar</a>
-          <a href="login.html" className="botao botao-primario">Criar conta</a>
+          <Link to="/login" className="botao botao-primario">Entrar</Link>
+          <Link to="/registrar" className="botao botao-primario">Criar conta</Link>
         </nav>
       </div>
     </header>
