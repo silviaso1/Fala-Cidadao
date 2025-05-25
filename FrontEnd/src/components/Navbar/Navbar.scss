@@ -1,0 +1,58 @@
+.cabecalho {
+  padding: 20px 0;
+  position: fixed;
+  z-index: 100;
+  background-color: rgba(28, 28, 31, 0.1); 
+  backdrop-filter: blur(25px); 
+                
+  width: 100%;
+
+  .container{
+    display: flex;
+    justify-content: space-between;
+   
+  }
+  .botao {
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &-primario {
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+    box-shadow: var(--sombra-destaque);
+    border: 2px solid var(--cor-primaria);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(108, 92, 231, 0.4);
+      background-color: #7B6BFF;
+      color: white;
+    }
+  }
+
+}
+
+  &-menu {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+
+}
+@media (max-width: 576px) {
+  .cabecalho {
+    width: 100%;
+    gap: 20px;
+  }
+
+
+  .cabecalho-menu {
+    gap: 15px;
+  }
+}

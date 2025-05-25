@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
-import './filtro.scss';
+import './Filtro.scss';
 
 function Filtro({ currentFilter, currentSort, filterPosts, sortPosts }) {
   return (

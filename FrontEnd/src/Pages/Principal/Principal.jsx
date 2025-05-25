@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Logo from '../../components/Principal/Logo/Logo';
 import TopNav from '../../components/Principal/TopNav/TopNav';
 import FilterSection from '../../components/Principal/Filtro/Filtro';
@@ -7,7 +7,7 @@ import FloatingButtons from '../../components/Principal/Botoes/Botoes';
 import SearchSidebar from '../../components/Principal/Pesquisa/Pesquisa';
 import NewPostModal from '../../components/Principal/Modal/Modal';
 import postsData from '../../components/Principal/Data/Posts';
-import '../Principal/estilo.scss';
+import '../Principal/Principal.scss';
 
 function Principal() {
   const [activeTab, setActiveTab] = useState('timeline');
@@ -94,15 +94,15 @@ function Principal() {
   // Filter and sort logic
   useEffect(() => {
     let filteredPosts = [...postsData];
-    
+
     if (activeTab === 'my-posts') {
       filteredPosts = filteredPosts.filter(post => post.user === 'me');
     }
-    
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
-    switch(currentFilter) {
+
+    switch (currentFilter) {
       case 'today':
         filteredPosts = filteredPosts.filter(post => {
           const postDate = new Date(post.date);
@@ -111,35 +111,39 @@ function Principal() {
         });
         break;
       case 'week':
-        const oneWeekAgo = new Date(today);
-        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-        filteredPosts = filteredPosts.filter(post => {
-          const postDate = new Date(post.date);
-          postDate.setHours(0, 0, 0, 0);
-          return postDate >= oneWeekAgo;
-        });
+        {
+          const oneWeekAgo = new Date(today);
+          oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+          filteredPosts = filteredPosts.filter(post => {
+            const postDate = new Date(post.date);
+            postDate.setHours(0, 0, 0, 0);
+            return postDate >= oneWeekAgo;
+          });
+        }
         break;
       case 'month':
-        const oneMonthAgo = new Date(today);
-        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-        filteredPosts = filteredPosts.filter(post => {
-          const postDate = new Date(post.date);
-          postDate.setHours(0, 0, 0, 0);
-          return postDate >= oneMonthAgo;
-        });
+        {
+          const oneMonthAgo = new Date(today);
+          oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+          filteredPosts = filteredPosts.filter(post => {
+            const postDate = new Date(post.date);
+            postDate.setHours(0, 0, 0, 0);
+            return postDate >= oneMonthAgo;
+          });
+        }
         break;
       default:
         // 'all' shows all posts
         break;
     }
-    
+
     // Sort posts
     filteredPosts.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return currentSort === 'recent' ? dateB - dateA : dateA - dateB;
     });
-    
+
     setPosts(filteredPosts);
   }, [activeTab, currentFilter, currentSort]);
 
@@ -147,46 +151,46 @@ function Principal() {
     <div className="app-container">
       <div className='bodyApp'>
         <Logo />
-      <TopNav 
-        activeTab={activeTab} 
-        switchTab={switchTab}
-        showUserDropdown={showUserDropdown}
-        toggleUserDropdown={toggleUserDropdown}
-        closeUserMenu={closeUserMenu}
-      />
-      
-      <FilterSection 
-        currentFilter={currentFilter}
-        currentSort={currentSort}
-        filterPosts={filterPosts}
-        sortPosts={sortPosts}
-      />
-      
-      <div className="tab-content">
-        {posts.map(post => (
-          <Post 
-            key={post.id}
-            post={post}
-            addComment={addComment}
-          />
-        ))}
-      </div>
-      
-      <FloatingButtons 
-        toggleSearch={toggleSearch}
-        openModal={openModal}
-      />
-      
-      <SearchSidebar 
-        showSearch={showSearch}
-        toggleSearch={toggleSearch}
-      />
-      
-      <NewPostModal 
-        showModal={showModal}
-        closeModal={closeModal}
-        createNewPost={createNewPost}
-      />
+        <TopNav
+          activeTab={activeTab}
+          switchTab={switchTab}
+          showUserDropdown={showUserDropdown}
+          toggleUserDropdown={toggleUserDropdown}
+          closeUserMenu={closeUserMenu}
+        />
+
+        <FilterSection
+          currentFilter={currentFilter}
+          currentSort={currentSort}
+          filterPosts={filterPosts}
+          sortPosts={sortPosts}
+        />
+
+        <div className="tab-content">
+          {posts.map(post => (
+            <Post
+              key={post.id}
+              post={post}
+              addComment={addComment}
+            />
+          ))}
+        </div>
+
+        <FloatingButtons
+          toggleSearch={toggleSearch}
+          openModal={openModal}
+        />
+
+        <SearchSidebar
+          showSearch={showSearch}
+          toggleSearch={toggleSearch}
+        />
+
+        <NewPostModal
+          showModal={showModal}
+          closeModal={closeModal}
+          createNewPost={createNewPost}
+        />
       </div>
     </div>
   );
