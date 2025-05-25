@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaSearch, FaPlus } from 'react-icons/fa';
-import './botoes.scss'
+import './Botoes.scss'
 
 function Botoes({ toggleSearch, openModal }) {
   return (
