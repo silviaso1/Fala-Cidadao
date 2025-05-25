@@ -10,7 +10,7 @@ const Header = () => {
           <img src="" alt="Logo" />
         </div>
         <nav className="cabecalho-menu">
-          <Link to="/auth" className="botao botao-primario">Entrar</Link>
+          <Link to="/posts" className="botao botao-primario">Entrar</Link>
           <Link to="/auth" className="botao botao-primario">Criar conta</Link>
         </nav>
       </div>

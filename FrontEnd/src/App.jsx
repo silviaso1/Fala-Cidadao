@@ -11,8 +11,8 @@ function App() {
       <section id='app'>
         <Routes>
           <Route path='/' element={<HomePage />} />
-          <Route path='/auth' element={<Principal />} />
-          <Route path='/auth2' element={<Acesso />} />
+          <Route path='/posts' element={<Principal />} />
+          <Route path='/auth' element={<Acesso />} />
         </Routes>
       </section>
     </Router>
