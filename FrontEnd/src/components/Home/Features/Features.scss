@@ -1,3 +1,4 @@
+@use '../../../styles/App.scss' as *;
 
 .recursos {
   padding: 80px 0;
@@ -35,7 +36,7 @@
         transform: translateX(-50%);
         width: 80px;
         height: 4px;
-        background: linear-gradient(90deg, var(--cor-primaria), var(--cor-destaque));
+        background: linear-gradient(90deg, $cor-primaria, $cor-destaque);
         border-radius: 2px;
       }
     }
@@ -49,14 +50,14 @@
 }
 
 .recurso-card {
-  background-color: var(--cor-card);
+  background-color: $cor-card;
   border-radius: 16px;
   padding: 30px;
-  box-shadow: var(--sombra);
+  box-shadow: $sombra;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--cor-borda);
+  border: 1px solid $cor-borda;
 
   &:hover {
     transform: translateY(-10px);
@@ -70,20 +71,20 @@
     left: 0;
     width: 5px;
     height: 100%;
-    background: linear-gradient(to bottom, var(--cor-primaria), var(--cor-destaque));
+    background: linear-gradient(to bottom, $cor-primaria, $cor-destaque);
   }
 
   h4 {
     font-size: 1.4rem;
     margin-bottom: 15px;
-    color: var(--cor-texto);
+    color: $cor-texto;
   }
 }
 
 .recurso-icone {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-destaque));
+  background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
   border-radius: 12px;
   display: flex;
   align-items: center;

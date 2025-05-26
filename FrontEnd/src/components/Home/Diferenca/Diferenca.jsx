@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaUserPlus } from 'react-icons/fa';
 import './Diferenca.scss';
 
@@ -10,7 +9,7 @@ const Diferenca = () => {
           <h2>Pronto para fazer a diferença?</h2>
           <p>Junte-se a milhares de cidadãos ativos que estão transformando suas cidades através da participação coletiva.</p>
           <div className="cta-botoes">
-            <a href="login.html" className="botao botao-primario">
+            <a href="" className="botao botao-primario">
               <FaUserPlus /> Criar conta gratuita
             </a>
           </div>

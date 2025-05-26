@@ -1,31 +1,29 @@
-:root {
-  --cor-primaria: #6C5CE7;
-  --cor-secundaria: #A29BFE;
-  --cor-destaque: #FD79A8;
-  --cor-texto: #F5F6FA;
-  --cor-texto-claro: #BDC3C7;
-  --cor-fundo: #161622;
-  --cor-card: #141825;
-  --cor-borda: #2D4059;
-}
-.bodyApp{
-  color: var(--cor-texto);
-  font-family: 'Segoe UI', sans-serif;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+$cor-primaria: #6c5ce7;
+$cor-secundaria: #a29bfe;
+$cor-destaque: #fd79a8;
+$cor-texto: #f5f6fa;
+$cor-texto-claro: #bdc3c7;
+$cor-fundo: #161622;
+$cor-card: #141825;
+$cor-borda: #2d4059;
+
+.bodyApp {
+    color: $cor-texto;
+    font-family: "Segoe UI", sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .logo-container {
-  text-align: center;
-  margin-bottom: 30px;
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-
 @media (max-width: 768px) {
-  .search-sidebar {
-    width: calc(100% - 40px);
-    right: 20px;
-    left: 20px;
-  }
+    .search-sidebar {
+        width: calc(100% - 40px);
+        right: 20px;
+        left: 20px;
+    }
 }

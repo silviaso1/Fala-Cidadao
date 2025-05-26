@@ -1,98 +1,100 @@
+@use '../../styles/App.scss' as *;
+
 .rodape {
-  background-color: #0F0F1A;
-  color: white;
-  padding: 60px 0 20px;
-  border-top: 1px solid var(--cor-borda);
+    background-color: #0f0f1a;
+    color: white;
+    padding: 60px 0 20px;
+    border-top: 1px solid $cor-borda;
 
-  &-conteudo {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-    margin-bottom: 40px;
-  }
-
-  &-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-
-    svg {
-      color: var(--cor-destaque);
-    }
-  }
-
-  &-sobre p {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  &-links {
-    h4 {
-      color: white;
-      margin-bottom: 20px;
-      font-size: 1.2rem;
+    &-conteudo {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
     }
 
-    ul {
-      list-style: none;
+    &-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+
+        svg {
+            color: $cor-destaque;
+        }
     }
 
-    li {
-      margin-bottom: 10px;
+    &-sobre p {
+        color: rgba(255, 255, 255, 0.7);
     }
 
-    a {
-      color: rgba(255, 255, 255, 0.7);
-      transition: color 0.3s ease;
+    &-links {
+        h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
 
-      &:hover {
-        color: var(--cor-destaque);
-      }
+        ul {
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: $cor-destaque;
+            }
+        }
     }
-  }
 
-  &-redes {
-    h4 {
-      color: white;
-      margin-bottom: 20px;
-      font-size: 1.2rem;
+    &-redes {
+        h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
     }
-  }
 
-  &-redes-links {
-    display: flex;
-    gap: 15px;
+    &-redes-links {
+        display: flex;
+        gap: 15px;
 
-    a {
-      width: 40px;
-      height: 40px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      transition: all 0.3s ease;
+        a {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
 
-      &:hover {
-        background-color: var(--cor-destaque);
-        transform: translateY(-3px);
-      }
+            &:hover {
+                background-color: $cor-destaque;
+                transform: translateY(-3px);
+            }
 
-      svg {
-        width: 16px;
-        height: 16px;
-      }
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
     }
-  }
 
-  &-copyright {
-    text-align: center;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.9rem;
-  }
+    &-copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.9rem;
+    }
 }
