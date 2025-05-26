@@ -1,4 +1,4 @@
-
+@use '../../../styles/App.scss' as *;
 
 .modal-overlay {
   position: fixed;
@@ -19,7 +19,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--cor-card);
+  background-color: $cor-card;
   border-radius: 16px;
   padding: 25px;
   width: 90%;
@@ -42,13 +42,13 @@
 .modal-title {
   font-size: 20px;
   font-weight: 700;
-  color: var(--cor-destaque);
+  color: $cor-destaque;
 }
 
 .close-modal {
   background: none;
   border: none;
-  color: var(--cor-texto-claro);
+  color: $cor-texto-claro;
   font-size: 24px;
   cursor: pointer;
 }
@@ -60,11 +60,11 @@
   
   textarea {
     width: 100%;
-    background-color: var(--cor-fundo);
-    border: 1px solid var(--cor-borda);
+    background-color: $cor-fundo;
+    border: 1px solid $cor-borda;
     border-radius: 12px;
     padding: 15px;
-    color: var(--cor-texto);
+    color: $cor-texto;
     min-height: 150px;
     resize: vertical;
   }
@@ -84,13 +84,13 @@
 .upload-btn {
   background: none;
   border: none;
-  color: var(--cor-texto-claro);
+  color: $cor-texto-claro;
   cursor: pointer;
   font-size: 20px;
 }
 
 .post-submit {
-  background-color: var(--cor-primaria);
+  background-color: $cor-primaria;
   color: white;
   border: none;
   border-radius: 20px;

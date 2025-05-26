@@ -1,60 +1,61 @@
+@use "../../../styles/App.scss";
 
 .search-sidebar {
-  position: fixed;
-  right: 20px;
-  top: 100px;
-  width: 300px;
-  background-color: var(--cor-card);
-  border-radius: 16px;
-  padding: 20px;
-  border: 1px solid var(--cor-borda);
-  display: none;
-  
-  &.active {
-    display: block;
-  }
+    position: fixed;
+    right: 20px;
+    top: 100px;
+    width: 300px;
+    background-color: $cor-card;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid $cor-borda;
+    display: none;
+
+    &.active {
+        display: block;
+    }
 }
 
 .search-input {
-  width: 100%;
-  background-color: var(--cor-fundo);
-  border: 1px solid var(--cor-borda);
-  border-radius: 20px;
-  padding: 10px 15px;
-  color: var(--cor-texto);
-  margin-bottom: 15px;
+    width: 100%;
+    background-color: $cor-fundo;
+    border: 1px solid $cor-borda;
+    border-radius: 20px;
+    padding: 10px 15px;
+    color: $cor-texto;
+    margin-bottom: 15px;
 }
 
 .search-results {
-  max-height: 400px;
-  overflow-y: auto;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .floating-buttons {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  z-index: 100;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 100;
 }
 
 .fab {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-destaque));
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    transform: scale(1.1);
-  }
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: scale(1.1);
+    }
 }

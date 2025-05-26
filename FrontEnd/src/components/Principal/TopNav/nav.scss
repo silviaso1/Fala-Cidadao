@@ -1,86 +1,86 @@
+@use "../../../styles/App.scss" as *;
 
 .top-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .tabs-container {
-  display: flex;
-  border-bottom: 1px solid var(--cor-borda);
+    display: flex;
+    border-bottom: 1px solid $cor-borda;
 }
 
 .tab {
-  padding: 15px 25px;
-  font-weight: 600;
-  cursor: pointer;
-  position: relative;
-  color: var(--cor-texto-claro);
-  transition: all 0.3s ease;
-  
-  &.active {
-    color: var(--cor-destaque);
-    
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background-color: var(--cor-destaque);
+    padding: 15px 25px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    color: $cor-texto-claro;
+    transition: all 0.3s ease;
+
+    &.active {
+        color: $cor-destaque;
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: $cor-destaque;
+        }
     }
-  }
 }
 
-
 .user-menu {
-  position: relative;
+    position: relative;
 }
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-destaque));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .user-dropdown {
-  position: absolute;
-  right: 0;
-  top: 50px;
-  background-color: var(--cor-card);
-  border-radius: 10px;
-  padding: 10px;
-  width: 200px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  z-index: 100;
-  display: none;
-  
-  &.show {
-    display: block;
-  }
-  
-  a {
-    display: block;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background-color: $cor-card;
+    border-radius: 10px;
     padding: 10px;
-    color: var(--cor-texto);
-    text-decoration: none;
-    border-radius: 5px;
-    
-    &:hover {
-      background-color: var(--cor-primaria);
+    width: 200px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    display: none;
+
+    &.show {
+        display: block;
     }
-    
-    svg {
-      margin-right: 8px;
+
+    a {
+        display: block;
+        padding: 10px;
+        color: $cor-texto;
+        text-decoration: none;
+        border-radius: 5px;
+
+        &:hover {
+            background-color: $cor-primaria;
+        }
+
+        svg {
+            margin-right: 8px;
+        }
     }
-  }
 }

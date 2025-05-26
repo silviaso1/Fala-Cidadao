@@ -1,25 +1,25 @@
-
+@use '../../../styles/App.scss' as *;
 
 .filter-section {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
   padding: 15px;
-  background-color: var(--cor-card);
+  background-color: $cor-card;
   border-radius: 12px;
-  border: 1px solid var(--cor-borda);
+  border: 1px solid $cor-borda;
 }
 
 .filter-btn {
-  background-color: var(--cor-fundo);
-  border: 1px solid var(--cor-borda);
-  color: var(--cor-texto);
+  background-color: $cor-fundo;
+  border: 1px solid $cor-borda;
+  color: $cor-texto;
   padding: 8px 15px;
   border-radius: 20px;
   cursor: pointer;
   
   &.active {
-    background-color: var(--cor-primaria);
-    border-color: var(--cor-primaria);
+    background-color: $cor-primaria;
+    border-color: $cor-primaria;
   }
 }

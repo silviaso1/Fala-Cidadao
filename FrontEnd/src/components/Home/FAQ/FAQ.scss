@@ -1,13 +1,13 @@
+@use '../../../styles/App.scss' as *;
 
-:root {
-  --faq-bg: #1a1a22;       
-  --faq-card-bg: #64577c;
-  --faq-border: #2D4059;
-  --faq-primary: #6C5CE7;
-  --faq-accent: #FD79A8;
-  --faq-text: #F5F6FA;
-  --faq-text-light: #BDC3C7;
-}
+  $faq-bg: #1a1a22;       
+  $faq-card-bg: #64577c;
+  $faq-border: #2D4059;
+  $faq-primary: #6C5CE7;
+  $faq-accent: #FD79A8;
+  $faq-text: #F5F6FA;
+  $faq-text-light: #BDC3C7;
+
 
 .faq-section {
 
@@ -42,7 +42,7 @@
   gap: 1rem;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--faq-text);
+  color: $faq-text;
   position: relative;
   z-index: 1;
    &::after {
@@ -53,12 +53,12 @@
         transform: translateX(-50%);
         width: 80px;
         height: 4px;
-        background: linear-gradient(90deg, var(--cor-primaria), var(--cor-destaque));
+        background: linear-gradient(90deg, $cor-primaria, $cor-destaque);
         border-radius: 2px;
       }
 
   .icon {
-    color: var(--faq-accent);
+    color: $faq-accent;
     font-size: 2rem;
   }
 }
@@ -77,21 +77,21 @@
   display: flex;
   width: 100%;
   padding: 1.5rem 2rem;
-  background-color: var(--faq-card-bg);
+  background-color: $faq-card-bg;
   
   border-radius: 14px;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   font-weight: 600;
   font-size: 1.1rem;
-  color: var(--faq-text);
+  color: faq-text;
   text-align: left;
   align-items: center;
   position: relative;
   overflow: hidden;
 
   button{
-    background-color: var(--faq-card-bg);
+    background-color: faq-card-bg;
     color: white;
     
   
@@ -99,7 +99,7 @@
   
 
   &:hover {
-    border-color: var(--faq-primary);
+    border-color: faq-primary;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
@@ -112,18 +112,18 @@
   &:not(.collapsed) {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-color: var(--faq-primary);
-    background-color: var(--faq-card-bg);
+    border-color: $faq-primary;
+    background-color: $faq-card-bg;
   }
 }
 
 .faq-answer {
-  background-color: var(--faq-card-bg);
-  border: 1px solid var(--faq-primary);
+  background-color: faq-card-bg;
+  border: 1px solid faq-primary;
   border-top: none;
   border-radius: 80px;
   padding: 1.8rem 2rem;
-  color: var(--faq-text-light);
+  color: $faq-text-light;
   line-height: 1.7;
   font-size: 1rem;
   animation: fadeIn 0.3s ease-out;
@@ -134,8 +134,8 @@
   padding: 0.8rem 2.2rem;
   border-radius: 50px;
   font-weight: 600;
-  border: 2px solid var(--faq-primary);
-  color: var(--faq-primary);
+  border: 2px solid faq-primary;
+  color: faq-primary;
   background-color: transparent;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   margin-top: 2rem;
@@ -144,7 +144,7 @@
   z-index: 1;
 
   &:hover {
-    background-color: var(--faq-primary);
+    background-color: faq-primary;
     color: white;
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
