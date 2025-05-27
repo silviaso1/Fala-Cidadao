@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Acesso.scss';
+import './Auth.scss';
 import { faEnvelope, faLock, faEye, faEyeSlash, faUser } from '@fortawesome/free-solid-svg-icons';
 
-function Acesso() {
+function Auth() {
     const [senhaVisivel, setSenhaVisivel] = useState(false);
     const [modoLogin, setModoLogin] = useState(true); // true = login, false = registro
 
@@ -104,4 +104,4 @@ function Acesso() {
     );
 }
 
-export default Acesso;
+export default Auth;

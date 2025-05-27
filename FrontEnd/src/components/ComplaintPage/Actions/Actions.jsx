@@ -1,18 +1,18 @@
-import React from 'react';
+
 import { FaRegComment, FaComment, FaRegHeart, FaHeart } from 'react-icons/fa';
 
-function Acoes({ post, toggleComments, showComments, toggleLike, isLiked }) {
+function Actions({ post, toggleComments, showComments, toggleLike, isLiked }) {
   return (
     <div className="post-actions">
-      <div 
-        className={`post-action ${showComments ? 'active' : ''}`} 
+      <div
+        className={`post-action ${showComments ? 'active' : ''}`}
         onClick={toggleComments}
       >
         {showComments ? <FaComment /> : <FaRegComment />}
         <span>{post.comments}</span>
       </div>
-      <div 
-        className={`post-action ${isLiked ? 'active' : ''}`} 
+      <div
+        className={`post-action ${isLiked ? 'active' : ''}`}
         onClick={toggleLike}
       >
         {isLiked ? <FaHeart /> : <FaRegHeart />}
@@ -22,4 +22,4 @@ function Acoes({ post, toggleComments, showComments, toggleLike, isLiked }) {
   );
 }
 
-export default Acoes;
+export default Actions;

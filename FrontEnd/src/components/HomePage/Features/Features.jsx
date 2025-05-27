@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaMapMarkedAlt, FaBullhorn, FaUsers } from 'react-icons/fa';
 import './Features.scss';
 
@@ -33,8 +32,8 @@ const Features = () => {
             <p>Conecte-se com outros cidadãos, apoie reportes e acompanhe as soluções. Juntos somos mais fortes!</p>
           </div>
         </div>
-        
-        
+
+
       </div>
     </section>
   );

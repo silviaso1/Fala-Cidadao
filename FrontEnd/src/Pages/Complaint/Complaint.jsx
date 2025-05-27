@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import Logo from '../../components/Principal/Logo/Logo';
-import TopNav from '../../components/Principal/TopNav/TopNav';
-import FilterSection from '../../components/Principal/Filtro/Filtro';
-import Post from '../../components/Principal/Posts/Post';
-import FloatingButtons from '../../components/Principal/Botoes/Botoes';
-import NewPostModal from '../../components/Principal/Modal/Modal';
-import postsData from '../../components/Principal/Data/Posts';
-import '../Principal/Principal.scss';
+import Logo from '../../components/Complaint/Logo/Logo';
+import TopNav from '../../components/Complaint/TopNav/TopNav';
+import FilterSection from '../../components/Complaint/Filter/Filter';
+import Post from '../../components/Complaint/Posts/Post';
+import FloatingButtons from '../../components/Complaint/Buttons/Buttons';
+import NewPostModal from '../../components/Complaint/Modal/Modal';
+import postsData from '../../components/Complaint/Data/Posts';
+import './Complaint.scss';
 
-function Principal() {
+function Complaint() {
   const [activeTab, setActiveTab] = useState('timeline');
   const [currentFilter, setCurrentFilter] = useState('all');
   const [currentSort, setCurrentSort] = useState('recent');
@@ -191,4 +191,4 @@ function Principal() {
   );
 }
 
-export default Principal;
+export default Complaint;

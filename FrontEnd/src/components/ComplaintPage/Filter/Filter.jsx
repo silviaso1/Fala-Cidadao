@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaArrowUp, FaArrowDown, FaFilter, FaSearch, FaTimes } from 'react-icons/fa';
-import './Filtro.scss';
+import './Filter.scss';
 
-export default function Filtro({ currentFilter, currentSort, filterPosts, sortPosts, onSearch }) {
+function Filter({ currentFilter, currentSort, filterPosts, sortPosts, onSearch }) {
   const [searchOpen, setSearchOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -91,3 +91,5 @@ export default function Filtro({ currentFilter, currentSort, filterPosts, sortPo
     </>
   );
 }
+
+export default Filter;
