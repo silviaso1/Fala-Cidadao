@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Container, Accordion, Button } from 'react-bootstrap';
 import './FAQ.scss';
 
@@ -23,10 +23,7 @@ const FAQ = () => {
   return (
     <section id="faq" className="faq-section">
       <Container>
-        <h2 className="section-title">
-        
-          Perguntas Frequentes
-        </h2>
+        <h2 className="section-title"> Perguntas Frequentes </h2>
 
         
         <Accordion activeKey={activeKey} onSelect={(e) => setActiveKey(e)}>

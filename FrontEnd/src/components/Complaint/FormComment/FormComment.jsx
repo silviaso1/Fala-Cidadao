@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-function ComentarioForm({ postId, handleAddComment }) {
+function FormComment({ handleAddComment }) {
   const [commentText, setCommentText] = useState('');
 
   const handleSubmit = (e) => {
@@ -27,4 +27,4 @@ function ComentarioForm({ postId, handleAddComment }) {
   );
 }
 
-export default ComentarioForm;
+export default FormComment;

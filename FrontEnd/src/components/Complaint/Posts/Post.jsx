@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import PostActions from '../Acoes/Acoes';
-import CommentForm from '../ComentarioForm/ComentarioForm';
-import Comment from '../Comentario/Comentario';
+import { useState } from 'react';
+import PostActions from '../Actions/Actions';
+import CommentForm from '../FormComment/FormComment';
+import Comment from '../Comment/Comment';
 import './posts.scss';
 function Post({ post, addComment }) {
   const [showComments, setShowComments] = useState(false);
