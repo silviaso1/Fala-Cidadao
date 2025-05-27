@@ -1,4 +1,3 @@
-import React from 'react';
 import UserDropdown from '../Dropdown/Dropdown';
 import './nav.scss';
 

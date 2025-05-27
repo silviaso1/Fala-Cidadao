@@ -4,7 +4,6 @@ import TopNav from '../../components/Principal/TopNav/TopNav';
 import FilterSection from '../../components/Principal/Filtro/Filtro';
 import Post from '../../components/Principal/Posts/Post';
 import FloatingButtons from '../../components/Principal/Botoes/Botoes';
-import SearchSidebar from '../../components/Principal/Pesquisa/Pesquisa';
 import NewPostModal from '../../components/Principal/Modal/Modal';
 import postsData from '../../components/Principal/Data/Posts';
 import '../Principal/Principal.scss';
@@ -91,7 +90,7 @@ function Principal() {
     setPosts(updatedPosts);
   };
 
-  // Filter and sort logic
+
   useEffect(() => {
     let filteredPosts = [...postsData];
 
@@ -133,11 +132,11 @@ function Principal() {
         }
         break;
       default:
-        // 'all' shows all posts
+      
         break;
     }
 
-    // Sort posts
+   
     filteredPosts.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
@@ -181,10 +180,6 @@ function Principal() {
           openModal={openModal}
         />
 
-        <SearchSidebar
-          showSearch={showSearch}
-          toggleSearch={toggleSearch}
-        />
 
         <NewPostModal
           showModal={showModal}

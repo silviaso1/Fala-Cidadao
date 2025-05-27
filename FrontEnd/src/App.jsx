@@ -9,11 +9,14 @@ import Footer from './components/Footer/Footer';
 
 function AppContent() {
   const location = useLocation();
-  const authLayout = location.pathname == '/auth';
+  
+  // Oculta o layout (Navbar e Footer) nas rotas /auth e /posts
+  const noLayoutRoutes = ['/auth', '/posts'];
+  const noLayout = noLayoutRoutes.includes(location.pathname);
 
   return (
     <section id="app">
-      {!authLayout && <Navbar />}
+      {!noLayout && <Navbar />}
 
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -21,7 +24,7 @@ function AppContent() {
         <Route path="/auth" element={<Acesso />} />
       </Routes>
 
-      {!authLayout && <Footer />}
+      {!noLayout && <Footer />}
     </section>
   );
 }

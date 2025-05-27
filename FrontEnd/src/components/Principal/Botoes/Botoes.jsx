@@ -5,9 +5,6 @@ import './Botoes.scss'
 function Botoes({ toggleSearch, openModal }) {
   return (
     <div className="floating-buttons">
-      <div className="fab fab-search" onClick={toggleSearch}>
-        <FaSearch />
-      </div>
       <div className="fab" onClick={openModal}>
         <FaPlus />
       </div>

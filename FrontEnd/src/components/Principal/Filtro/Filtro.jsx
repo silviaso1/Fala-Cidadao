@@ -1,52 +1,93 @@
-import React from 'react';
-import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaArrowUp, FaArrowDown, FaFilter, FaSearch, FaTimes } from 'react-icons/fa';
 import './Filtro.scss';
 
-function Filtro({ currentFilter, currentSort, filterPosts, sortPosts }) {
+export default function Filtro({ currentFilter, currentSort, filterPosts, sortPosts, onSearch }) {
+  const [searchOpen, setSearchOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const toggleSearch = () => {
+    setSearchOpen(!searchOpen);
+    if (menuOpen) setMenuOpen(false);
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+    if (searchOpen) setSearchOpen(false);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    if (onSearch) onSearch(e.target.value);
+  };
+
   return (
-    <div className="filter-section" id="filterSection">
-      <div>
-        <button 
-          className={`filter-btn ${currentFilter === 'all' ? 'active' : ''}`} 
-          onClick={() => filterPosts('all')}
-        >
-          Todos
-        </button>
-        <button 
-          className={`filter-btn ${currentFilter === 'today' ? 'active' : ''}`} 
-          onClick={() => filterPosts('today')}
-        >
-          Hoje
-        </button>
-        <button 
-          className={`filter-btn ${currentFilter === 'week' ? 'active' : ''}`} 
-          onClick={() => filterPosts('week')}
-        >
-          Esta semana
-        </button>
-        <button 
-          className={`filter-btn ${currentFilter === 'month' ? 'active' : ''}`} 
-          onClick={() => filterPosts('month')}
-        >
-          Este mês
+    <>
+      <div className="strap-filtros">
+        <div className={`fab-search ${searchOpen ? 'active' : ''}`} onClick={toggleSearch} title="Pesquisar">
+          <FaSearch />
+        </div>
+
+        <div className={`search-wrapper ${searchOpen ? 'open' : ''}`}>
+          <input
+            type="text"
+            placeholder="Pesquisar"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            autoFocus={searchOpen}
+          />
+          {searchOpen && (
+            <button className="close-search" onClick={() => setSearchOpen(false)} aria-label="Fechar pesquisa">
+              <FaTimes />
+            </button>
+          )}
+        </div>
+
+        <button className={`button-menu ${menuOpen ? 'active' : ''}`} onClick={toggleMenu} aria-label="Abrir filtros">
+          <FaFilter />
         </button>
       </div>
-      <div>
-        <button 
-          className={`filter-btn ${currentSort === 'recent' ? 'active' : ''}`} 
-          onClick={() => sortPosts('recent')}
-        >
-          <FaArrowUp className="filter-icon" /> Recentes
+
+      <aside className={`menu-panel ${menuOpen ? 'open' : ''}`}>
+        <button className="close-panel-btn" onClick={() => setMenuOpen(false)} aria-label="Fechar filtros">
+          <FaTimes />
         </button>
-        <button 
-          className={`filter-btn ${currentSort === 'oldest' ? 'active' : ''}`} 
-          onClick={() => sortPosts('oldest')}
-        >
-          <FaArrowDown className="filter-icon" /> Antigos
-        </button>
-      </div>
-    </div>
+
+        <div className="filter-group">
+          <div className="title-group">Filtrar por data</div>
+          {['all', 'today', 'week', 'month'].map((filter) => (
+            <button
+              key={filter}
+              className={`filter-btn ${currentFilter === filter ? 'active' : ''}`}
+              onClick={() => filterPosts(filter)}
+            >
+              {{
+                all: 'Todos',
+                today: 'Hoje',
+                week: 'Esta semana',
+                month: 'Este mês'
+              }[filter]}
+            </button>
+          ))}
+        </div>
+
+        <div className="filter-group">
+          <div className="title-group">Ordenar por</div>
+          <button
+            className={`filter-btn ${currentSort === 'recent' ? 'active' : ''}`}
+            onClick={() => sortPosts('recent')}
+          >
+            <FaArrowUp className="filter-icon" /> Recentes
+          </button>
+          <button
+            className={`filter-btn ${currentSort === 'oldest' ? 'active' : ''}`}
+            onClick={() => sortPosts('oldest')}
+          >
+            <FaArrowDown className="filter-icon" /> Antigos
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }
-
-export default Filtro;
