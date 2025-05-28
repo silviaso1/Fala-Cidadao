@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import Logo from '../../components/Complaint/Logo/Logo';
-import TopNav from '../../components/Complaint/TopNav/TopNav';
-import FilterSection from '../../components/Complaint/Filter/Filter';
-import Post from '../../components/Complaint/Posts/Post';
-import FloatingButtons from '../../components/Complaint/Buttons/Buttons';
-import NewPostModal from '../../components/Complaint/Modal/Modal';
-import postsData from '../../components/Complaint/Data/Posts';
+import Logo from '../../components/ComplaintPage/Logo/Logo';
+import TopNav from '../../components/ComplaintPage/TopNav/TopNav';
+import FilterSection from '../../components/ComplaintPage/Filter/Filter';
+import Post from '../../components/ComplaintPage/Posts/Post';
+import FloatingButtons from '../../components/ComplaintPage/Buttons/Buttons';
+import NewPostModal from '../../components/ComplaintPage/Modal/Modal';
+import postsData from '../../components/ComplaintPage/Data/Posts';
 import './Complaint.scss';
 
 function Complaint() {

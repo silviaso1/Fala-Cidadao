@@ -1,8 +1,8 @@
 
-import Header from "../../components/Home/Header/Header";
-import Features from '../../components/Home/Features/Features';
-import CTA from '../../components/Home/Diferenca/Diferenca';
-import FAQ from "../../components/Home/FAQ/FAQ";
+import Header from "../../components/HomePage/Header/Header";
+import Features from '../../components/HomePage/Features/Features';
+import CTA from '../../components/HomePage/Diferenca/Diferenca';
+import FAQ from "../../components/HomePage/FAQ/FAQ";
 
 function HomePage() {
 
