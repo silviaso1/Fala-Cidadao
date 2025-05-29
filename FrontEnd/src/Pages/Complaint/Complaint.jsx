@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import Logo from '../../components/ComplaintPage/Logo/Logo';
 import TopNav from '../../components/ComplaintPage/TopNav/TopNav';
-import FilterSection from '../../components/ComplaintPage/Filter/Filter';
+import FilterSection from '../../components/ComplaintPage/Search/search';
 import Post from '../../components/ComplaintPage/Posts/Post';
 import FloatingButtons from '../../components/ComplaintPage/Buttons/Buttons';
 import NewPostModal from '../../components/ComplaintPage/Modal/Modal';
+import Sidebar from '../../components/ComplaintPage/Sidebar/Sidebar';
 import postsData from '../../components/ComplaintPage/Data/Posts';
 import './Complaint.scss';
 
@@ -16,39 +17,21 @@ function Complaint() {
   const [showModal, setShowModal] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [posts, setPosts] = useState(postsData);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const filterPosts = (filterType) => {
-    setCurrentFilter(filterType);
-  };
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-  const sortPosts = (sortType) => {
-    setCurrentSort(sortType);
-  };
-
-  const switchTab = (tabId) => {
-    setActiveTab(tabId);
-  };
-
-  const toggleSearch = () => {
-    setShowSearch(!showSearch);
-  };
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-
+  const filterPosts = (filterType) => setCurrentFilter(filterType);
+  const sortPosts = (sortType) => setCurrentSort(sortType);
+  const switchTab = (tabId) => setActiveTab(tabId);
+  const toggleSearch = () => setShowSearch(!showSearch);
+  const openModal = () => setShowModal(true);
   const closeModal = () => {
     setShowModal(false);
     setShowSearch(false);
   };
-
-  const toggleUserDropdown = () => {
-    setShowUserDropdown(!showUserDropdown);
-  };
-
-  const closeUserMenu = () => {
-    setShowUserDropdown(false);
-  };
+  const toggleUserDropdown = () => setShowUserDropdown(!showUserDropdown);
+  const closeUserMenu = () => setShowUserDropdown(false);
 
   const createNewPost = (content) => {
     const newPost = {
@@ -90,7 +73,6 @@ function Complaint() {
     setPosts(updatedPosts);
   };
 
-
   useEffect(() => {
     let filteredPosts = [...postsData];
 
@@ -110,33 +92,27 @@ function Complaint() {
         });
         break;
       case 'week':
-        {
-          const oneWeekAgo = new Date(today);
-          oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-          filteredPosts = filteredPosts.filter(post => {
-            const postDate = new Date(post.date);
-            postDate.setHours(0, 0, 0, 0);
-            return postDate >= oneWeekAgo;
-          });
-        }
+        const oneWeekAgo = new Date(today);
+        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+        filteredPosts = filteredPosts.filter(post => {
+          const postDate = new Date(post.date);
+          postDate.setHours(0, 0, 0, 0);
+          return postDate >= oneWeekAgo;
+        });
         break;
       case 'month':
-        {
-          const oneMonthAgo = new Date(today);
-          oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-          filteredPosts = filteredPosts.filter(post => {
-            const postDate = new Date(post.date);
-            postDate.setHours(0, 0, 0, 0);
-            return postDate >= oneMonthAgo;
-          });
-        }
+        const oneMonthAgo = new Date(today);
+        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+        filteredPosts = filteredPosts.filter(post => {
+          const postDate = new Date(post.date);
+          postDate.setHours(0, 0, 0, 0);
+          return postDate >= oneMonthAgo;
+        });
         break;
       default:
-      
         break;
     }
 
-   
     filteredPosts.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
@@ -148,7 +124,9 @@ function Complaint() {
 
   return (
     <div className="app-container">
-      <div className='bodyApp'>
+      <Sidebar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      
+      <div className="main-content">
         <Logo />
         <TopNav
           activeTab={activeTab}
@@ -176,10 +154,12 @@ function Complaint() {
         </div>
 
         <FloatingButtons
-          toggleSearch={toggleSearch}
           openModal={openModal}
+          currentFilter={currentFilter}
+          currentSort={currentSort}
+          filterPosts={filterPosts}
+          sortPosts={sortPosts}
         />
-
 
         <NewPostModal
           showModal={showModal}
