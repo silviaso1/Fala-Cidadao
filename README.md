@@ -1,4 +1,4 @@
-onserva Cidadão - Backend
+Conserva Cidadão - Backend
 Este é o backend do projeto Conserva Cidadão, desenvolvido com Spring Boot e PostgreSQL. O sistema fornece endpoints para autenticação e gerenciamento de usuários.
 
 PASSO 01:
