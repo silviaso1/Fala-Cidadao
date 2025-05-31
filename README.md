@@ -61,7 +61,7 @@ POST http://localhost:3001/denuncias:
     "titulo": "Balanço quebrado",
     "descricao": "balanços e brinquedos quebrados na praça",
     "imagens": ["img1.jpg", "img2.jpg"] OBS: ainda não está preparado pra receber imagens em si
-  }
+    }
 
 
 PUT http://localhost:3001/denuncias/id_da_denuncia
@@ -72,10 +72,10 @@ ENUMS de status:
     RESOLVIDO,
     INVALIDO
 
-    JSON do put OBS: somente usuario com role admin faz a atualização de status de denuncias
-{
-  "status": "EM_ANDAMENTO"
-}
+    JSON do put OBS: somente usuario com role admin faz a atualização de status de denuncias:
+    {
+      "status": "EM_ANDAMENTO"
+    }
 
 DELETE http://localhost:3001/denuncias/id_da_denuncia
 OBS: por enquanto ainda não está setado para somente o admin e o criador da denuncia excluir a denuncia X
