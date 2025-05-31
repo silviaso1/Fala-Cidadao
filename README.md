@@ -1,4 +1,4 @@
-onserva Cidadão - Backend
+Conserva Cidadão - Backend
 Este é o backend do projeto Conserva Cidadão, desenvolvido com Spring Boot e PostgreSQL. O sistema fornece endpoints para autenticação e gerenciamento de usuários.
 
 PASSO 01:
@@ -47,3 +47,37 @@ Content-Type: application/json
 }
 
 GET http://localhost:3001/status OBS: Endpoint para testar se o projeto foi compilado corretamente e a API está rodando na porta 3001.
+
+
+DENUNCIAS
+
+GET http://localhost:3001/denuncias - para receber todas as denuncias registradas
+
+POST http://localhost:3001/denuncias:
+    
+    JSON do post: 
+    {
+    "usuario": {"id": 1},
+    "titulo": "Balanço quebrado",
+    "descricao": "balanços e brinquedos quebrados na praça",
+    "imagens": ["img1.jpg", "img2.jpg"] OBS: ainda não está preparado pra receber imagens em si
+    }
+
+
+PUT http://localhost:3001/denuncias/id_da_denuncia
+
+ENUMS de status:
+    DENUNCIADO, OBS: Denunciado é o status inicial, ovbviamente não há necessidade de um put voltar para DENUNCIADO
+    EM_ANDAMENTO,
+    RESOLVIDO,
+    INVALIDO
+
+    JSON do put OBS: somente usuario com role admin faz a atualização de status de denuncias:
+    {
+      "status": "EM_ANDAMENTO"
+    }
+
+DELETE http://localhost:3001/denuncias/id_da_denuncia
+OBS: por enquanto ainda não está setado para somente o admin e o criador da denuncia excluir a denuncia X
+
+    JSON do delete não existe, só mandar a requisição do tipo delete com o id da denuncia

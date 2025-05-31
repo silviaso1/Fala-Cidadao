@@ -23,7 +23,6 @@ public class Usuario {
     public Usuario() {
     }
 
-    // Getters e Setters (MANTIDOS)
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getNome() { return nome; }
