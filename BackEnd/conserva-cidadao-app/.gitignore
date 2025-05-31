@@ -30,3 +30,5 @@ application*.yml
 
 # Log files
 logs/
+
+conserva_cidadao.sql
