@@ -55,13 +55,13 @@ GET http://localhost:3001/denuncias - para receber todas as denuncias registrada
 
 POST http://localhost:3001/denuncias:
     
-    JSON do post
-{
-  "usuario": {"id": 1},
-  "titulo": "Balanço quebrado",
-  "descricao": "balanços e brinquedos quebrados na praça",
-  "imagens": ["img1.jpg", "img2.jpg"] OBS: ainda não está preparado pra receber imagens em si
-}
+    JSON do post: 
+    {
+    "usuario": {"id": 1},
+    "titulo": "Balanço quebrado",
+    "descricao": "balanços e brinquedos quebrados na praça",
+    "imagens": ["img1.jpg", "img2.jpg"] OBS: ainda não está preparado pra receber imagens em si
+  }
 
 
 PUT http://localhost:3001/denuncias/id_da_denuncia
