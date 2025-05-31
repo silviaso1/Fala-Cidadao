@@ -1,7 +1,4 @@
 package com.POA.conserva_cidadao_app.service;
-
-// Atualize os imports
-
 import com.POA.conserva_cidadao_app.model.Usuario;
 import com.POA.conserva_cidadao_app.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +39,6 @@ public class AuthService {
             return response;
         }
 
-        // Garante o role padrão
         if (novoUsuario.getRole() == null) {
             novoUsuario.setRole("usuario");
         }
