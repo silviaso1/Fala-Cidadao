@@ -4,24 +4,21 @@
 .cta {
     padding: 100px 0;
     text-align: center;
-    position: relative;
 
     &-conteudo {
         max-width: 700px;
         margin: 0 auto;
         position: relative;
-        z-index: 1;
     }
 
     .botao {
-        display: inline-flex;
+        display: flex;
+        gap: 0.5rem;
         align-items: center;
-        justify-content: center;
         padding: 12px 20px;
         border-radius: 50px;
         font-weight: 600;
-        transition: all 0.3s ease;
-        cursor: pointer;
+        transition: 0.3s ease;
 
         &-primario {
             background-color: $cor-primaria;
@@ -32,7 +29,6 @@
                 transform: translateY(-2px);
                 box-shadow: 0 15px 30px rgba(108, 92, 231, 0.4);
                 background-color: #7b6bff;
-                color: white;
             }
         }
     }
