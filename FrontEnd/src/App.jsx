@@ -4,13 +4,14 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import HomePage from './pages/Home/HomePage';
 import Auth from './Pages/Auth/Auth';
 import Complaint from './Pages/Complaint/Complaint';
+import Admin from './Pages/Admin/Admin';
 import Navbar from './components/NavBar/Navbar';
 import Footer from './components/Footer/Footer';
 
 function AppContent() {
   const location = useLocation();
   
-  const noLayoutRoutes = ['/auth', '/posts'];
+  const noLayoutRoutes = ['/auth', '/posts', "/admin"];
   const noLayout = noLayoutRoutes.includes(location.pathname);
 
   return (
@@ -21,6 +22,7 @@ function AppContent() {
         <Route path="/" element={<HomePage />} />
         <Route path="/posts" element={<Complaint />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
 
       {!noLayout && <Footer />}
