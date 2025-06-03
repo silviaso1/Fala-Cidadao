@@ -10,16 +10,16 @@ function Buttons({ openModal, currentFilter, currentSort, filterPosts, sortPosts
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (panelRef.current && !panelRef.current.contains(event.target)) {
-       
+
         const fabButtons = document.querySelectorAll('.fab');
         let isFabClick = false;
-        
+
         fabButtons.forEach(button => {
           if (button.contains(event.target)) {
             isFabClick = true;
           }
         });
-        
+
         if (!isFabClick) {
           setMenuOpen(false);
         }
@@ -34,28 +34,28 @@ function Buttons({ openModal, currentFilter, currentSort, filterPosts, sortPosts
 
   return (
     <div className="floating-buttons">
-    
-      <div 
-        className={`fab ${menuOpen ? 'active' : ''}`} 
+
+      <div
+        className={`fab ${menuOpen ? 'active' : ''}`}
         onClick={() => setMenuOpen(!menuOpen)}
         aria-label="Abrir filtros"
       >
         <FaFilter />
       </div>
 
-   
+
       <div className="fab" onClick={openModal}>
         <FaPlus />
       </div>
 
-      
-      <div 
+
+      <div
         ref={panelRef}
         className={`filter-panel ${menuOpen ? 'open' : ''}`}
         aria-hidden={!menuOpen}
       >
-        <button 
-          className="close-panel-btn" 
+        <button
+          className="close-panel-btn"
           onClick={() => setMenuOpen(false)}
           aria-label="Fechar filtros"
         >

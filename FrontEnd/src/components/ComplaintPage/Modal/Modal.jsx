@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FaImage, FaMapMarkerAlt, FaTimes } from 'react-icons/fa';
+import Map from '../Map/Map';
 import './modal.scss';
 
 function Modal({ showModal, closeModal, createNewPost }) {
@@ -26,12 +27,13 @@ function Modal({ showModal, closeModal, createNewPost }) {
           </button>
         </div>
         <form className="post-form" onSubmit={handleSubmit}>
-          <textarea 
+          {/* <textarea 
             id="newPostContent" 
             placeholder="O que você quer reportar ou compartilhar?"
             value={postContent}
             onChange={(e) => setPostContent(e.target.value)}
-          ></textarea>
+          ></textarea> */}
+          <Map></Map>
           <div className="post-form-actions">
             <div className="upload-options">
               <button type="button" className="upload-btn" title="Adicionar imagem">
@@ -41,7 +43,7 @@ function Modal({ showModal, closeModal, createNewPost }) {
                 <FaMapMarkerAlt />
               </button>
             </div>
-            <button type="submit" className="post-submit">Publicar</button>
+            {/* <button type="submit" className="post-submit">Publicar</button> */}
           </div>
         </form>
       </div>
