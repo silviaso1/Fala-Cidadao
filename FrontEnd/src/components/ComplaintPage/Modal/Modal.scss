@@ -1,100 +1,98 @@
-@use '../../../styles/App.scss' as *;
+@use "../../../styles/App.scss" as *;
 
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(15, 15, 26, 0.5);
-  z-index: 1000;
-  display: none;
-  
-  &.active {
-    display: block;
-  }
+    position: fixed;
+    inset: 0;
+    background-color: #0f0f1a80;
+    z-index: 1000;
+    display: none;
+
+    &.active {
+        display: block;
+    }
 }
+
 .new-post-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: $cor-card;
-  border-radius: 16px;
-  padding: 25px;
-  width: 90%;
-  max-width: 600px;
-  z-index: 1001;
-  display: none;
-  
-  &.active {
-    display: block;
-  }
-}
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $cor-card;
+    border-radius: 16px;
+    padding: 25px;
+    width: 90%;
+    max-width: 70vw;
+    z-index: 1001;
+    display: none;
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
+    &.active {
+        display: block;
+    }
 
-.modal-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: $cor-destaque;
-}
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
 
-.close-modal {
-  background: none;
-  border: none;
-  color: $cor-texto-claro;
-  font-size: 24px;
-  cursor: pointer;
-}
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: $cor-destaque;
+        }
 
-.post-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  
-  textarea {
-    width: 100%;
-    background-color: $cor-fundo;
-    border: 1px solid $cor-borda;
-    border-radius: 12px;
-    padding: 15px;
-    color: $cor-texto;
-    min-height: 150px;
-    resize: vertical;
-  }
-}
+        .close-modal {
+            background: none;
+            border: none;
+            color: $cor-texto-claro;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    }
 
-.post-form-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    .post-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
 
-.upload-options {
-  display: flex;
-  gap: 10px;
-}
+        textarea#newPostContent {
+            width: 100%;
+            background-color: $cor-fundo;
+            border: 1px solid $cor-borda;
+            border-radius: 12px;
+            padding: 15px;
+            color: $cor-texto;
+            min-height: 150px;
+            resize: vertical;
+        }
 
-.upload-btn {
-  background: none;
-  border: none;
-  color: $cor-texto-claro;
-  cursor: pointer;
-  font-size: 20px;
-}
+        .post-form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
-.post-submit {
-  background-color: $cor-primaria;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 25px;
-  cursor: pointer;
-  font-weight: 600;
+            .upload-options {
+                display: flex;
+                gap: 10px;
+
+                .upload-btn {
+                    background: none;
+                    border: none;
+                    color: $cor-texto-claro;
+                    cursor: pointer;
+                    font-size: 20px;
+                }
+            }
+
+            .post-submit {
+                background-color: $cor-primaria;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 10px 25px;
+                cursor: pointer;
+                font-weight: 600;
+            }
+        }
+    }
 }
