@@ -42,16 +42,21 @@ public Map<String, Object> getLatLng(String endereco) {
         String rua = null;
         String cidade = null;
         String estado = null;
+        String bairro = null;
+
 
         for (AddressComponent comp : components) {
-            if (comp.types.contains("route")) {
-                rua = comp.long_name;
-            } else if (comp.types.contains("administrative_area_level_2")) {
-                cidade = comp.long_name;
-            } else if (comp.types.contains("administrative_area_level_1")) {
-                estado = comp.short_name;
-            }
-        }
+    if (comp.types.contains("route")) {
+        rua = comp.long_name;
+    } else if (comp.types.contains("sublocality_level_1") || comp.types.contains("neighborhood")) {
+        bairro = comp.long_name;
+    } else if (comp.types.contains("administrative_area_level_2")) {
+        cidade = comp.long_name;
+    } else if (comp.types.contains("administrative_area_level_1")) {
+        estado = comp.short_name;
+    }
+}
+
 
         // Monta o endereço, evitando campos nulos
         StringBuilder enderecoCompleto = new StringBuilder();
@@ -66,10 +71,12 @@ public Map<String, Object> getLatLng(String endereco) {
         }
 
         return Map.of(
-                "latitude", location.lat,
-                "longitude", location.lng,
-                "enderecoCompleto", enderecoCompleto.toString()
+            "latitude", location.lat,
+            "longitude", location.lng,
+            "enderecoCompleto", enderecoCompleto.toString(),
+            "bairro", bairro
         );
+
     }
 
     throw new RuntimeException("Endereço não encontrado");
