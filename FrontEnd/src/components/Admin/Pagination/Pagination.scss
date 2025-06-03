@@ -1,0 +1,38 @@
+@use "../../../styles/App.scss" as *;
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 5px;
+
+  .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: $cor-card;
+    color: $cor-texto;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid $cor-borda;
+    cursor: pointer;
+
+    &:hover:not(.disabled) {
+      background-color: $cor-fundo-claro;
+    }
+
+    &.active {
+      background-color: $cor-primaria;
+      color: white;
+      border-color: $cor-primaria;
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

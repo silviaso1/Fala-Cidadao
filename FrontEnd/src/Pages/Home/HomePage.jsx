@@ -1,18 +1,17 @@
 
-import Header from "../../components/Home/Header/Header";
-import Topo from "../../components/Home/Topo/Topo";
-import Features from '../../components/Home/Features/Features';
-import Footer from '../../components/Home/Footer/Footer';
-import CTA from '../../components/Home/Diferenca/Diferenca';
+import Header from "../../components/HomePage/Header/Header";
+import Features from '../../components/HomePage/Features/Features';
+import CTA from '../../components/HomePage/Diferenca/Diferenca';
+import FAQ from "../../components/HomePage/FAQ/FAQ";
+
 function HomePage() {
 
   return (
-    <section id='app'>
+    <section id='home'>
       <Header />
-      <Topo />
       <Features />
+      <FAQ />
       <CTA />
-      <Footer />
     </section>
   )
 }
