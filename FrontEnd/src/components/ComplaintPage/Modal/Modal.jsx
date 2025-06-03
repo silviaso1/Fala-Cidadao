@@ -33,7 +33,7 @@ function Modal({ showModal, closeModal, createNewPost }) {
             value={postContent}
             onChange={(e) => setPostContent(e.target.value)}
           ></textarea> */}
-          <Map></Map>
+          <Map/>
           <div className="post-form-actions">
             <div className="upload-options">
               <button type="button" className="upload-btn" title="Adicionar imagem">
