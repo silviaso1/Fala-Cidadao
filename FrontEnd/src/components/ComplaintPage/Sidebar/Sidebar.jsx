@@ -1,6 +1,6 @@
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import "./Sidebar.scss";
-import { useAuth } from '../../../contexts/AuthContext'; // ajuste o caminho se necessário
+import { useAuth } from '../../../contexts/useAuth'; // ajuste o caminho se necessário
 
 const topLocations = [
   { id: 1, name: 'Teste', complaints: 24 },
