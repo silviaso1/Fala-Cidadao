@@ -1,42 +1,41 @@
 package com.POA.conserva_cidadao_app.service;
 
+import com.POA.conserva_cidadao_app.dto.DenunciaResponseDTO;
+import com.POA.conserva_cidadao_app.dto.UsuarioResponseDTO;
 import com.POA.conserva_cidadao_app.model.Denuncia;
-import com.POA.conserva_cidadao_app.model.StatusDenuncia;
 import com.POA.conserva_cidadao_app.repository.DenunciaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DenunciaService {
 
-    @Autowired
-    private DenunciaRepository denunciaRepository;
+    private final DenunciaRepository denunciaRepository;
 
-    public List<Denuncia> listarTodasDenuncias() {
-        return denunciaRepository.findAll();
+    public DenunciaService(DenunciaRepository denunciaRepository) {
+        this.denunciaRepository = denunciaRepository;
     }
 
-    public Denuncia criarDenuncia(Denuncia denuncia) {
-        if (denuncia.getImagens() != null && denuncia.getImagens().size() > 4) {
-            throw new IllegalArgumentException("Número de imagens excede o limite permitido (4).");
-        }
-        return denunciaRepository.save(denuncia);
+    public List<DenunciaResponseDTO> listarTodasDenuncias() {
+        List<Denuncia> denuncias = denunciaRepository.findAll();
+        return denuncias.stream().map(this::mapToDTO).toList();
     }
 
-    public Optional<Denuncia> buscarDenunciaPorId(Long id) {
-        return denunciaRepository.findById(id);
-    }
+    private DenunciaResponseDTO mapToDTO(Denuncia denuncia) {
+        UsuarioResponseDTO usuarioDTO = new UsuarioResponseDTO(
+                denuncia.getUsuario().getId(),
+                denuncia.getUsuario().getNome()
+        );
 
-    public Denuncia atualizarStatusDenuncia(Long id, StatusDenuncia novoStatus) {
-        Denuncia denuncia = denunciaRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Denúncia não encontrada."));
-        denuncia.setStatus(novoStatus);
-        return denunciaRepository.save(denuncia);
-    }
-
-    public void deletarDenuncia(Long id) {
-        denunciaRepository.deleteById(id);
+        return new DenunciaResponseDTO(
+                denuncia.getId(),
+                usuarioDTO,
+                denuncia.getTitulo(),
+                denuncia.getDescricao(),
+                denuncia.getStatus(),
+                denuncia.getLikes(),
+                denuncia.getImagens()
+        );
     }
 }
