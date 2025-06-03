@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext'; // ajuste o caminho conforme necessário
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,20 +8,30 @@ import './Auth.scss';
 import { faEnvelope, faLock, faEye, faEyeSlash, faUser } from '@fortawesome/free-solid-svg-icons';
 
 function Auth() {
-    const [senhaVisivel, setSenhaVisivel] = useState(false);
+    const { login } = useAuth();
+    const { mode } = useParams();
+    const navigate = useNavigate();
     const [modoLogin, setModoLogin] = useState(true);
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [mensagemErro, setMensagemErro] = useState('');
     const [mensagemSucesso, setMensagemSucesso] = useState('');
+    const [senhaVisivel, setSenhaVisivel] = useState(false);
+
+    useEffect(() => {
+        if (mode === 'login') setModoLogin(true);
+        else if (mode === 'register') setModoLogin(false);
+        else navigate('/auth/login');
+    }, [mode, navigate]);
+
 
     const alternarVisibilidadeSenha = () => {
         setSenhaVisivel(!senhaVisivel);
     };
 
     const alternarModo = () => {
-        setModoLogin(!modoLogin);
+        navigate(modoLogin ? '/auth/register' : '/auth/login')
         setSenhaVisivel(false);
         setMensagemErro('');
         setMensagemSucesso('');
@@ -42,8 +54,10 @@ function Auth() {
             const response = await axios.post(url, payload);
 
             if (modoLogin) {
-                localStorage.setItem('usuario', JSON.stringify(response.data.usuario));
+                const { id, nome } = response.data.usuario;
+                login({ id, nome });
                 localStorage.setItem('token', response.data.token);
+                navigate('/posts');
             }
 
             setMensagemSucesso(response.data.mensagem);
