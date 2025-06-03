@@ -13,7 +13,7 @@ function Complaint() {
   const [activeTab, setActiveTab] = useState('timeline');
   const [currentFilter, setCurrentFilter] = useState('all');
   const [currentSort, setCurrentSort] = useState('recent');
-  const [showSearch, setShowSearch] = useState(false);
+  // const [showSearch, setShowSearch] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [posts, setPosts] = useState(postsData);
@@ -24,11 +24,11 @@ function Complaint() {
   const filterPosts = (filterType) => setCurrentFilter(filterType);
   const sortPosts = (sortType) => setCurrentSort(sortType);
   const switchTab = (tabId) => setActiveTab(tabId);
-  const toggleSearch = () => setShowSearch(!showSearch);
+  // const toggleSearch = () => setShowSearch(!showSearch);
   const openModal = () => setShowModal(true);
   const closeModal = () => {
     setShowModal(false);
-    setShowSearch(false);
+    // setShowSearch(false);
   };
   const toggleUserDropdown = () => setShowUserDropdown(!showUserDropdown);
   const closeUserMenu = () => setShowUserDropdown(false);
@@ -92,23 +92,23 @@ function Complaint() {
         });
         break;
       case 'week':
-        const oneWeekAgo = new Date(today);
+        { const oneWeekAgo = new Date(today);
         oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
         filteredPosts = filteredPosts.filter(post => {
           const postDate = new Date(post.date);
           postDate.setHours(0, 0, 0, 0);
           return postDate >= oneWeekAgo;
         });
-        break;
+        break; }
       case 'month':
-        const oneMonthAgo = new Date(today);
+        { const oneMonthAgo = new Date(today);
         oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
         filteredPosts = filteredPosts.filter(post => {
           const postDate = new Date(post.date);
           postDate.setHours(0, 0, 0, 0);
           return postDate >= oneMonthAgo;
         });
-        break;
+        break; }
       default:
         break;
     }
