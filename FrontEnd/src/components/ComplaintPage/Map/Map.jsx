@@ -1,10 +1,11 @@
 import { useState, useCallback, useRef } from 'react';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import axios from 'axios';
+import './Map.scss'
 
 const containerStyle = {
     width: '100%',
-    height: '50vh',
+    height: '60vh',
 };
 
 const Map = ({ onLocationSelect }) => {
@@ -80,7 +81,60 @@ const Map = ({ onLocationSelect }) => {
                 placeName: place.name,
             });
         }
+
+        // 🔽 Aciona a busca inversa do marcador
+        handleMarkerSelect(place.position.lat, place.position.lng);
     }, [onLocationSelect]);
+
+
+    const handleMarkerSelect = async (lat, lng) => {
+        try {
+            const geocoder = new window.google.maps.Geocoder();
+            const latlng = { lat, lng };
+
+            geocoder.geocode({ location: latlng }, async (results, status) => {
+                if (status === "OK" && results[0]) {
+                    const result = results[0];
+                    const cepComponent = result.address_components.find(c => c.types.includes("postal_code"));
+
+                    if (!cepComponent) {
+                        alert("CEP não encontrado para esta localização.");
+                        return;
+                    }
+
+                    const cep = cepComponent.long_name;
+                    setCEPInput(cep);
+
+                    const response = await axios.post('http://localhost:3001/geo', {
+                        endereco: cep
+                    });
+
+                    const { latitude: latResp, longitude: lngResp, enderecoCompleto } = response.data;
+
+                    const newCenter = { lat: latResp, lng: lngResp };
+                    setSearchCenter(newCenter);
+                    mapRef.current?.panTo(newCenter);
+                    setCepCoords(newCenter);
+                    setEnderecoCompleto(enderecoCompleto);
+
+                    fetchPlaces(newCenter);
+                } else {
+                    console.error("Erro ao geocodificar:", status);
+                    alert("Endereço não encontrado para este marcador.");
+                }
+            });
+        } catch (error) {
+            console.error("Erro ao tratar seleção do marcador:", error);
+            alert("Erro ao buscar o endereço do marcador.");
+        }
+    };
+
+    const handleMapClick = (event) => {
+        const lat = event.latLng.lat();
+        const lng = event.latLng.lng();
+        handleMarkerSelect(lat, lng);
+    };
+
 
     const handleCepSearch = async () => {
         try {
@@ -114,25 +168,70 @@ const Map = ({ onLocationSelect }) => {
     if (!isLoaded) return <div>Carregando mapa...</div>;
 
     return (
-        <>
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-                <input
-                    type="text"
-                    placeholder="Digite o CEP"
-                    value={CEPInput}
-                    onChange={(e) => setCEPInput(e.target.value)}
-                    style={{
-                        boxSizing: 'border-box',
-                        border: '1px solid #ccc',
-                        width: '100%',
-                        height: '40px',
-                        padding: '0 12px',
-                        fontSize: '16px',
-                    }}
-                />
+        <section className='map-container'>
+            <div className='d-flex justify-content-between '>
+                <h3>Selecione o Local no Mapa</h3>
+                <button onClick={handleRefreshSearch} className='search-button'>
+                    Buscar Praças/Parques Nesta Área
+                </button>
+            </div>
+
+            <div className='map-wrapper'>
+                <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    zoom={18}
+                    center={searchCenter}
+                    onLoad={onMapLoad}
+                    onClick={(e) => handleMapClick(e)}
+                >
+
+                    {markers.map((marker) => (
+                        <Marker
+                            key={marker.id}
+                            position={marker.position}
+                            onClick={() => handleMarkerClick(marker)}
+                        />
+                    ))}
+
+                    {selectedPlace && (
+                        <Marker
+                            position={selectedPlace.position}
+                            onClick={() => handleMarkerClick(selectedPlace)}
+                        />
+                    )}
+                </GoogleMap>
+
+            </div>
+
+            {selectedPlace && <p>Local selecionado: {selectedPlace.name}</p>}
+
+
+            <div className='controls'>
+                <fieldset>
+                    <label htmlFor='CEP'>CEP</label>
+                    <input
+                        id='CEP'
+                        type="text"
+                        placeholder="Digite o CEP"
+                        value={CEPInput}
+                        onChange={(e) => setCEPInput(e.target.value)}
+                        style={{
+                            boxSizing: 'border-box',
+                            border: '1px solid #ccc',
+                            width: '100%',
+                            height: '40px',
+                            padding: '0 12px',
+                            fontSize: '16px',
+                        }}
+                    />
+                </fieldset>
+
+                <button onClick={handleCepSearch} style={{ padding: '10px 16px' }}>
+                    Buscar CEP
+                </button>
                 {
                     enderecoCompleto && <>
-                        <label htmlFor='enderecoCompleto'>Endereço Completo</label>
+                        <label htmlFor='enderecoCompleto'>Endereço</label>
                         <input
                             id='enderecoCompleto'
                             type="text"
@@ -154,13 +253,10 @@ const Map = ({ onLocationSelect }) => {
                 }
 
 
-                <button onClick={handleCepSearch} style={{ padding: '10px 16px' }}>
-                    Buscar CEP
-                </button>
             </div>
 
             {cepCoords && (
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                <div className='controls'>
                     <input
                         type="number"
                         placeholder="Número da rua"
@@ -178,39 +274,7 @@ const Map = ({ onLocationSelect }) => {
                 </div>
             )}
 
-            <GoogleMap
-                mapContainerStyle={containerStyle}
-                zoom={18}
-                center={searchCenter}
-                onLoad={onMapLoad}
-            >
-                {markers.map((marker) => (
-                    <Marker
-                        key={marker.id}
-                        position={marker.position}
-                        onClick={() => handleMarkerClick(marker)}
-                    />
-                ))}
-
-                {selectedPlace && (
-                    <Marker
-                        position={selectedPlace.position}
-                        onClick={() => handleMarkerClick(selectedPlace)}
-                    />
-                )}
-            </GoogleMap>
-
-            {selectedPlace && <p>Local selecionado: {selectedPlace.name}</p>}
-
-            <button onClick={handleRefreshSearch} style={{ marginTop: '10px', padding: '10px' }}>
-                Buscar Praças/Parques Nesta Área
-            </button>
-
-            <p style={{ fontSize: '0.8em', color: '#666' }}>
-                Centro atual da busca: Lat: {searchCenter.lat.toFixed(4)},
-                Lng: {searchCenter.lng.toFixed(4)}
-            </p>
-        </>
+        </section>
     );
 };
 
