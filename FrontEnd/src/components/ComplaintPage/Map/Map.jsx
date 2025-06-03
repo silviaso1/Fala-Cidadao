@@ -5,7 +5,7 @@ import './Map.scss'
 
 const containerStyle = {
     width: '100%',
-    height: '60vh',
+    height: '50vh',
 };
 
 const Map = ({ onLocationSelect }) => {
@@ -16,10 +16,10 @@ const Map = ({ onLocationSelect }) => {
         lat: -22.893428915340273,
         lng: -43.32589992452226,
     });
-
     const [CEPInput, setCEPInput] = useState('');
     const [streetNumber, setStreetNumber] = useState('');
-    const [cepCoords, setCepCoords] = useState(null);
+    const [bairro, setBairro] = useState('');
+
 
     const mapRef = useRef(null);
 
@@ -105,16 +105,21 @@ const Map = ({ onLocationSelect }) => {
                     const cep = cepComponent.long_name;
                     setCEPInput(cep);
 
+                    const numberComponent = result.address_components.find(c => c.types.includes("street_number"));
+                    if (numberComponent) {
+                        setStreetNumber(numberComponent.long_name);
+                    }
+
                     const response = await axios.post('http://localhost:3001/geo', {
                         endereco: cep
                     });
 
-                    const { latitude: latResp, longitude: lngResp, enderecoCompleto } = response.data;
+                    const { latitude: latResp, longitude: lngResp, enderecoCompleto, bairro } = response.data;
+                    setBairro(bairro);
 
                     const newCenter = { lat: latResp, lng: lngResp };
                     setSearchCenter(newCenter);
                     mapRef.current?.panTo(newCenter);
-                    setCepCoords(newCenter);
                     setEnderecoCompleto(enderecoCompleto);
 
                     fetchPlaces(newCenter);
@@ -139,7 +144,8 @@ const Map = ({ onLocationSelect }) => {
     const handleCepSearch = async () => {
         try {
             const response = await axios.post('http://localhost:3001/geo', { endereco: CEPInput });
-            const { latitude: lat, longitude: lng, enderecoCompleto } = response.data;
+            const { latitude: lat, longitude: lng, enderecoCompleto, bairro } = response.data;
+            setBairro(bairro);
 
             if (
                 typeof lat !== 'number' ||
@@ -152,7 +158,6 @@ const Map = ({ onLocationSelect }) => {
 
             const newCenter = { lat, lng };
             setSearchCenter(newCenter);
-            setCepCoords(newCenter);
             setEnderecoCompleto(enderecoCompleto); // ✅ define o endereço
             mapRef.current?.panTo(newCenter);
             fetchPlaces(newCenter);
@@ -205,9 +210,9 @@ const Map = ({ onLocationSelect }) => {
 
             {selectedPlace && <p>Local selecionado: {selectedPlace.name}</p>}
 
-
             <div className='controls'>
-                <fieldset>
+
+                <fieldset className='d-flex flex-column'>
                     <label htmlFor='CEP'>CEP</label>
                     <input
                         id='CEP'
@@ -215,64 +220,51 @@ const Map = ({ onLocationSelect }) => {
                         placeholder="Digite o CEP"
                         value={CEPInput}
                         onChange={(e) => setCEPInput(e.target.value)}
-                        style={{
-                            boxSizing: 'border-box',
-                            border: '1px solid #ccc',
-                            width: '100%',
-                            height: '40px',
-                            padding: '0 12px',
-                            fontSize: '16px',
-                        }}
+                        className='fs-5'
                     />
                 </fieldset>
 
                 <button onClick={handleCepSearch} style={{ padding: '10px 16px' }}>
                     Buscar CEP
                 </button>
-                {
-                    enderecoCompleto && <>
-                        <label htmlFor='enderecoCompleto'>Endereço</label>
-                        <input
-                            id='enderecoCompleto'
-                            type="text"
-                            placeholder="Endereço completo"
-                            value={enderecoCompleto}
-                            disabled
-                            style={{
-                                boxSizing: 'border-box',
-                                border: '1px solid #ccc',
-                                width: '100%',
-                                height: '40px',
-                                padding: '0 12px',
-                                fontSize: '16px',
-                                backgroundColor: '#f5f5f5',
-                                color: '#333',
-                            }}
-                        />
-                    </>
-                }
 
-
-            </div>
-
-            {cepCoords && (
-                <div className='controls'>
+                <fieldset className='d-flex flex-column'>
+                    <label htmlFor='enderecoCompleto'>Endereço</label>
                     <input
+                        id='enderecoCompleto'
+                        type="text"
+                        placeholder="Endereço completo"
+                        value={enderecoCompleto}
+                        className='fs-5'
+                    />
+                </fieldset>
+
+
+                <fieldset className='d-flex flex-column'>
+                    <label htmlFor='numero'>Número</label>
+                    <input
+                        id='numero'
                         type="number"
                         placeholder="Número da rua"
                         value={streetNumber}
                         onChange={(e) => setStreetNumber(e.target.value)}
-                        style={{
-                            boxSizing: 'border-box',
-                            border: '1px solid #ccc',
-                            width: '100%',
-                            height: '40px',
-                            padding: '0 12px',
-                            fontSize: '16px',
-                        }}
+                        className='fs-5'
                     />
-                </div>
-            )}
+                </fieldset>
+
+                <fieldset className='d-flex flex-column'>
+                    <label htmlFor='bairro'>Bairro</label>
+                    <input
+                        id='bairro'
+                        type="text"
+                        placeholder="Bairro"
+                        value={bairro}
+                        onChange={(e) => setBairro(e.target.value)}
+                        className='fs-5'
+                    />
+                </fieldset>
+
+            </div>
 
         </section>
     );

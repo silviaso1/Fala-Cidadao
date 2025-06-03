@@ -26,26 +26,31 @@ function Modal({ showModal, closeModal, createNewPost }) {
             <FaTimes />
           </button>
         </div>
-        <form className="post-form" onSubmit={handleSubmit}>
-          {/* <textarea 
-            id="newPostContent" 
-            placeholder="O que você quer reportar ou compartilhar?"
-            value={postContent}
-            onChange={(e) => setPostContent(e.target.value)}
-          ></textarea> */}
-          <Map/>
-          <div className="post-form-actions">
-            <div className="upload-options">
-              <button type="button" className="upload-btn" title="Adicionar imagem">
-                <FaImage />
-              </button>
-              <button type="button" className="upload-btn" title="Adicionar localização">
-                <FaMapMarkerAlt />
-              </button>
+
+        <div className="modal-body">
+          <Map />
+
+          <form className="post-form pt-4" onSubmit={handleSubmit}>
+          
+            <textarea
+              id="newPostContent"
+              placeholder="O que você quer reportar ou compartilhar?"
+              value={postContent}
+              onChange={(e) => setPostContent(e.target.value)}
+            ></textarea>
+            <div className="post-form-actions">
+              <div className="upload-options">
+                <button type="button" className="upload-btn" title="Adicionar imagem">
+                  <FaImage />
+                </button>
+                {/* <button type="button" className="upload-btn" title="Adicionar localização">
+                  <FaMapMarkerAlt />
+                </button> */}
+              </div>
+              {/* <button type="submit" className="post-submit">Publicar</button> */}
             </div>
-            {/* <button type="submit" className="post-submit">Publicar</button> */}
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </>
   );
