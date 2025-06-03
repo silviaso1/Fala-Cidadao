@@ -1,6 +1,5 @@
 package com.POA.conserva_cidadao_app.model;
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "usuarios")
@@ -12,15 +11,12 @@ public class Usuario {
     @Column(nullable = false)
     private String nome;
 
-    @JsonIgnore
     @Column(nullable = false, unique = true)
     private String email;
 
-    @JsonIgnore
     @Column(nullable = false)
     private String senha;
 
-    @JsonIgnore
     private String role = "usuario";
 
     public Usuario() {
