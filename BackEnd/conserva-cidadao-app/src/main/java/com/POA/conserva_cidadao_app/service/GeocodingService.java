@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,30 +20,62 @@ public class GeocodingService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public Map<String, Double> getLatLng(String endereco) {
-        String url = UriComponentsBuilder.fromHttpUrl(apiUrl)
-                .queryParam("address", endereco)
-                .queryParam("key", apiKey)
-                .encode()
-                .toUriString();
+public Map<String, Object> getLatLng(String endereco) {
+    String url = UriComponentsBuilder.fromHttpUrl(apiUrl)
+            .queryParam("address", endereco)
+            .queryParam("key", apiKey)
+            .encode()
+            .toUriString();
 
-        GoogleResponse response = restTemplate.getForObject(url, GoogleResponse.class);
+    GoogleResponse response = restTemplate.getForObject(url, GoogleResponse.class);
 
-        if (response != null &&
-                response.results != null &&
-                !response.results.isEmpty() &&
-                response.results.get(0) != null &&
-                response.results.get(0).geometry != null &&
-                response.results.get(0).geometry.location != null) {
+    if (response != null &&
+            response.results != null &&
+            !response.results.isEmpty() &&
+            response.results.get(0) != null &&
+            response.results.get(0).geometry != null &&
+            response.results.get(0).geometry.location != null) {
 
-            Location location = response.results.get(0).geometry.location;
-            return Map.of(
-                    "latitude", location.lat,
-                    "longitude", location.lng
-            );
+        Location location = response.results.get(0).geometry.location;
+        List<AddressComponent> components = response.results.get(0).address_components;
+
+        String rua = null;
+        String cidade = null;
+        String estado = null;
+
+        for (AddressComponent comp : components) {
+            if (comp.types.contains("route")) {
+                rua = comp.long_name;
+            } else if (comp.types.contains("administrative_area_level_2")) {
+                cidade = comp.long_name;
+            } else if (comp.types.contains("administrative_area_level_1")) {
+                estado = comp.short_name;
+            }
         }
-        throw new RuntimeException("Endereço não encontrado");
+
+        // Monta o endereço, evitando campos nulos
+        StringBuilder enderecoCompleto = new StringBuilder();
+        if (rua != null) enderecoCompleto.append(rua);
+        if (cidade != null) {
+            if (enderecoCompleto.length() > 0) enderecoCompleto.append(", ");
+            enderecoCompleto.append(cidade);
+        }
+        if (estado != null) {
+            if (enderecoCompleto.length() > 0) enderecoCompleto.append(" - ");
+            enderecoCompleto.append(estado);
+        }
+
+        return Map.of(
+                "latitude", location.lat,
+                "longitude", location.lng,
+                "enderecoCompleto", enderecoCompleto.toString()
+        );
     }
+
+    throw new RuntimeException("Endereço não encontrado");
+}
+
+
 
     private static class GoogleResponse {
         public List<Result> results;
@@ -50,7 +83,10 @@ public class GeocodingService {
 
     private static class Result {
         public Geometry geometry;
+        public List<AddressComponent> address_components;
+        public String formatted_address;
     }
+
 
     private static class Geometry {
         public Location location;
@@ -59,5 +95,11 @@ public class GeocodingService {
     private static class Location {
         public double lat;
         public double lng;
+    }
+
+    private static class AddressComponent {
+        public String long_name;
+        public String short_name;
+        public List<String> types;
     }
 }

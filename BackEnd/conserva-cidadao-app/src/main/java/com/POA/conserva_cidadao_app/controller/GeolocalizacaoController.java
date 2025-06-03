@@ -25,10 +25,11 @@ public class GeolocalizacaoController {
     public ResponseEntity<?> getCoordenadas(@RequestBody Map<String, String> request) {
         try {
             String endereco = request.get("endereco");
-            Map<String, Double> coordenadas = geocodingService.getLatLng(endereco);
+            Map<String, Object> coordenadas = geocodingService.getLatLng(endereco);
             return ResponseEntity.ok(coordenadas);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Erro ao geocodificar endereço: " + e.getMessage());
-        }
+        return ResponseEntity.badRequest().body("Erro ao geocodificar endereço: " + e.getMessage());
     }
+}
+
 }

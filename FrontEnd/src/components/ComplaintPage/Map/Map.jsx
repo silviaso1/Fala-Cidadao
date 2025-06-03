@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import axios from 'axios';
 
 const containerStyle = {
     width: '100%',
@@ -7,15 +8,18 @@ const containerStyle = {
 };
 
 const Map = ({ onLocationSelect }) => {
-
     const [markers, setMarkers] = useState([]);
     const [selectedPlace, setSelectedPlace] = useState(null);
-    const [searchCenter] = useState({
+    const [enderecoCompleto, setEnderecoCompleto] = useState('');
+    const [searchCenter, setSearchCenter] = useState({
         lat: -22.893428915340273,
         lng: -43.32589992452226,
     });
 
     const [CEPInput, setCEPInput] = useState('');
+    const [streetNumber, setStreetNumber] = useState('');
+    const [cepCoords, setCepCoords] = useState(null);
+
     const mapRef = useRef(null);
 
     const { isLoaded, loadError } = useLoadScript({
@@ -23,9 +27,7 @@ const Map = ({ onLocationSelect }) => {
         libraries: ['places'],
     });
 
-
     const fetchPlaces = useCallback((center) => {
-
         if (!mapRef.current) return;
         const service = new window.google.maps.places.PlacesService(mapRef.current);
         const request = {
@@ -57,28 +59,17 @@ const Map = ({ onLocationSelect }) => {
         fetchPlaces(searchCenter);
     }, [searchCenter, fetchPlaces]);
 
-
-    // const handleMapCenterChanged = useCallback(() => {
-    //     if (mapRef.current) {
-    //         const newCenter = mapRef.current.getCenter();
-    //         setSearchCenter({
-    //             lat: newCenter.lat(),
-    //             lng: newCenter.lng(),
-    //         });
-    //     }
-    // }, []);
-
-
     const handleRefreshSearch = useCallback(() => {
         if (mapRef.current) {
             const currentMapCenter = mapRef.current.getCenter();
-            fetchPlaces({
+            const center = {
                 lat: currentMapCenter.lat(),
                 lng: currentMapCenter.lng(),
-            });
+            };
+            setSearchCenter(center);
+            fetchPlaces(center);
         }
     }, [fetchPlaces]);
-
 
     const handleMarkerClick = useCallback((place) => {
         setSelectedPlace(place);
@@ -91,6 +82,32 @@ const Map = ({ onLocationSelect }) => {
         }
     }, [onLocationSelect]);
 
+    const handleCepSearch = async () => {
+        try {
+            const response = await axios.post('http://localhost:3001/geo', { endereco: CEPInput });
+            const { latitude: lat, longitude: lng, enderecoCompleto } = response.data;
+
+            if (
+                typeof lat !== 'number' ||
+                typeof lng !== 'number' ||
+                !isFinite(lat) ||
+                !isFinite(lng)
+            ) {
+                throw new Error('Coordenadas inválidas');
+            }
+
+            const newCenter = { lat, lng };
+            setSearchCenter(newCenter);
+            setCepCoords(newCenter);
+            setEnderecoCompleto(enderecoCompleto); // ✅ define o endereço
+            mapRef.current?.panTo(newCenter);
+            fetchPlaces(newCenter);
+        } catch (error) {
+            console.error('Erro ao buscar coordenadas do CEP:', error);
+            alert('CEP inválido ou falha na busca.');
+        }
+    };
+
 
 
     if (loadError) return <div>Erro ao carregar o mapa</div>;
@@ -98,12 +115,11 @@ const Map = ({ onLocationSelect }) => {
 
     return (
         <>
-
             <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
                 <input
                     type="text"
-                    placeholder="Pesquisar um endereço ou local"
-                    value={CEPInput} // Controla o valor do input
+                    placeholder="Digite o CEP"
+                    value={CEPInput}
                     onChange={(e) => setCEPInput(e.target.value)}
                     style={{
                         boxSizing: 'border-box',
@@ -114,18 +130,60 @@ const Map = ({ onLocationSelect }) => {
                         fontSize: '16px',
                     }}
                 />
+                {
+                    enderecoCompleto && <>
+                        <label htmlFor='enderecoCompleto'>Endereço Completo</label>
+                        <input
+                            id='enderecoCompleto'
+                            type="text"
+                            placeholder="Endereço completo"
+                            value={enderecoCompleto}
+                            disabled
+                            style={{
+                                boxSizing: 'border-box',
+                                border: '1px solid #ccc',
+                                width: '100%',
+                                height: '40px',
+                                padding: '0 12px',
+                                fontSize: '16px',
+                                backgroundColor: '#f5f5f5',
+                                color: '#333',
+                            }}
+                        />
+                    </>
+                }
 
+
+                <button onClick={handleCepSearch} style={{ padding: '10px 16px' }}>
+                    Buscar CEP
+                </button>
             </div>
 
+            {cepCoords && (
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                    <input
+                        type="number"
+                        placeholder="Número da rua"
+                        value={streetNumber}
+                        onChange={(e) => setStreetNumber(e.target.value)}
+                        style={{
+                            boxSizing: 'border-box',
+                            border: '1px solid #ccc',
+                            width: '100%',
+                            height: '40px',
+                            padding: '0 12px',
+                            fontSize: '16px',
+                        }}
+                    />
+                </div>
+            )}
 
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 zoom={18}
                 center={searchCenter}
                 onLoad={onMapLoad}
-                // onDragEnd={handleMapCenterChanged}
             >
-
                 {markers.map((marker) => (
                     <Marker
                         key={marker.id}
@@ -134,15 +192,12 @@ const Map = ({ onLocationSelect }) => {
                     />
                 ))}
 
-                {/* Renderizar um marcador para o local pesquisado se ele existir */}
-
                 {selectedPlace && (
                     <Marker
                         position={selectedPlace.position}
                         onClick={() => handleMarkerClick(selectedPlace)}
                     />
                 )}
-
             </GoogleMap>
 
             {selectedPlace && <p>Local selecionado: {selectedPlace.name}</p>}
@@ -159,4 +214,4 @@ const Map = ({ onLocationSelect }) => {
     );
 };
 
-export default Map; 
+export default Map;
