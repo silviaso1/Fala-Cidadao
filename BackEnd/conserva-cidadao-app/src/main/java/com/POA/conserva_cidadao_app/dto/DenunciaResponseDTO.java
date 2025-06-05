@@ -1,7 +1,6 @@
 package com.POA.conserva_cidadao_app.dto;
 
 import com.POA.conserva_cidadao_app.model.StatusDenuncia;
-
 import java.util.List;
 
 public class DenunciaResponseDTO {
@@ -9,20 +8,30 @@ public class DenunciaResponseDTO {
     private UsuarioResponseDTO usuario;
     private String titulo;
     private String descricao;
+    private String bairro;
     private StatusDenuncia status;
     private int likes;
     private List<String> imagens;
 
     public DenunciaResponseDTO() {}
 
-    public DenunciaResponseDTO(Long id, UsuarioResponseDTO usuario, String titulo, String descricao, StatusDenuncia status, int likes, List<String> imagens) {
+    public DenunciaResponseDTO(Long id, UsuarioResponseDTO usuario, String titulo, String descricao, String bairro, StatusDenuncia status, int likes, List<String> imagens) {
         this.id = id;
         this.usuario = usuario;
         this.titulo = titulo;
         this.descricao = descricao;
+        this.bairro = bairro;
         this.status = status;
         this.likes = likes;
         this.imagens = imagens;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 
     public Long getId() {
