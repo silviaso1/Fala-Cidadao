@@ -13,7 +13,6 @@ function FormComment({ handleAddComment }) {
 
   return (
     <div className="comment-form">
-      <div className="comment-avatar">VC</div>
       <form className="comment-input" onSubmit={handleSubmit}>
         <input 
           type="text" 
