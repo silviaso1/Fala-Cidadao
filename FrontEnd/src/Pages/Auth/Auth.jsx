@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/useAuth';
+
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -69,13 +70,26 @@ function Auth() {
 
     return (
         <div className="container-fluid min-vh-100 d-md-flex align-items-center p-0">
-            <div className="col-md-6 d-flex flex-column justify-content-center p-5 text-white text-center lado">
-                <img src="/logo.png" alt="logo" width={60} className="mb-4" />
-                <h1 className="fw-bold mb-3">Bem-vindo</h1>
-                <p className="text-light">
-                    Conecte-se com outros cidadãos para reportar problemas urbanos e acompanhar soluções em tempo real.
-                </p>
+            <div
+                className="col-md-6 d-flex flex-column justify-content-between 
+                align-items-center p-5 text-white text-center lado"
+            >
+                <div 
+                className="d-flex flex-column justify-content-center 
+                align-items-center flex-grow-1"
+                >
+                    <img src="/logo.png" alt="logo" className="mb-4 mx-auto" />
+                    <h1 className="fw-bold mb-3">Bem-vindo</h1>
+                    <p className="text-light">
+                        Conecte-se com outros cidadãos para reportar problemas urbanos e acompanhar soluções em tempo real.
+                    </p>
+                </div>
+
+                <Link to="/" className="btn btn-secondary w-25">
+                    Home
+                </Link>
             </div>
+
 
             <section className="d-flex justify-content-center flex-fill px-5">
                 <div className="w-75 auth-container">
