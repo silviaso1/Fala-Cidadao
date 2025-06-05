@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Logo from '../../components/ComplaintPage/Logo/Logo';
 import TopNav from '../../components/ComplaintPage/TopNav/TopNav';
 import FilterSection from '../../components/ComplaintPage/Search/search';
 import Post from '../../components/ComplaintPage/Posts/Post';
@@ -127,7 +126,6 @@ function Complaint() {
       <Sidebar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       
       <div className="main-content">
-        <Logo />
         <TopNav
           activeTab={activeTab}
           switchTab={switchTab}

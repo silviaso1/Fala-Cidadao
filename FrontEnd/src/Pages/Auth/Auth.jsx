@@ -128,15 +128,7 @@ function Auth() {
                                 senhaVisivel={senhaVisivel}
                             />
 
-                            {modoLogin && (
-                                <div className="form-options">
-                                    <label className="remember-me d-flex align-items-center gap-3 ps-1">
-                                        <input type="checkbox" id="lembrar" />
-                                        <span>Lembrar de mim</span>
-                                    </label>
-                                    <a href="#" className="forgot-password">Esqueceu a senha?</a>
-                                </div>
-                            )}
+                           
 
                             {mensagemErro && <div className="alert alert-danger">{mensagemErro}</div>}
                             {mensagemSucesso && <div className="alert alert-success">{mensagemSucesso}</div>}

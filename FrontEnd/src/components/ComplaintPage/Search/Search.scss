@@ -29,7 +29,7 @@
 
     &.active,
     &:hover {
-        background: color.adjust($cor-primaria, $lightness: 10%);
+         background-color: $cor-destaque;
         transform: scale(1.1);
     }
 }

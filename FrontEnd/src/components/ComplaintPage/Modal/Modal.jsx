@@ -113,9 +113,12 @@ function Modal({ showModal, closeModal, createNewPost }) {
               {formErrors.cep && <span className="text-danger">{formErrors.cep}</span>}
             </fieldset>
 
-            {renderInput('Endereço', 'endereco')}
-            {renderInput('Número', 'numero')}
-            {renderInput('Bairro', 'bairro')}
+            <div className='flexRender'>
+              {renderInput('Endereço', 'endereco')}
+              {renderInput('Número', 'numero')}
+              {renderInput('Bairro', 'bairro')}
+            </div>
+            
             {renderInput('Assunto', 'titulo')}
             
             <fieldset className="d-flex flex-column mt-4">
