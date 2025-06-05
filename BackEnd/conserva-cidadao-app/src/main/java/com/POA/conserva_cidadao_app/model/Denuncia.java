@@ -33,6 +33,9 @@ public class Denuncia {
     @Column(name = "imagem")
     private List<String> imagens;
 
+    @Column(nullable = false)
+    private String bairro;
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Usuario getUsuario() { return usuario; }
@@ -47,4 +50,6 @@ public class Denuncia {
     public void setLikes(int likes) { this.likes = likes; }
     public List<String> getImagens() { return imagens; }
     public void setImagens(List<String> imagens) { this.imagens = imagens; }
+    public String getBairro() { return bairro; }
+    public void setBairro(String bairro) { this.bairro = bairro; }
 }

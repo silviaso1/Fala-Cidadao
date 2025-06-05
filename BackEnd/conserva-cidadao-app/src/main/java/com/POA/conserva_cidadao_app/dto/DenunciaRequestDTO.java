@@ -6,7 +6,16 @@ public class DenunciaRequestDTO {
     private Long usuarioId;
     private String titulo;
     private String descricao;
+    private String bairro;
     private List<String> imagens;
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
 
     public Long getUsuarioId() {
         return usuarioId;
