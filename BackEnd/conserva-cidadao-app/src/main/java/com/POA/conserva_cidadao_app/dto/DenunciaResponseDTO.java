@@ -1,7 +1,6 @@
 package com.POA.conserva_cidadao_app.dto;
 
 import com.POA.conserva_cidadao_app.model.StatusDenuncia;
-
 import java.util.List;
 
 public class DenunciaResponseDTO {
