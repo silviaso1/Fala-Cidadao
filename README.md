@@ -66,6 +66,11 @@ POST http://localhost:3001/denuncias:
 
 PUT http://localhost:3001/denuncias/id_da_denuncia
 
+ADMIN ->
+{
+"status" "SEU STATUS"
+}
+
 ENUMS de status:
     DENUNCIADO, OBS: Denunciado é o status inicial, ovbviamente não há necessidade de um put voltar para DENUNCIADO
     EM_ANDAMENTO,
@@ -77,7 +82,25 @@ ENUMS de status:
       "status": "EM_ANDAMENTO"
     }
 
-DELETE http://localhost:3001/denuncias/id_da_denuncia
-OBS: por enquanto ainda não está setado para somente o admin e o criador da denuncia excluir a denuncia X
+USUÁRIO COMUM->
+{
+    "usuarioId": 3,
+    "bairro": "novo centro",
+    "descricao": "Descrição atualizadaaaaa"
+}
 
-    JSON do delete não existe, só mandar a requisição do tipo delete com o id da denuncia
+
+DELETE http://localhost:3001/denuncias/id_da_denuncia
+
+SOMENTE O USUÁRIO CRIADOR DA DENUNCIA PODE DELETAR UMA DENUNCIA
+{
+    "usuarioId": 3
+}
+
+
+LIKE POST: por query params http://localhost:3001/denuncias/{id_denuncia}/like/toggle?usuarioId={usuarioId}
+
+LOCAIS GET http://localhost:3001/locais/ativos
+
+
+
