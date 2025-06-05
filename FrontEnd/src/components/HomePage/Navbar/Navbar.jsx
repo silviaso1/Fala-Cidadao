@@ -1,12 +1,13 @@
-import './Navbar.scss';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/useAuth'; // ajuste o caminho se necessário
+import { useAuth } from '../../../contexts/useAuth'; 
 import { BiSolidUserCircle } from "react-icons/bi";
+import './Navbar.scss';
+
 const Navbar = () => {
   const { usuarioNome } = useAuth();
   const { logout } = useAuth();
   return (
-    <nav className="navbar">
+    <nav className="navbar py-3 position-fixed z-3">
       <div className="container">
         <div className="cabecalho-logo">
           <img src="" alt="Logo" />

@@ -1,29 +1,23 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import HomePage from './pages/Home/HomePage';
 import Auth from './pages/Auth/Auth';
 import Complaint from './pages/Complaint/Complaint';
 import Admin from './pages/Admin/Admin';
-import Navbar from './components/NavBar/Navbar';
-import Footer from './components/Footer/Footer';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'; 
+import NotFound from './pages/NotFound/NotFound';
 
 import './styles/App.scss';
 
 function AppContent() {
-  const location = useLocation();
-
-  const noLayoutRoutes = ['/auth/login', '/auth/register', '/posts', '/admin' ];
-  const noLayout = noLayoutRoutes.includes(location.pathname);
 
   return (
     <section id="app">
-      {!noLayout && <Navbar />}
       
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth/:mode" element={<Auth />} />
-
+        <Route path="*" element={<NotFound />} />
         <Route
           path="/posts"
           element={
@@ -42,7 +36,6 @@ function AppContent() {
         />
       </Routes>
 
-      {!noLayout && <Footer />}
     </section>
   );
 }

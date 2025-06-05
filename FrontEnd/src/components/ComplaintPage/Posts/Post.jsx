@@ -3,6 +3,7 @@ import PostActions from '../Actions/Actions';
 import CommentForm from '../FormComment/FormComment';
 import Comment from '../Comment/Comment';
 import './posts.scss';
+
 function Post({ post, addComment }) {
   const [showComments, setShowComments] = useState(false);
 
@@ -17,11 +18,11 @@ function Post({ post, addComment }) {
   return (
     <div className="post-card" data-user={post.user} data-date={post.date}>
       <div className="post-header">
-        <div className="post-avatar">{post.avatar}</div>
+        {/* <div className="post-avatar">{post.avatar}</div> */}
         <div className="post-user-info">
-          <span className="post-user">{post.name}</span>
-          <span className="post-username">{post.username}</span>
-          <span className="post-time">· {new Date(post.date).toLocaleDateString('pt-BR')} · {post.timeAgo}</span>
+          <h4 className="post-user">{post.name}</h4>
+          {/* <span className="post-username">{post.username}</span> */}
+          <span className="post-time">{new Date(post.date).toLocaleDateString('pt-BR')} · {post.timeAgo}</span>
         </div>
       </div>
       <div className="post-content">{post.content}</div>

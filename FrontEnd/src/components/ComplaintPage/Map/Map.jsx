@@ -3,9 +3,10 @@ import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import './Map.scss';
 
 const containerStyle = {
-  width: '100%',
   height: '50vh',
 };
+
+const libraries = ['places'];
 
 const Map = ({ onLocationSelect, setCep, setRua, setNumero, setBairro, externalPanTo }) => {
   const [markers, setMarkers] = useState([]);
@@ -15,7 +16,7 @@ const Map = ({ onLocationSelect, setCep, setRua, setNumero, setBairro, externalP
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    libraries: ['places'],
+    libraries: libraries,
   });
 
   const fetchPlaces = useCallback((center) => {
@@ -23,7 +24,7 @@ const Map = ({ onLocationSelect, setCep, setRua, setNumero, setBairro, externalP
     const service = new window.google.maps.places.PlacesService(mapRef.current);
 
     service.nearbySearch(
-      { location: center, radius: 5000, types: ['park', 'square'] },
+      { location: center, radius: 3000, types: ['park', 'square'] },
       (results, status) => {
         if (status === 'OK' && results) {
           setMarkers(results.map(place => ({
@@ -126,7 +127,7 @@ const Map = ({ onLocationSelect, setCep, setRua, setNumero, setBairro, externalP
       <div className="map-wrapper">
         <GoogleMap
           mapContainerStyle={containerStyle}
-          zoom={15}
+          zoom={14}
           center={searchCenter}
           onLoad={onMapLoad}
           onClick={handleMapClick}
