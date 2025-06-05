@@ -10,7 +10,7 @@ function Modal({ showModal, closeModal, createNewPost }) {
     titulo: '',
     descricao: '',
     cep: '',
-    endereco: '',
+    rua: '',
     numero: '',
     bairro: '',
   });
@@ -32,13 +32,13 @@ function Modal({ showModal, closeModal, createNewPost }) {
   const handleCepSearch = async () => {
     try {
       const response = await axios.post('http://localhost:3001/geo', { endereco: form.cep });
-      const { latitude: lat, longitude: lng, enderecoCompleto, bairro } = response.data;
+      const { latitude: lat, longitude: lng, rua, bairro, numero } = response.data;
 
       if (!isFinite(lat) || !isFinite(lng)) throw new Error('Coordenadas inválidas');
 
-      updateField('endereco', enderecoCompleto);
-      updateField('bairro', bairro);
-      updateField('numero', '');
+      updateField('rua', rua || '');
+      updateField('bairro', bairro || '');
+      updateField('numero', numero || '');
       setMapCenter({ lat, lng });
     } catch (error) {
       console.error('Erro ao buscar coordenadas do CEP:', error);
@@ -49,26 +49,34 @@ function Modal({ showModal, closeModal, createNewPost }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const errors = {};
-    for (const key of ['cep', 'endereco', 'numero', 'bairro', 'titulo', 'descricao']) {
+    for (const key of ['cep', 'rua', 'numero', 'bairro', 'titulo', 'descricao']) {
       if (!form[key]?.trim()) errors[key] = 'Campo obrigatório';
     }
     if (Object.keys(errors).length > 0) return setFormErrors(errors);
 
     createNewPost(form);
-    setForm({ titulo: '', descricao: '', cep: '', endereco: '', numero: '', bairro: '' });
+    setForm({ titulo: '', descricao: '', cep: '', rua: '', numero: '', bairro: '' });
     setFormErrors({});
   };
 
-  const renderInput = (label, id, type = 'text') => (
-    <fieldset className="d-flex flex-column mt-2">
+  const renderInput = (label, id, placeholder, type = 'text') => (
+    <fieldset className="mt-2 flex-fill">
       <label htmlFor={id}>{label}</label>
-      <input
-        id={id}
-        type={type}
-        placeholder={label}
-        value={form[id]}
-        onChange={(e) => updateField(id, e.target.value)}
-      />
+      <div className='d-flex gap-4'>
+        <input
+          id={id}
+          type={type}
+          placeholder={type !== 'file' ? placeholder : ''}
+          value={form[id]}
+          onChange={(e) => updateField(id, e.target.value)}
+        />
+        {
+          id === 'cep' &&
+          <button type="button" onClick={handleCepSearch} className="btn btn-primary">
+            Buscar CEP
+          </button>
+        }
+      </div>
       {formErrors[id] && <span className="text-danger">{formErrors[id]}</span>}
     </fieldset>
   );
@@ -87,41 +95,29 @@ function Modal({ showModal, closeModal, createNewPost }) {
         <div className="modal-body">
           <Map
             externalPanTo={mapCenter}
-            onLocationSelect={() => {}}
+            onLocationSelect={() => { }}
             setCep={(value) => updateField('cep', value)}
-            setEndereco={(value) => updateField('endereco', value)}
+            setRua={(value) => updateField('rua', value)}
             setNumero={(value) => updateField('numero', value)}
             setBairro={(value) => updateField('bairro', value)}
           />
 
           <form className="post-form pt-3" onSubmit={handleSubmit}>
-            <fieldset className="d-flex flex-column">
-              <label htmlFor="cep">CEP</label>
-              <div className="d-flex gap-2">
-                <input
-                  id="cep"
-                  type="text"
-                  placeholder="Digite o CEP"
-                  value={form.cep}
-                  onChange={(e) => updateField('cep', e.target.value)}
-                  className="flex-fill"
-                />
-                <button type="button" onClick={handleCepSearch} className="btn btn-primary">
-                  Buscar CEP
-                </button>
-              </div>
-              {formErrors.cep && <span className="text-danger">{formErrors.cep}</span>}
-            </fieldset>
-
-            <div className='flexRender'>
-              {renderInput('Endereço', 'endereco')}
-              {renderInput('Número', 'numero')}
-              {renderInput('Bairro', 'bairro')}
+            <div className="d-flex gap-3">
+              {renderInput('CEP', 'cep', 'Insira o CEP')}
             </div>
-            
-            {renderInput('Assunto', 'titulo')}
-            
-            <fieldset className="d-flex flex-column mt-4">
+
+            <div className="d-flex gap-4 mb-4">
+              {renderInput('Bairro', 'bairro', 'Insira o bairro')}
+              {renderInput('Rua', 'rua', 'Insira a rua')}
+              {renderInput('Número', 'numero', 'Insira o número', 'number')}
+            </div>
+
+            <hr className='pb-2' />
+
+            {renderInput('Assunto', 'titulo', 'Insira o Título da sua denúncia')}
+
+            <fieldset className="d-flex flex-column mt-3">
               <label htmlFor="descricao">Descrição</label>
               <textarea
                 id="descricao"
@@ -131,6 +127,8 @@ function Modal({ showModal, closeModal, createNewPost }) {
               />
               {formErrors.descricao && <span className="text-danger">{formErrors.descricao}</span>}
             </fieldset>
+
+            {renderInput('Imagens', 'imagens', 'Mande as imagens do problema (.png ou .jpg)', 'file')}
 
             <button type="submit" className="post-submit mt-3">Publicar</button>
           </form>
