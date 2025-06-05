@@ -1,13 +1,12 @@
 import { createContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate();
   const [usuarioId, setUsuarioId] = useState(null);
   const [usuarioNome, setUsuarioNome] = useState(null);
   const [usuarioRole, setUsuarioRole] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const id = localStorage.getItem('usuarioId');
@@ -19,6 +18,8 @@ export const AuthProvider = ({ children }) => {
       setUsuarioNome(nome);
       setUsuarioRole(role);
     }
+
+    setIsLoaded(true);
   }, []);
 
   const login = ({ id, nome, role }) => {
@@ -38,11 +39,10 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('usuarioNome');
     localStorage.removeItem('usuarioRole');
     localStorage.removeItem('token');
-    navigate('/auth/login');
   };
 
   return (
-    <AuthContext.Provider value={{ usuarioId, usuarioNome, usuarioRole, login, logout }}>
+    <AuthContext.Provider value={{ usuarioId, usuarioNome, usuarioRole, login, logout, isLoaded }}>
       {children}
     </AuthContext.Provider>
   );
