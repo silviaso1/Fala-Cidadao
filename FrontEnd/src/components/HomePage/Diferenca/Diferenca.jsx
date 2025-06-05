@@ -11,7 +11,7 @@ const Diferenca = () => {
           <p>Junte-se a milhares de cidadãos ativos que estão transformando suas cidades através da participação coletiva.</p>
           <div className="cta-botoes">
             <Link to="/auth/register" className="botao botao-primario">
-              <FaUserPlus /> Criar conta gratuita
+              <FaUserPlus /> Comece a explorar
             </Link>
           </div>
           <div className="cta-participantes">

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/useAuth';
-
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -85,9 +84,7 @@ function Auth() {
                     </p>
                 </div>
 
-                <Link to="/" className="btn btn-secondary w-25">
-                    Home
-                </Link>
+               
             </div>
 
 
@@ -138,7 +135,7 @@ function Auth() {
                             </button>
 
                             <div className="text-center">
-                                {modoLogin ? 'Não tem uma conta' : 'Já tem uma conta'}
+                                {modoLogin ? 'Não tem uma conta?': 'Já tem uma conta?'}
                                 <button type="button" className="link-button" onClick={alternarModo}>
                                     {modoLogin ? 'Cadastre-se' : 'Entrar'}
                                 </button>
