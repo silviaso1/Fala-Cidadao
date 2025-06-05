@@ -7,7 +7,7 @@ const containerStyle = {
   height: '50vh',
 };
 
-const Map = ({ onLocationSelect, setCep, setEndereco, setNumero, setBairro, externalPanTo }) => {
+const Map = ({ onLocationSelect, setCep, setRua, setNumero, setBairro, externalPanTo }) => {
   const [markers, setMarkers] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [searchCenter, setSearchCenter] = useState({ lat: -22.8934, lng: -43.3259 });
@@ -43,39 +43,41 @@ const Map = ({ onLocationSelect, setCep, setEndereco, setNumero, setBairro, exte
   }, []);
 
   const geocodePosition = useCallback(async (lat, lng) => {
-  try {
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-      if (status !== 'OK' || !results[0]) {
-        alert('Endereço não encontrado para este marcador.');
-        return;
-      }
+    try {
+      const geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+        if (status !== 'OK' || !results[0]) {
+          alert('Endereço não encontrado para este marcador.');
+          return;
+        }
 
-      const address = results[0];
-      const getComponent = (type) =>
-        address.address_components.find(c => c.types.includes(type))?.long_name || '';
+        const address = results[0];
+        const getComponent = (type) =>
+          address.address_components.find(c => c.types.includes(type))?.long_name || '';
 
-      setCep(getComponent('postal_code'));
-      setNumero(getComponent('street_number'));
-      setBairro(getComponent('sublocality') || getComponent('neighborhood'));
-      setEndereco(address.formatted_address);
+        setCep(getComponent('postal_code'));
+        const numero = getComponent('street_number');
+        setNumero(numero || '');
+        setBairro(getComponent('sublocality') || getComponent('neighborhood'));
+        setRua(getComponent('route'));
 
-      const newCenter = { lat, lng };
-      setSearchCenter(newCenter);
-      mapRef.current?.panTo(newCenter);
-      fetchPlaces(newCenter);
-    });
-  } catch (error) {
-    console.error('Erro ao buscar endereço do marcador:', error);
-    alert('Erro ao buscar o endereço do marcador.');
-  }
-}, [setCep, setNumero, setBairro, setEndereco, fetchPlaces]);
+        const newCenter = { lat, lng };
+        setSearchCenter(newCenter);
+        mapRef.current?.panTo(newCenter);
+        fetchPlaces(newCenter);
+      });
+    } catch (error) {
+      console.error('Erro ao buscar endereço do marcador:', error);
+      alert('Erro ao buscar o endereço do marcador.');
+    }
+  }, [setCep, setNumero, setBairro, setRua, fetchPlaces]);
+
 
   const handleMarkerClick = useCallback((place) => {
-  setSelectedPlace(place);
-  onLocationSelect?.({ ...place.position, placeName: place.name });
-  geocodePosition(place.position.lat, place.position.lng);
-}, [onLocationSelect, geocodePosition]);
+    setSelectedPlace(place);
+    onLocationSelect?.({ ...place.position, placeName: place.name });
+    geocodePosition(place.position.lat, place.position.lng);
+  }, [onLocationSelect, geocodePosition]);
 
 
   const handleMapClick = (e) => {
