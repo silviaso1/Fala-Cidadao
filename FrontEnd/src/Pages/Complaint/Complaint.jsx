@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import TopNav from '../../components/ComplaintPage/TopNav/TopNav';
-import FilterSection from '../../components/ComplaintPage/Search/search';
+
 import Post from '../../components/ComplaintPage/Posts/Post';
 import FloatingButtons from '../../components/ComplaintPage/Buttons/Buttons';
 import NewPostModal from '../../components/ComplaintPage/Modal/Modal';
@@ -168,12 +168,7 @@ function Complaint() {
           closeUserMenu={closeUserMenu}
         />
 
-        <FilterSection
-          currentFilter={currentFilter}
-          currentSort={currentSort}
-          filterPosts={filterPosts}
-          sortPosts={sortPosts}
-        />
+       
 
         <div className="tab-content">
           {posts.map(post => (
