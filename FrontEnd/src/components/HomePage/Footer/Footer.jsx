@@ -1,6 +1,5 @@
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import './Footer.scss';
-import Logo from "../../../assets/logo.png";
+import Logo from "../../../assets/logo2.png";
 
 const Footer = () => {
   return (
@@ -9,36 +8,18 @@ const Footer = () => {
         <div className="rodape-conteudo">
           <div className="rodape-sobre">
             <div className="rodape-logo">
-            
               <img src={Logo} alt="Logo" />
             </div>
-          
+            <p>Plataforma dedicada à participação cidadã e <br/>melhoria da comunicação entre população e governo.</p>
           </div>
           <div className="rodape-links">
-            <h4>Links</h4>
+            <h4>Navegação</h4>
             <ul>
               <li><a href="#">Início</a></li>
               <li><a href="#recursos">Recursos</a></li>
               <li><a href="#depoimentos">Depoimentos</a></li>
               <li><a href="#sobre">Sobre</a></li>
             </ul>
-          </div>
-          <div className="rodape-links">
-            <h4>Legal</h4>
-            <ul>
-              <li><a href="#">Termos de uso</a></li>
-              <li><a href="#">Política de privacidade</a></li>
-              <li><a href="#">Cookies</a></li>
-            </ul>
-          </div>
-          <div className="rodape-redes">
-            <h4>Conecte-se</h4>
-            <div className="rodape-redes-links">
-              <a href="#"><FaFacebookF /></a>
-              <a href="#"><FaTwitter /></a>
-              <a href="#"><FaInstagram /></a>
-              <a href="#"><FaLinkedinIn /></a>
-            </div>
           </div>
         </div>
         <div className="rodape-copyright">

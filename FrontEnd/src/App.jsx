@@ -7,6 +7,7 @@ import Admin from './pages/Admin/Admin';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'; 
 import NotFound from './pages/NotFound/NotFound';
 
+
 import './styles/App.scss';
 
 function AppContent() {
@@ -18,6 +19,7 @@ function AppContent() {
         <Route path="/" element={<HomePage />} />
         <Route path="/auth/:mode" element={<Auth />} />
         <Route path="*" element={<NotFound />} />
+
         <Route
           path="/posts"
           element={
