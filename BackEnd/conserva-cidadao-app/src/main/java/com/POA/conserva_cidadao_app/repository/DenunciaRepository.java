@@ -5,10 +5,12 @@ import com.POA.conserva_cidadao_app.model.StatusDenuncia;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 
 public interface DenunciaRepository extends JpaRepository<Denuncia, Long> {
-    List<Denuncia> findAll();
+    
+    List<Denuncia> findAllByOrderByIdDesc();
 
     @Query("SELECT DISTINCT d.bairro FROM Denuncia d")
     List<String> findAllDistinctBairros();

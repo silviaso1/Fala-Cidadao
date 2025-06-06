@@ -1,4 +1,5 @@
 package com.POA.conserva_cidadao_app.service;
+
 import com.POA.conserva_cidadao_app.dto.DenunciaRequestDTO;
 import com.POA.conserva_cidadao_app.dto.DenunciaResponseDTO;
 import com.POA.conserva_cidadao_app.dto.UsuarioResponseDTO;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DenunciaService {
@@ -56,16 +58,23 @@ public class DenunciaService {
     }
 
     public List<DenunciaResponseDTO> listarTodasDenuncias() {
-        List<Denuncia> denuncias = denunciaRepository.findAll();
-        return denuncias.stream().map(this::mapToDTO).toList();
+        return denunciaRepository.findAllByOrderByIdDesc()
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     private DenunciaResponseDTO mapToDTO(Denuncia denuncia) {
-        UsuarioResponseDTO usuarioDTO = new UsuarioResponseDTO(
-                denuncia.getUsuario().getId(),
-                denuncia.getUsuario().getNome(),
-                denuncia.getUsuario().getRole()
-        );
+        Usuario usuario = denuncia.getUsuario();
+
+        UsuarioResponseDTO usuarioDTO = null;
+        if (usuario != null) {
+            usuarioDTO = new UsuarioResponseDTO(
+                    usuario.getId(),
+                    usuario.getNome(),
+                    usuario.getRole()
+            );
+        }
 
         return new DenunciaResponseDTO(
                 denuncia.getId(),
@@ -81,7 +90,7 @@ public class DenunciaService {
 
     public Denuncia criarDenuncia(DenunciaRequestDTO request) {
         Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
 
         Denuncia denuncia = new Denuncia();
         denuncia.setTitulo(request.getTitulo());
@@ -106,28 +115,23 @@ public class DenunciaService {
     }
 
     public Denuncia atualizarDenuncia(Long id, Map<String, Object> body, Long usuarioId) {
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(usuarioId);
-        if (optionalUsuario.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado.");
-        }
-
-        Usuario usuario = optionalUsuario.get();
-        String usuarioRole = usuario.getRole();
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado."));
 
         Optional<Denuncia> optionalDenuncia = denunciaRepository.findById(id);
         if (optionalDenuncia.isEmpty()) {
-            throw new IllegalArgumentException("Denúncia não encontrada.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Denúncia não encontrada.");
         }
 
         Denuncia denuncia = optionalDenuncia.get();
         StatusDenuncia statusAntigo = denuncia.getStatus();
         String bairroAntigo = denuncia.getBairro();
 
-        if (!denuncia.getUsuario().getId().equals(usuarioId) && !"admin".equalsIgnoreCase(usuarioRole)) {
+        if (!denuncia.getUsuario().getId().equals(usuarioId) && !"admin".equalsIgnoreCase(usuario.getRole())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autorizado a atualizar esta denúncia.");
         }
 
-        if (usuarioRole.equalsIgnoreCase("usuario") && body.containsKey("status")) {
+        if ("usuario".equalsIgnoreCase(usuario.getRole()) && body.containsKey("status")) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário comum não pode alterar o status.");
         }
 
@@ -139,9 +143,13 @@ public class DenunciaService {
             denuncia.setBairro(body.get("bairro").toString());
         }
 
-        if (body.containsKey("status") && usuarioRole.equalsIgnoreCase("admin")) {
-            StatusDenuncia novoStatus = StatusDenuncia.valueOf(body.get("status").toString().toUpperCase());
-            denuncia.setStatus(novoStatus);
+        if (body.containsKey("status") && "admin".equalsIgnoreCase(usuario.getRole())) {
+            try {
+                StatusDenuncia novoStatus = StatusDenuncia.valueOf(body.get("status").toString().toUpperCase());
+                denuncia.setStatus(novoStatus);
+            } catch (IllegalArgumentException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Status inválido.");
+            }
         }
 
         Denuncia denunciaAtualizada = denunciaRepository.save(denuncia);
@@ -153,10 +161,10 @@ public class DenunciaService {
 
     public void deletarDenuncia(Long id, Long usuarioId) {
         Denuncia denuncia = denunciaRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Denúncia não encontrada"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Denúncia não encontrada"));
 
         if (!denuncia.getUsuario().getId().equals(usuarioId)) {
-            throw new SecurityException("Acesso negado. Somente o criador pode excluir esta denúncia");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado. Somente o criador pode excluir esta denúncia");
         }
 
         if (isStatusAtivo(denuncia.getStatus())) {
@@ -170,7 +178,7 @@ public class DenunciaService {
         StatusDenuncia statusNovo = denuncia.getStatus();
         String bairroNovo = denuncia.getBairro();
 
-        boolean mudouBairro = !bairroAntigo.equals(bairroNovo);
+        boolean mudouBairro = !bairroAntigo.equalsIgnoreCase(bairroNovo);
         boolean mudouStatus = statusAntigo != statusNovo;
 
         if (mudouBairro) {
@@ -190,10 +198,11 @@ public class DenunciaService {
     }
 
     private void atualizarContagemBairro(String bairro, boolean incrementar) {
-        Optional<Local> localOpt = localRepository.findByBairro(bairro);
+        Optional<Local> localOpt = localRepository.findByBairro(bairro.toLowerCase());
         Local local = localOpt.orElseGet(() -> {
             Local novoLocal = new Local();
-            novoLocal.setBairro(bairro);
+            novoLocal.setBairro(bairro.toLowerCase());
+            novoLocal.setQuantidadeDenunciasAtivas(0);
             return novoLocal;
         });
 
