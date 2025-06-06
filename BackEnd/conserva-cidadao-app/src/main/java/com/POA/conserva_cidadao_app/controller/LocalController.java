@@ -20,5 +20,6 @@ public class LocalController {
     @GetMapping("/ativos")
     public List<Local> getTop3LocaisComDenunciasAtivas() {
         return localRepository.findLocais();
+        
     }
 }
