@@ -26,9 +26,9 @@ function Post({ post, addComment }) {
         </div>
       </div>
       <div className="post-content">{post.content}</div>
-      {post.image && (
+      {/* {post.image && (
         <img src={post.image} className="post-image" alt="Post" />
-      )}
+      )} */}
       
       <PostActions 
         post={post}
