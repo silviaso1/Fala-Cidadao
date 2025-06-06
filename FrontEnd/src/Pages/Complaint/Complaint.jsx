@@ -33,22 +33,20 @@ function Complaint() {
   const toggleUserDropdown = () => setShowUserDropdown(!showUserDropdown);
   const closeUserMenu = () => setShowUserDropdown(false);
 
+
   const createNewPost = async (formData) => {
   try {
-    // Criar o objeto no formato que a API espera
     const novaDenuncia = {
-      usuarioId: Number(usuarioId),  // Enviar apenas o ID do usuário
+      usuarioId: Number(usuarioId),
       titulo: formData.titulo,
       descricao: formData.descricao,
       bairro: formData.bairro,
-      imagens: formData.imagens || []  // Garante que sempre terá um array, mesmo que vazio
+      imagens: formData.imagens || []
     };
 
-    // Enviar para a API
     await axios.post('http://localhost:3001/denuncias', novaDenuncia);
 
     closeModal();
-    // Atualizar a lista de posts após criar um novo
     fetchPosts(); 
   } catch (error) {
     console.error('Erro ao criar nova denúncia:', error);
@@ -76,7 +74,6 @@ function Complaint() {
     setPosts(updatedPosts);
   };
 
-  // Define fetchPosts outside of useEffect so it can be called manually
   const fetchPosts = async () => {
     try {
       const response = await axios.get('http://localhost:3001/denuncias');
@@ -85,8 +82,7 @@ function Complaint() {
       let filteredPosts = [...data];
 
       if (activeTab === 'my-posts') {
-        // You might need to filter by usuarioId from your auth context here,
-        // as filtering by a hardcoded name like 'Você' might not work for all users.
+    
         filteredPosts = filteredPosts.filter(post => post.usuario.id === Number(usuarioId));
       }
 
@@ -138,14 +134,14 @@ function Complaint() {
           name: post.usuario.nome,
           username: `@${post.usuario.nome.toLowerCase().replace(/\s/g, '')}`
         },
-        // It's better to use the actual post.date if available, otherwise fallback.
         date: post.date || new Date().toISOString().split('T')[0], 
-        timeAgo: 'recentemente', // This should ideally be calculated based on post.date
+        timeAgo: 'recentemente',
+        title: post.titulo,
         content: post.descricao,
-        image: post.imagens?.[0] || '', // Use optional chaining and default to empty string
-        comments: post.comments || 0, // Ensure comments default to 0 if not present
-        likes: post.likes || 0,     // Ensure likes default to 0 if not present
-        commentsList: post.commentsList || [] // Ensure commentsList defaults to empty array
+        image: post.imagens?.[0] || '',
+        comments: post.comments || 0, 
+        likes: post.likes || 0,
+        commentsList: post.commentsList || [] 
       }));
 
       setPosts(mappedPosts);
@@ -185,6 +181,7 @@ function Complaint() {
               key={post.id}
               post={post}
               addComment={addComment}
+              refreshPosts={fetchPosts}
             />
           ))}
         </div>

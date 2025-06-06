@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useAuth } from '../../../contexts/useAuth'; // ajuste o caminho se necessário
+import axios from 'axios';
 import PostActions from '../Actions/Actions';
 import CommentForm from '../FormComment/FormComment';
 import Comment from '../Comment/Comment';
 import './posts.scss';
 
-function Post({ post, addComment }) {
+function Post({ post, addComment, refreshPosts }) {
+  const { usuarioId } = useAuth();
   const [showComments, setShowComments] = useState(false);
 
   const toggleComments = () => {
@@ -15,39 +18,47 @@ function Post({ post, addComment }) {
     addComment(post.id, commentText);
   };
 
+
+  const toggleLike = async () => {
+    try {
+      await axios.post(
+        `http://localhost:3001/denuncias/${post.id}/like/toggle?usuarioId=${usuarioId}`
+      );
+
+      refreshPosts();
+
+    } catch (error) {
+      console.error('Erro ao alternar like:', error);
+      alert('Erro ao curtir denúncia. Tente novamente.');
+    }
+  };
+
   return (
     <div className="post-card" data-user={post.user.name} data-date={post.date}>
       <div className="post-header">
-        {/* <div className="post-avatar">{post.avatar}</div> */}
         <div className="post-user-info">
-          <h4 className="post-user">{post.user.name}</h4>
-          {/* <span className="post-username">{post.username}</span> */}
-          <span className="post-time">{new Date(post.date).toLocaleDateString('pt-BR')} · {post.timeAgo}</span>
+          <h3 className="post-user">{post.user.name}</h3>
+          <span className="post-time">
+            {new Date(post.date).toLocaleDateString('pt-BR')} · {post.timeAgo}
+          </span>
         </div>
       </div>
-      <div className="post-content">{post.content}</div>
-      {/* {post.image && (
-        <img src={post.image} className="post-image" alt="Post" />
-      )} */}
-      
-      <PostActions 
-        post={post}
+
+      <h4 className='fw-bolder'>{post.title}</h4>
+      <p className="post-content">{post.content}</p>
+
+      <PostActions
+        post={{ ...post }}
         toggleComments={toggleComments}
         showComments={showComments}
+        toggleLike={toggleLike}
       />
-      
+
       <div className={`comments-section ${showComments ? 'expanded' : ''}`}>
-        <CommentForm 
-          postId={post.id}
-          handleAddComment={handleAddComment}
-        />
-        
+        <CommentForm postId={post.id} handleAddComment={handleAddComment} />
         <div className="comments-list">
           {post.commentsList.map((comment, index) => (
-            <Comment 
-              key={index}
-              comment={comment}
-            />
+            <Comment key={index} comment={comment} />
           ))}
         </div>
       </div>
