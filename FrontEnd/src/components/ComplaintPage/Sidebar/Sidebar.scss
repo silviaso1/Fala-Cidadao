@@ -47,10 +47,13 @@
     border-bottom: 1px solid rgba($cor-primaria, 0.1);
     
     .logo {
-      margin-left: 15px;
-      font-size: 1.5rem;
-      font-weight: 700;
+      margin-left: 5px;
       color: $cor-primaria;
+      margin-top: 15px;
+      
+      img{
+        width: 150px;
+      }
     }
   }
 

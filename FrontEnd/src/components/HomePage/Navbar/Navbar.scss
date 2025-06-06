@@ -1,9 +1,15 @@
 @use "../../../styles/App.scss" as *;
 
 .navbar {
-    background-color: #000000d0;
     backdrop-filter: blur(25px);
     width: 100%;
+    position: static !important;
+    border-bottom: 2px solid $cor-borda;
+
+    img{
+        width: 140px;
+        height: auto;
+    }
 
     .botao {
         display: inline-flex;
@@ -15,7 +21,6 @@
         cursor: pointer;
         color: #fff;
         background-color: transparent;
-        // box-shadow: $sombra-destaque;
         border: 2px solid $cor-primaria;
         &:hover {
             box-shadow: 0 0 30px 5px #6c5ce766;

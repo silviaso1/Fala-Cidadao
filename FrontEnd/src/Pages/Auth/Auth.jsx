@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash, faUser } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Auth.scss';
+import Logo from "../../assets/logo2.png";
 
 function Auth() {
     const { login } = useAuth();
@@ -77,7 +78,7 @@ function Auth() {
                 className="d-flex flex-column justify-content-center 
                 align-items-center flex-grow-1"
                 >
-                    <img src="/logo.png" alt="logo" className="mb-4 mx-auto" />
+                    <img src={Logo} alt="logo" className="mb-4 mx-auto" />
                     <h1 className="fw-bold mb-3">Bem-vindo</h1>
                     <p className="text-light">
                         Conecte-se com outros cidadãos para reportar problemas urbanos e acompanhar soluções em tempo real.

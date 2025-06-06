@@ -8,14 +8,34 @@ const FAQ = () => {
 
   const allFaqs = [
     {
-      question: ".....",
-      answer: "....."
+      question: "O que é o Fala Cidadão?",
+      answer: "O Fala Cidadão é um canal de comunicação criado para receber reclamações e denúncias de problemas urbanos."
     },
     {
-      question: ".....",
-      answer: "....."
+      question: "Posso anexar fotos, vídeos ou documentos?",
+      answer: "Sim. O sistema permite anexar arquivos para ajudar na análise e na resolução da manifestação."
+    },
+    {
+      question: "Existe algum custo para usar o Fala Cidadão?",
+      answer: "Não. O serviço é totalmente gratuito e acessível a qualquer cidadão."
+    },
+     {
+      question: "Posso fazer várias manifestações sobre o mesmo assunto?",
+      answer: "Pode, mas é recomendável acompanhar e verificar primeiro se haverá resolução."
     },
 
+    {
+      question: "Posso usar o Fala Cidadão em dispositivos móveis?",
+      answer: "Sim! O sistema é responsivo e pode ser acessado por celular, tablet ou computador."
+    },
+    {
+      question: "É necessário anexar documentos ou evidências?",
+      answer: "Não é obrigatório, mas anexar provas (como fotos ou vídeos) é recomendável."
+    },
+    {
+      question: "É necessário anexar documentos ou evidências?",
+      answer: "Não é obrigatório, mas anexar provas (como fotos ou vídeos) é recomendável."
+    },
   ];
 
   const displayedFaqs = showAll ? allFaqs : allFaqs.slice(0, 4);

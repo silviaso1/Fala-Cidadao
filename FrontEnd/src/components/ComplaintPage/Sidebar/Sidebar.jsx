@@ -1,6 +1,7 @@
 import { FiChevronLeft, FiChevronRight, FiHome, FiBell, FiUser, FiSettings, FiLogOut } from 'react-icons/fi';
 import { useAuth } from '../../../contexts/useAuth';
 import "./Sidebar.scss";
+import Logo from "../../../assets/logo2.png";
 
 const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   const { usuarioNome, logout } = useAuth();
@@ -22,7 +23,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
         <button className="sidebar-toggle" onClick={toggleSidebar}>
           {sidebarOpen ? <FiChevronLeft size={20} /> : <FiChevronRight size={20} />}
         </button>
-        {sidebarOpen && <h2 className="logo"><img src="" alt="logo" /></h2>}
+        {sidebarOpen && <h2 className="logo"><img src={Logo} alt="logo" /></h2>}
       </div>
 
       <nav className="sidebar-nav">

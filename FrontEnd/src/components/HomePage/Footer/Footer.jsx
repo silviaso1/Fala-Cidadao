@@ -1,5 +1,6 @@
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import './Footer.scss';
+import Logo from "../../../assets/logo.png";
 
 const Footer = () => {
   return (
@@ -9,9 +10,9 @@ const Footer = () => {
           <div className="rodape-sobre">
             <div className="rodape-logo">
             
-              <span>Fala Cidadão</span>
+              <img src={Logo} alt="Logo" />
             </div>
-            <p>Conectando cidadãos e poder público para cidades mais humanas e sustentáveis.</p>
+          
           </div>
           <div className="rodape-links">
             <h4>Links</h4>
