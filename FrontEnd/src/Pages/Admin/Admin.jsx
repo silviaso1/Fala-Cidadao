@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Nav from '../../components/Admin/Nav/Nav';
 import Stats from '../../components/Admin/Stats/Stats';
 import Reports from '../../components/Admin/Reports/Reports';
@@ -7,58 +8,52 @@ import CategoryChart from '../../components/Admin/Charts/CategoryChart';
 import { FaDownload } from 'react-icons/fa';
 import "./Admin.scss";
 
-
 const Admin = () => {
   const [reports, setReports] = useState([]);
 
   useEffect(() => {
-    // Simulação de chamada API
-    const fetchData = async () => {
-  
-      const data = [
-        {
-          id: "GC-00142",
-          title: "Buraco na Rua das Flores",
-          content: "Buraco grande na altura do número 120, causando problemas para os carros. Risco de acidente.",
-          category: "buraco",
+    const fetchReports = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/denuncias'); // ajuste URL da sua API
+        const apiData = response.data;
+
+        // Mapear dados da API para formato esperado pelo front
+        const mappedReports = apiData.map(item => ({
+          id: item.id,
+          title: item.titulo,
+          content: item.descricao,
           user: {
-            avatar: "JL",
-            name: "Joana Lima",
-            username: "@joanalima"
+            avatar: item.usuario.nome ? item.usuario.nome.charAt(0).toUpperCase() : '',
+            name: item.usuario.nome,
+            username: `@${item.usuario.nome.toLowerCase().replace(/\s+/g, '')}`
           },
-          date: "03/06/2025",
-          time: "14:32",
-          status: "pendente",
-          priority: "high",
-          supporters: 15,
-          comments: 8,
-          location: "Rua das Flores, 120 - Centro"
-        },
-        {
-          id: "GC-00143",
-          title: "Buraco na Rua das Flores",
-          content: "Buraco grande na altura do número 120, causando problemas para os carros. Risco de acidente.",
-          category: "buraco",
-          user: {
-            avatar: "JL",
-            name: "Joana Lima",
-            username: "@joanalima"
-          },
-          date: "03/06/2025",
-          time: "14:32",
-          status: "pendente",
-          priority: "high",
-          supporters: 15,
-          comments: 8,
-          location: "Rua das Flores, 120 - Centro"
-        },
-      
-      ];
-      setReports(data);
+          date: '', // Não informado no retorno, deixar vazio ou formatar se disponível
+          time: '', // Não informado no retorno
+          status: item.status.toLowerCase(), // "DENUNCIADO" para "denunciado"
+          comments: 0, // não informado
+          location: item.bairro,
+          likes: item.likes,
+        }));
+
+        setReports(mappedReports);
+      } catch (error) {
+        console.error('Erro ao buscar denúncias:', error);
+      }
     };
-    
-    fetchData();
+
+    fetchReports();
   }, []);
+
+  const getStatusText = (status) => {
+    switch(status) {
+      case 'denunciado': return 'Denunciado';
+      case 'resolvido': return 'Resolvido';
+      case 'pendente': return 'Pendente';
+      case 'analise': return 'Em Análise';
+      default: return status;
+    }
+  };
+
 
   const handleStatusChange = (reportId, newStatus) => {
     setReports(reports.map(report => 
@@ -67,31 +62,6 @@ const Admin = () => {
     alert(`Status da denúncia ${reportId} alterado para ${getStatusText(newStatus)}`);
   };
 
-  const handleViewReport = (reportId) => {
-    const report = reports.find(r => r.id === reportId);
-    if (report) {
-      alert(`Visualizando denúncia: ${report.title}\n\nDescrição: ${report.content}\n\nLocal: ${report.location}\n\nStatus: ${getStatusText(report.status)}\n\nCategoria: ${getCategoryText(report.category)}`);
-    }
-  };
-
-  const getStatusText = (status) => {
-    switch(status) {
-      case 'pendente': return 'Pendente';
-      case 'analise': return 'Em Análise';
-      case 'resolvido': return 'Resolvido';
-      default: return status;
-    }
-  };
-
-  const getCategoryText = (category) => {
-    switch(category) {
-      case 'iluminacao': return 'Iluminação Pública';
-      case 'buraco': return 'Buraco na Via';
-      case 'lixo': return 'Lixo Acumulado';
-      case 'transito': return 'Problema de Trânsito';
-      default: return 'Outros';
-    }
-  };
 
   return (
     <div className="admin-container">
@@ -104,7 +74,7 @@ const Admin = () => {
               <FaDownload /> Exportar
             </button>
             <button className="btn btn-secondary">
-               Remover Denúnica
+               Remover Denúncia
             </button>
           </div>
         </div>
@@ -132,18 +102,17 @@ const Admin = () => {
             </div>
             <StatusChart reports={reports} />
           </div>
-          <div className="chart-card">
+          {/* <div className="chart-card">
             <div className="chart-header">
               <h3 className="chart-title">Denúncias por Categoria</h3>
             </div>
             <CategoryChart reports={reports} />
-          </div>
+          </div> */}
         </div>
 
         <Reports 
           reports={reports} 
           onStatusChange={handleStatusChange}
-          onViewReport={handleViewReport}
         />
       </main>
     </div>
