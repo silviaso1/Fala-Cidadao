@@ -16,11 +16,11 @@ function Post({ post, addComment }) {
   };
 
   return (
-    <div className="post-card" data-user={post.user} data-date={post.date}>
+    <div className="post-card" data-user={post.user.name} data-date={post.date}>
       <div className="post-header">
         {/* <div className="post-avatar">{post.avatar}</div> */}
         <div className="post-user-info">
-          <h4 className="post-user">{post.name}</h4>
+          <h4 className="post-user">{post.user.name}</h4>
           {/* <span className="post-username">{post.username}</span> */}
           <span className="post-time">{new Date(post.date).toLocaleDateString('pt-BR')} · {post.timeAgo}</span>
         </div>

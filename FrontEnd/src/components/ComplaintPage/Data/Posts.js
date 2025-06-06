@@ -1,10 +1,13 @@
 const Posts = [
   {
     id: 1,
-    name: "Joana Lima",
+    user: {
+      user_id: 1,
+      name: "Joana Lima",
+    },
     date: "2025-05-25",
     timeAgo: "2h atrás",
-    content: " problema de iluminação pública na Praça da Matriz",
+    content: "problema de iluminação pública na Praça da Matriz",
     image: "https://jom.com.br/wp-content/uploads/2019/02/Pra%C3%A7a-Copy.jpg",
     comments: 23,
     likes: 45,
@@ -15,7 +18,10 @@ const Posts = [
   },
   {
     id: 2,
-    name: "Pedro Souza",
+    user: {
+      user_id: 2,
+      name: "Pedro Souza",
+    },
     date: "2025-05-24",
     timeAgo: "1 dia atrás",
     content: "Falta de sinalização na Avenida Central está causando acidentes. Precisamos de solução urgente! #TrânsitoSeguro",
@@ -28,7 +34,10 @@ const Posts = [
   },
   {
     id: 3,
-    name: "Você",
+    user: {
+      user_id: 0,
+      name: "Você",
+    },
     date: "2025-05-23",
     timeAgo: "2 dias atrás",
     content: "buraco na Rua das Flores! #AsfaltoDefeituoso",
@@ -41,7 +50,10 @@ const Posts = [
   },
   {
     id: 4,
-    name: "Você",
+    user: {
+      user_id: 0,
+      name: "Você",
+    },
     date: "2025-05-20",
     timeAgo: "5 dias atrás",
     content: "Lixo acumulado no Parque Municipal há vários dias",

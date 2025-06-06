@@ -33,24 +33,26 @@ function Complaint() {
   const closeUserMenu = () => setShowUserDropdown(false);
 
   const createNewPost = (content) => {
-    const newPost = {
-      id: posts.length + 1,
-      user: "me",
-      avatar: "VC",
+  const newPost = {
+    id: posts.length + 1,
+    user: {
+      user_id: 0,
       name: "Você",
       username: "@voce",
-      date: new Date().toISOString().split('T')[0],
-      timeAgo: "agora",
-      content: content,
-      image: "",
-      comments: 0,
-      shares: 0,
-      likes: 0,
-      commentsList: []
-    };
-    setPosts([newPost, ...posts]);
-    closeModal();
+    },
+    date: new Date().toISOString().split('T')[0],
+    timeAgo: "agora",
+    content: content, // ou simplesmente `content,`
+    image: "",
+    comments: 0,
+    likes: 0,
+    commentsList: []
   };
+
+  setPosts([newPost, ...posts]);
+  closeModal();
+};
+
 
   const addComment = (postId, commentText) => {
     const updatedPosts = posts.map(post => {
@@ -76,7 +78,7 @@ function Complaint() {
     let filteredPosts = [...postsData];
 
     if (activeTab === 'my-posts') {
-      filteredPosts = filteredPosts.filter(post => post.user === 'me');
+      filteredPosts = filteredPosts.filter(post => post.user.name === 'Você');
     }
 
     const today = new Date();
