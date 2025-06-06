@@ -9,7 +9,7 @@ const Footer = () => {
           <div className="rodape-sobre">
             <div className="rodape-logo">
             
-              <span>Fala Cidadão</span>
+              <span>Conserva Cidadão</span>
             </div>
             <p>Conectando cidadãos e poder público para cidades mais humanas e sustentáveis.</p>
           </div>
@@ -41,7 +41,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="rodape-copyright">
-          <p>© 2025 Fala Cidadão. Todos os direitos reservados.</p>
+          <p>© 2025 Conserva Cidadão. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

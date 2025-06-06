@@ -22,16 +22,15 @@ public class AuthService {
 
         if (usuario.isPresent() && usuario.get().getSenha().equals(senha)) {
             Usuario u = usuario.get();
-            UsuarioResponseDTO dto = new UsuarioResponseDTO(u.getId(), u.getNome(), u.getRole());
+            UsuarioResponseDTO dto = new UsuarioResponseDTO(u.getId(), u.getNome());
 
             response.put("mensagem", "Login realizado com sucesso.");
             response.put("token", "jwt-token-gerado");
-            response.put("usuario", dto);
+            response.put("usuario", dto); // 🔐 sem senha aqui
         } else {
             response.put("status_code", 401);
             response.put("erro", "Credenciais inválidas.");
         }
-
         return response;
     }
 
@@ -50,8 +49,7 @@ public class AuthService {
         }
 
         Usuario salvo = usuarioRepository.save(novoUsuario);
-        UsuarioResponseDTO dto = new UsuarioResponseDTO(salvo.getId(), salvo.getNome(), salvo.getRole());
-
+        UsuarioResponseDTO dto = new UsuarioResponseDTO(salvo.getId(), salvo.getNome());
 
         response.put("mensagem", "Usuário registrado com sucesso.");
         response.put("usuario", dto);

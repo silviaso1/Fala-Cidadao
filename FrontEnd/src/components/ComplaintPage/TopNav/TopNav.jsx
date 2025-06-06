@@ -18,6 +18,14 @@ function TopNav({ activeTab, switchTab, showUserDropdown, toggleUserDropdown, cl
           Meus Posts
         </div>
       </div>
+
+      <div className="user-menu">
+        <div className="user-avatar" onClick={toggleUserDropdown}>VC</div>
+        <UserDropdown
+          showUserDropdown={showUserDropdown}
+          closeUserMenu={closeUserMenu}
+        />
+      </div>
     </div>
   );
 }

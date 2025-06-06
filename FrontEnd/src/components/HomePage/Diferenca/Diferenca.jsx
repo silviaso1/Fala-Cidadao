@@ -1,5 +1,4 @@
 import { FaUserPlus } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 import './Diferenca.scss';
 
 const Diferenca = () => {
@@ -10,9 +9,9 @@ const Diferenca = () => {
           <h2>Pronto para fazer a diferença?</h2>
           <p>Junte-se a milhares de cidadãos ativos que estão transformando suas cidades através da participação coletiva.</p>
           <div className="cta-botoes">
-            <Link to="/auth/register" className="botao botao-primario">
-              <FaUserPlus /> Comece a explorar
-            </Link>
+            <a href="" className="botao botao-primario">
+              <FaUserPlus /> Criar conta gratuita
+            </a>
           </div>
           <div className="cta-participantes">
             <div className="participantes-avatars">
