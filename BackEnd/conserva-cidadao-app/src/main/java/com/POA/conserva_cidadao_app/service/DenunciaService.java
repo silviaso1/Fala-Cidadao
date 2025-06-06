@@ -45,6 +45,10 @@ public class DenunciaService {
         List<String> bairros = denunciaRepository.findAllDistinctBairros();
 
         for (String bairro : bairros) {
+            if (bairro == null || bairro.isBlank()) {
+                continue;
+            }
+
             int count = denunciaRepository.countByBairroAndStatusIn(
                     bairro,
                     List.of(StatusDenuncia.DENUNCIADO, StatusDenuncia.EM_ANDAMENTO)
@@ -198,6 +202,10 @@ public class DenunciaService {
     }
 
     private void atualizarContagemBairro(String bairro, boolean incrementar) {
+        if (bairro == null || bairro.isBlank()) {
+            return; // Ignora bairros inválidos para evitar erros
+        }
+
         Optional<Local> localOpt = localRepository.findByBairro(bairro.toLowerCase());
         Local local = localOpt.orElseGet(() -> {
             Local novoLocal = new Local();
