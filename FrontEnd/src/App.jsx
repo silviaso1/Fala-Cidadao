@@ -4,7 +4,7 @@ import HomePage from './pages/Home/HomePage';
 import Auth from './pages/Auth/Auth';
 import Complaint from './pages/Complaint/Complaint';
 import Admin from './pages/Admin/Admin';
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'; 
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import NotFound from './pages/NotFound/NotFound';
 
 
@@ -14,7 +14,7 @@ function AppContent() {
 
   return (
     <section id="app">
-      
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth/:mode" element={<Auth />} />
@@ -31,8 +31,7 @@ function AppContent() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
-              <ProtectedRoute adminOnly={true}></ProtectedRoute>
+            <ProtectedRoute adminOnly={true}>
               <Admin />
             </ProtectedRoute>
           }
