@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="rodape">
       <div className="container">
-        <div className="rodape-conteudo">
+        <div className="rodape-conteudo d-grid d-md-flex justify-content-around">
           <div className="rodape-sobre">
             <div className="rodape-logo">
               <img src={Logo} alt="Logo" />
