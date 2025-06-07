@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Nav from '../../components/Admin/Nav/Nav';
 import Stats from '../../components/Admin/Stats/Stats';
 import Reports from '../../components/Admin/Reports/Reports';
 import StatusChart from '../../components/Admin/Charts/StatusChart';
-import CategoryChart from '../../components/Admin/Charts/CategoryChart';
+// import CategoryChart from '../../components/Admin/Charts/CategoryChart';
 import "./Admin.scss";
 
 const Admin = () => {
@@ -16,7 +16,6 @@ const Admin = () => {
         const response = await axios.get('http://localhost:3001/denuncias'); 
         const apiData = response.data;
 
-        // Mapear dados da API para formato esperado pelo front
         const mappedReports = apiData.map(item => ({
           id: item.id,
           title: item.titulo,
@@ -26,10 +25,10 @@ const Admin = () => {
             name: item.usuario.nome,
             username: `@${item.usuario.nome.toLowerCase().replace(/\s+/g, '')}`
           },
-          date: '', // Não informado no retorno, deixar vazio ou formatar se disponível
-          time: '', // Não informado no retorno
-          status: item.status.toLowerCase(), // "DENUNCIADO" para "denunciado"
-          comments: 0, // não informado
+          date: '',
+          time: '',
+          status: item.status.toLowerCase(),
+          comments: 0,
           location: item.bairro,
           likes: item.likes,
         }));
@@ -45,7 +44,7 @@ const Admin = () => {
 
   const getStatusText = (status) => {
     switch(status) {
-      case 'denunciado': return 'Denunciado';
+      // case 'denunciado': return 'Denunciado';
       case 'resolvido': return 'Resolvido';
       case 'pendente': return 'Pendente';
       case 'analise': return 'Em Análise';
