@@ -1,10 +1,9 @@
-import React from 'react';
 import { FaFlag, FaClock, FaSearch, FaCheck, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import './Stats.scss';
 
 const Stats = ({ reports }) => {
   const totalReports = reports.length;
-  const pendingReports = reports.filter(r => r.status === 'pendente').length;
+  const pendingReports = reports.filter(r => r.status === 'denunciado').length;
   const analysisReports = reports.filter(r => r.status === 'analise').length;
   const resolvedReports = reports.filter(r => r.status === 'resolvido').length;
 

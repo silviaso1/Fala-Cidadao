@@ -79,29 +79,7 @@
   gap: 8px;
 }
 
-.report-priority {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
 
-  &.priority-high {
-    background-color: rgba(214, 48, 49, 0.2);
-    color: #D63031;
-  }
-
-  &.priority-medium {
-    background-color: rgba(253, 203, 110, 0.2);
-    color: $cor-pendente;
-  }
-
-  &.priority-low {
-    background-color: rgba(9, 132, 227, 0.2);
-    color:$cor-analise;
-  }
-}
 
 .report-content {
   color: $cor-texto-claro;

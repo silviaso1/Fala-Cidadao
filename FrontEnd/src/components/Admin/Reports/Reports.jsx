@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import axios from 'axios';
 import { FaEye, FaEdit, FaCheck, FaClock, FaSearch, FaQuestion } from 'react-icons/fa';
 import Pagination from '../Pagination/Pagination';
 import './Reports.scss';
+import { useAuth } from '../../../contexts/useAuth';
 
 const Reports = ({ reports, onStatusChange, onViewReport }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -9,11 +11,12 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const reportsPerPage = 10;
+  const { usuarioId } = useAuth();
 
   const filteredReports = reports.filter(report => {
     const matchesSearch = report.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         report.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         report.location.toLowerCase().includes(searchTerm.toLowerCase());
+                          report.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          report.location.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = categoryFilter === 'all' || report.category === categoryFilter;
     const matchesStatus = statusFilter === 'all' || report.status === statusFilter;
     
@@ -31,7 +34,7 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
 
   const getStatusText = (status) => {
     switch(status) {
-      case 'pendente': return 'Pendente';
+      case 'denunciado': return 'Pendente';
       case 'analise': return 'Em Análise';
       case 'resolvido': return 'Resolvido';
       default: return status;
@@ -40,21 +43,26 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
 
   const getStatusIcon = (status) => {
     switch(status) {
-      case 'pendente': return <FaClock />;
+      case 'denunciado': return <FaClock />;
       case 'analise': return <FaSearch />;
       case 'resolvido': return <FaCheck />;
       default: return <FaQuestion />;
     }
   };
 
-  const getCategoryText = (category) => {
-    switch(category) {
-      case 'iluminacao': return 'Iluminação Pública';
-      case 'buraco': return 'Buraco na Via';
-      case 'lixo': return 'Lixo Acumulado';
-      case 'transito': return 'Problema de Trânsito';
-      // Caso não queira mostrar nada se for diferente:
-      default: return '';
+  const handleStatusChange = async (reportId, newStatus) => {
+    try {
+      await axios.put(`http://localhost:3001/denuncias/${reportId}`, {
+                usuarioId: Number(usuarioId),
+
+        status: newStatus.toUpperCase(),
+      });
+
+      onStatusChange(reportId, newStatus);
+      alert(`Status da denúncia ${reportId} atualizado para ${getStatusText(newStatus)}`);
+    } catch (error) {
+      console.error(`Erro ao atualizar status da denúncia ${reportId}:`, error);
+      alert('Erro ao atualizar o status. Tente novamente.');
     }
   };
 
@@ -86,12 +94,13 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
             }}
           >
             <option value="all">Todos Status</option>
-            <option value="pendente">Pendente</option>
+            <option value="denunciado">Pendente</option>
             <option value="analise">Em Análise</option>
             <option value="resolvido">Resolvido</option>
           </select>
         </div>
       </div>
+
       <div className="table-responsive">
         <table className="reports-table">
           <thead>
@@ -111,7 +120,6 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
                 <td>
                   <div className="report-title">{report.title}</div>
                   <div className="report-content">{report.content}</div>
-                  <span className="report-category">{getCategoryText(report.category)}</span>
                 </td>
                 <td>
                   <div className="report-user">
@@ -141,15 +149,15 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
                   </button>
                   <button 
                     className="action-btn edit" 
-                    title="Editar status" 
-                    onClick={() => onStatusChange(report.id, 'analise')}
+                    title="Marcar como Em Análise" 
+                    onClick={() => handleStatusChange(report.id, 'em_andamento')}
                   >
                     <FaEdit />
                   </button>
                   <button 
                     className="action-btn resolve" 
-                    title="Marcar como resolvido" 
-                    onClick={() => onStatusChange(report.id, 'resolvido')}
+                    title="Marcar como Resolvido" 
+                    onClick={() => handleStatusChange(report.id, 'resolvido')}
                   >
                     <FaCheck />
                   </button>
@@ -159,6 +167,7 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
           </tbody>
         </table>
       </div>
+
       <Pagination
         itemsPerPage={reportsPerPage}
         totalItems={filteredReports.length}
