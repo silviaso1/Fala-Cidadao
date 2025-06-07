@@ -5,7 +5,6 @@ import Stats from '../../components/Admin/Stats/Stats';
 import Reports from '../../components/Admin/Reports/Reports';
 import StatusChart from '../../components/Admin/Charts/StatusChart';
 import CategoryChart from '../../components/Admin/Charts/CategoryChart';
-import { FaDownload } from 'react-icons/fa';
 import "./Admin.scss";
 
 const Admin = () => {
@@ -14,7 +13,7 @@ const Admin = () => {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/denuncias'); // ajuste URL da sua API
+        const response = await axios.get('http://localhost:3001/denuncias'); 
         const apiData = response.data;
 
         // Mapear dados da API para formato esperado pelo front
@@ -69,14 +68,6 @@ const Admin = () => {
       <main className="content">
         <div className="page-header">
           <h1 className="page-title">Painel de Denúncias</h1>
-          <div className="page-actions">
-            <button className="btn btn-secondary">
-              <FaDownload /> Exportar
-            </button>
-            <button className="btn btn-secondary">
-               Remover Denúncia
-            </button>
-          </div>
         </div>
 
         <Stats reports={reports} />

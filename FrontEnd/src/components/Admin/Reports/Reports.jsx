@@ -53,7 +53,8 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
       case 'buraco': return 'Buraco na Via';
       case 'lixo': return 'Lixo Acumulado';
       case 'transito': return 'Problema de Trânsito';
-      default: return 'Outros';
+      // Caso não queira mostrar nada se for diferente:
+      default: return '';
     }
   };
 
@@ -108,12 +109,7 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
               <tr key={report.id}>
                 <td className="report-id">#{report.id}</td>
                 <td>
-                  <div className="report-title">
-                    {report.title}
-                    <span className={`report-priority priority-${report.priority}`}>
-                      {report.priority === 'high' ? 'Alta' : report.priority === 'medium' ? 'Média' : 'Baixa'}
-                    </span>
-                  </div>
+                  <div className="report-title">{report.title}</div>
                   <div className="report-content">{report.content}</div>
                   <span className="report-category">{getCategoryText(report.category)}</span>
                 </td>

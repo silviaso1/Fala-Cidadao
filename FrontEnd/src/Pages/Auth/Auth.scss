@@ -206,3 +206,34 @@ body {
         transform: translateY(0);
     }
 }
+
+@media (max-width: 768px) {
+    .bemvindo {
+        display: none !important;
+    }
+
+    section.d-flex {
+        min-height: 100vh; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: -80px;
+        margin-right: -80px;
+        background-repeat: no-repeat;
+background-size: cover;
+
+        
+    }
+
+    .auth-container {
+        width: 100%;
+        max-width: 550px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .auth-card {
+        width: 100% !important;
+    }
+}

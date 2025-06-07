@@ -1,6 +1,7 @@
 @use "../../../styles/App.scss" as *;
 @use "sass:color";
 
+/* ESTILOS PARA DESKTOP (acima de 1090px) */
 .sidebar {
   width: 280px;
   height: 100vh;
@@ -11,15 +12,15 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
   transition: all 0.3s ease;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  z-index: 100;
 
   &.closed {
     width: 70px;
     
-    .logo, .nav-label, .sidebar-section, .user-info, .notification-time {
+    .logo, .nav-label, .sidebar-section, .user-info, .notification-time,
+    .sidebar-search:not(.force-show) {
       display: none;
     }
     
@@ -31,12 +32,11 @@
       justify-content: center;
       padding: 12px 0;
       margin-left: 8px;
-      
     }
     
     .nav-icon {
       margin-right: 0;
-      color: $cor-destaque;
+     
     }
   }
 
@@ -51,7 +51,7 @@
       color: $cor-primaria;
       margin-top: 15px;
       
-      img{
+      img {
         width: 150px;
       }
     }
@@ -72,9 +72,71 @@
     }
   }
 
+  /* Estilos para a busca */
+  .sidebar-search {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba($cor-primaria, 0.1);
+    transition: all 0.3s ease;
+
+    &.force-show {
+      display: block;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background: $cor-card;
+      z-index: 101;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        color: rgba($cor-texto, 0.6);
+      }
+
+      input {
+        width: 100%;
+        padding: 10px 15px 10px 40px;
+        border: 1px solid rgba($cor-primaria, 0.2);
+        border-radius: 20px;
+        background: rgba($cor-primaria, 0.03);
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+
+        &:focus {
+          outline: none;
+          border-color: $cor-primaria;
+          background: white;
+          box-shadow: 0 0 0 2px rgba($cor-primaria, 0.1);
+        }
+      }
+
+      .clear-search {
+        position: absolute;
+        right: 12px;
+        background: transparent;
+        border: none;
+        color: rgba($cor-texto, 0.4);
+        cursor: pointer;
+        padding: 2px;
+
+        &:hover {
+          color: $cor-destaque;
+        }
+      }
+    }
+  }
+
   .sidebar-nav {
     flex: 1;
     padding: 15px 0;
+    overflow-y: auto;
     
     .nav-item {
       display: flex;
@@ -138,12 +200,34 @@
   .sidebar-section {
     margin-bottom: 25px;
     
+    .notifications-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
     h3 {
       font-size: 0.9rem;
       text-transform: uppercase;
       color: rgba($cor-texto, 0.7);
-      margin-bottom: 15px;
       letter-spacing: 1px;
+      margin: 0;
+    }
+    
+    .clear-notifications {
+      background: transparent;
+      border: none;
+      color: rgba($cor-texto, 0.6);
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      
+      &:hover {
+        color: $cor-destaque;
+      }
     }
   }
 
@@ -244,18 +328,334 @@
   }
 }
 
-@media (max-width: 768px) {
+/* BARRA INFERIOR MOBILE - ESTILO TWITTER MELHORADO */
+.mobile-bottom-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: $cor-card;
+  border-top: 1px solid rgba($cor-primaria, 0.1);
+  z-index: 100;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  .mobile-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    padding: 0 16px;
+
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      position: relative;
+      color: $cor-texto;
+      padding: 8px 0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 8px;
+      margin: 0 4px;
+
+      &:active {
+        background: rgba($cor-primaria, 0.05);
+      }
+
+      .notification-wrapper {
+        position: relative;
+        display: flex;
+      }
+
+      .mobile-nav-icon {
+        font-size: 1.6rem;
+        color: $cor-texto;
+        transition: all 0.2s ease;
+      }
+
+      .mobile-nav-label {
+        font-size: 0.65rem;
+        margin-top: 4px;
+        color: $cor-texto;
+        transition: all 0.2s ease;
+      }
+
+      .mobile-badge {
+        position: absolute;
+        top: -4px;
+        right: -6px;
+        background: $cor-destaque;
+        color: white;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.6rem;
+        font-weight: bold;
+      }
+
+      /* Caixa de Notificações */
+      .mobile-notifications-box {
+        position: absolute;
+        bottom: 72px;
+        right: 0;
+        width: 320px;
+        max-width: 90vw;
+        background: $cor-card;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        transform-origin: bottom right;
+        animation: fadeIn 0.2s ease-out;
+        overflow: hidden;
+        z-index: 101;
+
+        .notifications-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px;
+          border-bottom: 1px solid rgba($cor-primaria, 0.1);
+
+          h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: $cor-texto;
+          }
+
+          .clear-notifications {
+            background: transparent;
+            border: none;
+            color: $cor-destaque;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+
+            &:active {
+              background: rgba($cor-destaque, 0.1);
+            }
+          }
+        }
+
+        .notifications-list {
+          max-height: 50vh;
+          overflow-y: auto;
+
+          .notification-item {
+            padding: 16px;
+            border-bottom: 1px solid rgba($cor-primaria, 0.05);
+            transition: all 0.2s ease;
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            &:active {
+              background: rgba($cor-primaria, 0.03);
+            }
+
+            p {
+              margin: 0 0 4px 0;
+              color: $cor-texto;
+              font-size: 0.9rem;
+            }
+
+            .notification-time {
+              font-size: 0.7rem;
+              color: rgba($cor-texto, 0.6);
+            }
+          }
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95) translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+    }
+  }
+}
+
+/* Busca Mobile */
+.mobile-search-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 15px;
+  background: $cor-card;
+  z-index: 99;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba($cor-primaria, 0.1);
+
+  .mobile-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      color: rgba($cor-texto, 0.6);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 1px solid rgba($cor-primaria, 0.2);
+      border-radius: 25px;
+      background: rgba($cor-primaria, 0.03);
+      font-size: 1rem;
+      transition: all 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $cor-primaria;
+        background: white;
+      }
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 15px;
+      background: transparent;
+      border: none;
+      color: rgba($cor-texto, 0.4);
+      cursor: pointer;
+      padding: 2px;
+
+      &:hover {
+        color: $cor-destaque;
+      }
+    }
+  }
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 1090px) {
   .sidebar {
-    transform: translateX(-100%);
+    display: none;
+  }
+
+  .mobile-bottom-bar {
+    display: block;
+  }
+
+  body {
+    padding-bottom: 72px; /* Altura da barra inferior */
+    padding-top: 60px; /* Espaço para o campo de busca */
+  }
+}
+
+/* Modal de Perfil */
+.profile-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  
+  .modal-content {
+    background: $cor-card;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
     
-    &.open {
-      transform: translateX(0);
-      width: 280px;
-      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      color: rgba($cor-texto, 0.6);
+      cursor: pointer;
+      font-size: 1.2rem;
+      
+      &:hover {
+        color: $cor-destaque;
+      }
     }
     
-    &.closed {
-      transform: translateX(-100%);
+    h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: $cor-primaria;
+      text-align: center;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+      
+      label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 5px;
+        color: $cor-texto;
+        font-size: 0.9rem;
+      }
+      
+      input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid rgba($cor-primaria, 0.3);
+        border-radius: 5px;
+        background: rgba($cor-primaria, 0.03);
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+        
+        &:focus {
+          outline: none;
+          border-color: $cor-primaria;
+          background: white;
+          box-shadow: 0 0 0 2px rgba($cor-primaria, 0.1);
+        }
+      }
+    }
+    
+    .save-button {
+      width: 100%;
+      padding: 12px;
+      background: $cor-primaria;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      margin-top: 10px;
+      font-size: 1rem;
+      
+      &:hover {
+        background: darken($cor-primaria, 10%);
+      }
+      
+      &:active {
+        transform: translateY(1px);
+      }
     }
   }
 }
