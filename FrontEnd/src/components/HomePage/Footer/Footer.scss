@@ -1,7 +1,7 @@
 @use '../../../styles/App.scss' as *;
 
 .rodape {
-  background-color: #0f0f1a;
+    background: $cor-card;
   color: white;
   padding: 60px 0 20px;
   border-top: 1px solid $cor-borda;

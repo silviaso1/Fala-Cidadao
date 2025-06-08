@@ -1,171 +1,181 @@
 @use "../../../styles/App.scss" as *;
 
 .post-card {
-    background-color: $cor-card;
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid $cor-borda;
-    transition: transform 0.3s ease;
+  background-color: $cor-card;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid $cor-borda;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
 
-    &:hover {
-        transform: translateY(-5px);
-        border-color: $cor-primaria;
-    }
+  &:hover {
+    transform: translateY(-4px);
+    border-color: $cor-primaria;
+  }
 }
 
 .post-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 16px;
 }
 
 .post-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    margin-right: 15px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+ 
 }
 
 .post-user-info {
-    flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .post-user {
-    font-weight: 700;
-    margin-right: 5px;
-}
-
-.post-username {
-    color: $cor-texto-claro;
-    margin-right: 5px;
+  font-weight: 600;
+  font-size: 18px;
+  margin: 0;
 }
 
 .post-time {
-    color: $cor-texto-claro;
-    font-size: 14px;
+  color: $cor-texto-claro;
+  font-size: 14px;
+}
+
+.post-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 10px 0 8px;
 }
 
 .post-content {
-    margin-bottom: 15px;
-    line-height: 1.6;
-}
-
-.post-image {
-    width: 100%;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    border: 1px solid $cor-borda;
-    max-height: 400px;
-    object-fit: cover;
+  font-size: 16px;
+  line-height: 1.6;
+  color: $cor-texto;
+  margin-bottom: 20px;
 }
 
 .post-actions {
-    display: flex;
-    gap: 25px;
-    padding-top: 15px;
-    border-top: 1px solid $cor-borda;
+  display: flex;
+  gap: 25px;
+  padding-top: 15px;
+  border-top: 1px solid $cor-borda;
 }
 
 .post-action {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: $cor-texto-claro;
-    cursor: pointer;
-    transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $cor-texto-claro;
+  cursor: pointer;
+  transition: color 0.3s ease;
 
-    &:hover {
-        color: $cor-destaque;
-    }
+  &:hover {
+    color: $cor-destaque;
+  }
 
-    &.active {
-        color: $cor-destaque;
-    }
+  &.active {
+    color: $cor-destaque;
+  }
 }
-.comments-section {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    margin-top: 15px;
 
-    &.expanded {
-        max-height: 1000px;
-    }
+.comments-section {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  margin-top: 15px;
+
+  &.expanded {
+    max-height: 1000px;
+  }
 }
 
 .comment-form {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .comment-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, $cor-secundaria, $cor-primaria);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $cor-secundaria, $cor-primaria);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .comment-input {
+  flex: 1;
+  display: flex;
+  gap: 10px;
+
+  input {
     flex: 1;
-    display: flex;
-    gap: 10px;
+    background-color: $cor-fundo;
+    border: 1px solid $cor-borda;
+    border-radius: 20px;
+    padding: 10px 15px;
+    color: $cor-texto;
+    outline: none;
+    font-size: 14px;
+  }
 
-    input {
-        flex: 1;
-        background-color: $cor-fundo;
-        border: 1px solid $cor-borda;
-        border-radius: 20px;
-        padding: 10px 15px;
-        color: $cor-texto;
-        outline: none;
-    }
+  button {
+    background-color: $cor-primaria;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
 
-    button {
-        background-color: $cor-primaria;
-        color: white;
-        border: none;
-        border-radius: 20px;
-        padding: 0 20px;
-        cursor: pointer;
+    &:hover {
+      background-color: darken($cor-primaria, 10%);
     }
+  }
 }
 
 .comments-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .comment {
-    display: flex;
-    gap: 12px;
+  display: flex;
+  gap: 12px;
 }
 
 .comment-content {
-    background-color: $cor-fundo;
-    padding: 12px 15px;
-    border-radius: 12px;
-    flex: 1;
+  background-color: $cor-fundo;
+  padding: 12px 15px;
+  border-radius: 12px;
+  flex: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .comment-user {
-    font-weight: 700;
-    margin-right: 5px;
+  font-weight: 700;
+  margin-right: 5px;
 }
 
 .comment-text {
-    margin-top: 5px;
+  margin-top: 5px;
+  font-size: 14px;
 }

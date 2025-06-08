@@ -1,11 +1,14 @@
 @use '../../../styles/App.scss' as *;
 
 
+
+
+
 .hero {
   padding: 80px 0;
   position: relative;
   height: 100vh;
-  background: $cor-fundo;
+  background: linear-gradient(135deg, #1c1e26, #282a36);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +19,7 @@
     align-items: center;
 
     .hero-conteudo {
-      flex: 1; 
+      flex: 1;
       position: relative;
 
       h2 {
@@ -24,6 +27,7 @@
         margin-bottom: 20px;
         background: linear-gradient(90deg, $cor-primaria, $cor-destaque);
         background-clip: text;
+        -webkit-background-clip: text;
         color: transparent;
       }
 
@@ -35,7 +39,7 @@
     }
 
     .hero-ilustracao {
-      flex: 1; 
+      flex: 1;
       position: relative;
       height: 400px;
       perspective: 1000px;
@@ -49,7 +53,7 @@
     right: -200px;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, #a29bfe1a 0%, #a29bfe00 70%);
+    background: radial-gradient(circle, #8e7eff1a 0%, #8e7eff00 70%);
     z-index: -1;
   }
 }
@@ -57,7 +61,7 @@
 .feed-social {
   width: 100%;
   height: 100%;
-  background-color: $cor-card;
+  background: linear-gradient(145deg, #2c2f4a, #1f2235);
   border-radius: 20px;
   box-shadow: $sombra;
   padding: 20px;
@@ -74,14 +78,14 @@
 }
 
 .post {
-  background-color: rgba(10, 25, 47, 0.6);
+  background-color: rgba(44, 49, 72, 0.6);
   border-radius: 12px;
   padding: 15px;
   margin-bottom: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
   border: 1px solid $cor-borda;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(8px);
 
   &:hover {
     transform: translateY(-5px);
@@ -156,7 +160,7 @@
   padding: 10px 15px;
   border-radius: 50px;
   font-weight: 600;
-  box-shadow: 0 4px 15px rgba(253, 121, 168, 0.4);
+  box-shadow: 0 4px 15px rgba(127, 145, 255, 0.4);
   animation: pulse 2s infinite;
   z-index: 2;
   display: flex;
@@ -169,6 +173,7 @@
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
 }
+
 @media (max-width: 1024px) {
   .hero-content {
     flex-direction: column;

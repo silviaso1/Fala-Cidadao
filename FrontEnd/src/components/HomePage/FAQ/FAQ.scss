@@ -64,7 +64,12 @@ $faq-text-light: #bdc3c7;
     .faq-header {
 
         button {
-            background-color: $faq-card-bg !important;
+            background: linear-gradient(
+            135deg,
+            #292955 0%,
+            #7a436d 70%,
+           
+        );
             color: white;
             padding: 40px;
            border-radius: 50px !important;

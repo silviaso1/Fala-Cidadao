@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Nav from '../../components/Admin/Nav/Nav';
 import Stats from '../../components/Admin/Stats/Stats';
 import Reports from '../../components/Admin/Reports/Reports';
 import StatusChart from '../../components/Admin/Charts/StatusChart';
@@ -63,13 +62,13 @@ const Admin = () => {
 
   return (
     <div className="admin-container">
-      <Nav />
       <main className="content">
         <div className="page-header">
-          <h1 className="page-title">Painel de Denúncias</h1>
+          <h1 className="page-title">Olá! Bom te ter aqui novamente!</h1>
         </div>
 
-        <Stats reports={reports} />
+       <div className='stats'>
+         <Stats reports={reports} />
         
         <div className="charts-grid">
           <div className="chart-card">
@@ -104,6 +103,7 @@ const Admin = () => {
           reports={reports} 
           onStatusChange={handleStatusChange}
         />
+       </div>
       </main>
     </div>
   );

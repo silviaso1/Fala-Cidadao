@@ -1,9 +1,7 @@
 @use "../../../styles/App.scss" as *;
 
 .charts-grid {
-  display: grid;
-  // grid-template-columns: 2fr 1fr;
-  gap: 20px;
+  width: 100%;
   margin-bottom: 30px;
  
 }

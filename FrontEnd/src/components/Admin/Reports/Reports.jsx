@@ -1,27 +1,41 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { FaEye, FaEdit, FaCheck, FaClock, FaSearch, FaQuestion } from 'react-icons/fa';
+import {
+  FaEye, FaEdit, FaCheck, FaClock, FaSearch, FaQuestion, FaTrash
+} from 'react-icons/fa';
 import Pagination from '../Pagination/Pagination';
 import './Reports.scss';
 import { useAuth } from '../../../contexts/useAuth';
 
-const Reports = ({ reports, onStatusChange, onViewReport }) => {
+const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [categoryFilter, setCategoryFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const reportsPerPage = 10;
   const { usuarioId } = useAuth();
 
   const filteredReports = reports.filter(report => {
-    const matchesSearch = report.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          report.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          report.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter === 'all' || report.category === categoryFilter;
-    const matchesStatus = statusFilter === 'all' || report.status === statusFilter;
-    
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
+  const lowerSearch = searchTerm.toLowerCase();
+
+  // Garantindo que os campos existam para evitar erro
+  const title = report.title ? report.title.toLowerCase() : '';
+  const content = report.content ? report.content.toLowerCase() : '';
+  const location = report.location ? report.location.toLowerCase() : '';
+  const userName = report.user && report.user.name ? report.user.name.toLowerCase() : '';
+  const userUsername = report.user && report.user.username ? report.user.username.toLowerCase() : '';
+
+  const matchesSearch =
+    title.includes(lowerSearch) ||
+    content.includes(lowerSearch) ||
+    location.includes(lowerSearch) ||
+    userName.includes(lowerSearch) ||
+    userUsername.includes(lowerSearch);
+
+  const matchesStatus = statusFilter === 'all' || report.status === statusFilter;
+
+  return matchesSearch && matchesStatus;
+});
+
 
   const indexOfLastReport = currentPage * reportsPerPage;
   const indexOfFirstReport = indexOfLastReport - reportsPerPage;
@@ -53,8 +67,7 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
   const handleStatusChange = async (reportId, newStatus) => {
     try {
       await axios.put(`http://localhost:3001/denuncias/${reportId}`, {
-                usuarioId: Number(usuarioId),
-
+        usuarioId: Number(usuarioId),
         status: newStatus.toUpperCase(),
       });
 
@@ -66,25 +79,36 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
     }
   };
 
+  const handleDeleteReport = async (reportId) => {
+    if (confirm(`Tem certeza que deseja remover a denúncia #${reportId}?`)) {
+      try {
+        await axios.delete(`http://localhost:3001/denuncias/${reportId}`);
+        onDeleteReport(reportId);
+        alert(`Denúncia #${reportId} removida com sucesso.`);
+      } catch (error) {
+        console.error(`Erro ao remover denúncia ${reportId}:`, error);
+        alert('Erro ao remover a denúncia. Tente novamente.');
+      }
+    }
+  };
+
   return (
     <div className="reports-card">
       <div className="table-header">
         <h3 className="table-title">Todas as Denúncias</h3>
+
+        <input
+          type="text"
+          placeholder="Buscar denúncia, usuário, etc..."
+          className="filter-search"
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1);
+          }}
+        />
+
         <div className="table-filters">
-          <select 
-            className="filter-select" 
-            value={categoryFilter}
-            onChange={(e) => {
-              setCategoryFilter(e.target.value);
-              setCurrentPage(1);
-            }}
-          >
-            <option value="all">Todas Categorias</option>
-            <option value="iluminacao">Iluminação Pública</option>
-            <option value="buraco">Buraco na Via</option>
-            <option value="lixo">Lixo Acumulado</option>
-            <option value="transito">Problema de Trânsito</option>
-          </select>
           <select 
             className="filter-select" 
             value={statusFilter}
@@ -140,27 +164,10 @@ const Reports = ({ reports, onStatusChange, onViewReport }) => {
                   </span>
                 </td>
                 <td>
-                  <button 
-                    className="action-btn view" 
-                    title="Visualizar" 
-                    onClick={() => onViewReport(report.id)}
-                  >
-                    <FaEye />
-                  </button>
-                  <button 
-                    className="action-btn edit" 
-                    title="Marcar como Em Análise" 
-                    onClick={() => handleStatusChange(report.id, 'em_andamento')}
-                  >
-                    <FaEdit />
-                  </button>
-                  <button 
-                    className="action-btn resolve" 
-                    title="Marcar como Resolvido" 
-                    onClick={() => handleStatusChange(report.id, 'resolvido')}
-                  >
-                    <FaCheck />
-                  </button>
+                  <button className="action-btn view" onClick={() => onViewReport(report.id)}><FaEye /></button>
+                  <button className="action-btn edit" onClick={() => handleStatusChange(report.id, 'analise')}><FaEdit /></button>
+                  <button className="action-btn resolve" onClick={() => handleStatusChange(report.id, 'resolvido')}><FaCheck /></button>
+                  <button className="action-btn delete" onClick={() => handleDeleteReport(report.id)}><FaTrash /></button>
                 </td>
               </tr>
             ))}

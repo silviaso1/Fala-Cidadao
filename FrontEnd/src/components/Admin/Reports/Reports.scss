@@ -162,6 +162,22 @@
   }
 }
 
+.filter-search {
+  background-color: $cor-fundo;
+  border: 1px solid $cor-borda;
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: $cor-texto;
+  font-size: 14px;
+  width: 250px;
+  margin-right: 10px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+
 .action-btn {
   background: none;
   border: none;
@@ -206,4 +222,5 @@
     width: 100%;
     flex-wrap: wrap;
   }
+  
 }

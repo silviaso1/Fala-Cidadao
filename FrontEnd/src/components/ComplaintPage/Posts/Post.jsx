@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../../../contexts/useAuth'; // ajuste o caminho se necessário
+import { useAuth } from '../../../contexts/useAuth';
 import axios from 'axios';
 import PostActions from '../Actions/Actions';
 import CommentForm from '../FormComment/FormComment';
@@ -18,24 +18,25 @@ function Post({ post, addComment, refreshPosts }) {
     addComment(post.id, commentText);
   };
 
-
   const toggleLike = async () => {
     try {
       await axios.post(
         `http://localhost:3001/denuncias/${post.id}/like/toggle?usuarioId=${usuarioId}`
       );
-
       refreshPosts();
-
     } catch (error) {
       console.error('Erro ao alternar like:', error);
       alert('Erro ao curtir denúncia. Tente novamente.');
     }
   };
 
+  const getInitial = (name) => name?.charAt(0).toUpperCase();
+
   return (
     <div className="post-card" data-user={post.user.name} data-date={post.date}>
       <div className="post-header">
+        <div className="post-avatar">{getInitial(post.user.name)}</div>
+
         <div className="post-user-info">
           <h3 className="post-user">{post.user.name}</h3>
           <span className="post-time">
@@ -44,7 +45,7 @@ function Post({ post, addComment, refreshPosts }) {
         </div>
       </div>
 
-      <h4 className='fw-bolder'>{post.title}</h4>
+      <h4 className="post-title">{post.title}</h4>
       <p className="post-content">{post.content}</p>
 
       <PostActions

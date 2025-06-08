@@ -11,3 +11,19 @@
    
 }
 
+.page-header{
+  h1{
+    margin-bottom: 30px;
+    margin-top: -80px;
+  }
+}
+
+.stats {
+  background-color: rgba(51, 50, 50, 0.2);
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px); 
+  -webkit-backdrop-filter: blur(10px); 
+}
+
+
