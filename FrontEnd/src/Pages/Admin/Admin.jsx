@@ -41,22 +41,14 @@ const Admin = () => {
     fetchReports();
   }, []);
 
-  const getStatusText = (status) => {
-    switch(status) {
-      // case 'denunciado': return 'Denunciado';
-      case 'resolvido': return 'Resolvido';
-      case 'pendente': return 'Pendente';
-      case 'analise': return 'Em Análise';
-      default: return status;
-    }
-  };
+
 
 
   const handleStatusChange = (reportId, newStatus) => {
     setReports(reports.map(report => 
       report.id === reportId ? { ...report, status: newStatus } : report
     ));
-    alert(`Status da denúncia ${reportId} alterado para ${getStatusText(newStatus)}`);
+    
   };
 
 
@@ -76,20 +68,21 @@ const Admin = () => {
               <h3 className="chart-title">Denúncias por Status</h3>
               <div className="chart-legend">
                 <div className="legend-item">
-                  <div className="legend-color" style={{ backgroundColor: 'var(--cor-pendente)' }}></div>
+                  <div className="legend-color" ></div>
                   <span>Pendente</span>
                 </div>
                 <div className="legend-item">
-                  <div className="legend-color" style={{ backgroundColor: 'var(--cor-analise)' }}></div>
+                  <div className="legend-color"></div>
                   <span>Em Análise</span>
                 </div>
                 <div className="legend-item">
-                  <div className="legend-color" style={{ backgroundColor: 'var(--cor-resolvido)' }}></div>
+                  <div className="legend-color"></div>
                   <span>Resolvido</span>
                 </div>
               </div>
             </div>
             <StatusChart reports={reports} />
+            {console.log(reports)}
           </div>
           {/* <div className="chart-card">
             <div className="chart-header">

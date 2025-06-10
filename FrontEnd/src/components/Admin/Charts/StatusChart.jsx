@@ -8,10 +8,11 @@ const StatusChart = ({ reports }) => {
 
   useEffect(() => {
     const statusCounts = {
-      pendente: reports.filter(r => r.status === 'pendente').length,
-      analise: reports.filter(r => r.status === 'analise').length,
+      pendente: reports.filter(r => r.status === 'denunciado').length,
+      analise: reports.filter(r => r.status === 'em_andamento').length,
       resolvido: reports.filter(r => r.status === 'resolvido').length
     };
+    console.log("aaaaaa", statusCounts);
 
     if (chartInstance.current) {
       chartInstance.current.destroy();
