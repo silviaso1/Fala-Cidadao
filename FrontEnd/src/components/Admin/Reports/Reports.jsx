@@ -15,26 +15,26 @@ const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
   const { usuarioId } = useAuth();
 
   const filteredReports = reports.filter(report => {
-  const lowerSearch = searchTerm.toLowerCase();
+    const lowerSearch = searchTerm.toLowerCase();
 
-  // Garantindo que os campos existam para evitar erro
-  const title = report.title ? report.title.toLowerCase() : '';
-  const content = report.content ? report.content.toLowerCase() : '';
-  const location = report.location ? report.location.toLowerCase() : '';
-  const userName = report.user && report.user.name ? report.user.name.toLowerCase() : '';
-  const userUsername = report.user && report.user.username ? report.user.username.toLowerCase() : '';
+    // Garantindo que os campos existam para evitar erro
+    const title = report.title ? report.title.toLowerCase() : '';
+    const content = report.content ? report.content.toLowerCase() : '';
+    const location = report.location ? report.location.toLowerCase() : '';
+    const userName = report.user && report.user.name ? report.user.name.toLowerCase() : '';
+    const userUsername = report.user && report.user.username ? report.user.username.toLowerCase() : '';
 
-  const matchesSearch =
-    title.includes(lowerSearch) ||
-    content.includes(lowerSearch) ||
-    location.includes(lowerSearch) ||
-    userName.includes(lowerSearch) ||
-    userUsername.includes(lowerSearch);
+    const matchesSearch =
+      title.includes(lowerSearch) ||
+      content.includes(lowerSearch) ||
+      location.includes(lowerSearch) ||
+      userName.includes(lowerSearch) ||
+      userUsername.includes(lowerSearch);
 
-  const matchesStatus = statusFilter === 'all' || report.status === statusFilter;
+    const matchesStatus = statusFilter === 'all' || report.status === statusFilter;
 
-  return matchesSearch && matchesStatus;
-});
+    return matchesSearch && matchesStatus;
+  });
 
 
   const indexOfLastReport = currentPage * reportsPerPage;
@@ -47,18 +47,18 @@ const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
   };
 
   const getStatusText = (status) => {
-    switch(status) {
+    switch (status) {
       case 'denunciado': return 'Pendente';
-      case 'analise': return 'Em Análise';
+      case 'em_andamento': return 'Em Análise';
       case 'resolvido': return 'Resolvido';
-      default: return status;
+      default: return status.charAt(0).toUpperCase() + status.slice(1);
     }
   };
 
   const getStatusIcon = (status) => {
-    switch(status) {
+    switch (status) {
       case 'denunciado': return <FaClock />;
-      case 'analise': return <FaSearch />;
+      case 'em_andamento': return <FaSearch />;
       case 'resolvido': return <FaCheck />;
       default: return <FaQuestion />;
     }
@@ -109,8 +109,8 @@ const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
         />
 
         <div className="table-filters">
-          <select 
-            className="filter-select" 
+          <select
+            className="filter-select"
             value={statusFilter}
             onChange={(e) => {
               setStatusFilter(e.target.value);
@@ -165,7 +165,7 @@ const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
                 </td>
                 <td>
                   <button className="action-btn view" onClick={() => onViewReport(report.id)}><FaEye /></button>
-                  <button className="action-btn edit" onClick={() => handleStatusChange(report.id, 'analise')}><FaEdit /></button>
+                  <button className="action-btn edit" onClick={() => handleStatusChange(report.id, 'em_andamento')}><FaEdit /></button>
                   <button className="action-btn resolve" onClick={() => handleStatusChange(report.id, 'resolvido')}><FaCheck /></button>
                   <button className="action-btn delete" onClick={() => handleDeleteReport(report.id)}><FaTrash /></button>
                 </td>

@@ -4,7 +4,7 @@ import './Stats.scss';
 const Stats = ({ reports }) => {
   const totalReports = reports.length;
   const pendingReports = reports.filter(r => r.status === 'denunciado').length;
-  const analysisReports = reports.filter(r => r.status === 'analise').length;
+  const analysisReports = reports.filter(r => r.status === 'em_andamento').length;
   const resolvedReports = reports.filter(r => r.status === 'resolvido').length;
 
   return (
