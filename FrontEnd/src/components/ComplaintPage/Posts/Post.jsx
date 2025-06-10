@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useAuth } from '../../../contexts/useAuth';
 import axios from 'axios';
@@ -6,9 +7,11 @@ import CommentForm from '../FormComment/FormComment';
 import Comment from '../Comment/Comment';
 import './posts.scss';
 
-function Post({ post, addComment, refreshPosts }) {
+function Post({ post, addComment }) {
   const { usuarioId } = useAuth();
   const [showComments, setShowComments] = useState(false);
+  const [likes, setLikes] = useState(post.likes || 0);
+  const [likedByUser, setLikedByUser] = useState(post.likedByUser || false);
 
   const toggleComments = () => {
     setShowComments(!showComments);
@@ -23,7 +26,10 @@ function Post({ post, addComment, refreshPosts }) {
       await axios.post(
         `http://localhost:3001/denuncias/${post.id}/like/toggle?usuarioId=${usuarioId}`
       );
-      refreshPosts();
+
+      // Alterna o estado localmente sem precisar refazer o fetch
+      setLikedByUser((prev) => !prev);
+      setLikes((prevLikes) => likedByUser ? prevLikes - 1 : prevLikes + 1);
     } catch (error) {
       console.error('Erro ao alternar like:', error);
       alert('Erro ao curtir denúncia. Tente novamente.');
@@ -49,11 +55,14 @@ function Post({ post, addComment, refreshPosts }) {
       <p className="post-content">{post.content}</p>
 
       <PostActions
-        post={{ ...post }}
+        post={{ ...post, likes }}
         toggleComments={toggleComments}
         showComments={showComments}
         toggleLike={toggleLike}
+        isLiked={likedByUser}
       />
+
+
 
       <div className={`comments-section ${showComments ? 'expanded' : ''}`}>
         <CommentForm postId={post.id} handleAddComment={handleAddComment} />
@@ -68,3 +77,12 @@ function Post({ post, addComment, refreshPosts }) {
 }
 
 export default Post;
+
+
+
+
+
+
+
+
+

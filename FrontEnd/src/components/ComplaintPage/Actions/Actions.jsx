@@ -11,6 +11,7 @@ function Actions({ post, toggleComments, showComments, toggleLike, isLiked }) {
         {showComments ? <FaComment /> : <FaRegComment />}
         <span>{post.comments}</span>
       </div>
+
       <div
         className={`post-action ${isLiked ? 'active' : ''}`}
         onClick={toggleLike}
@@ -18,6 +19,9 @@ function Actions({ post, toggleComments, showComments, toggleLike, isLiked }) {
         {isLiked ? <FaHeart /> : <FaRegHeart />}
         <span>{post.likes}</span>
       </div>
+
+
+
     </div>
   );
 }
