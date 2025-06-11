@@ -7,10 +7,9 @@ import "./Sidebar.scss";
 import Logo from "../../../assets/logo2.png";
 
 const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
-  const { usuarioNome, logout, usuarioId } = useAuth(); // Assumindo que o contexto fornece o ID do usuário
+  const { usuarioNome, logout, usuarioId } = useAuth();
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -19,8 +18,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
   const notificationsRef = useRef(null);
   const searchRef = useRef(null);
 
-  const [profileEditMode, setProfileEditMode] = useState('email'); // 'email' ou 'password'
-
+  const [profileEditMode, setProfileEditMode] = useState('email');
   const [notifications, setNotifications] = useState([
     { id: 1, text: 'Nova mensagem recebida', time: '2 horas', unread: true },
     { id: 2, text: 'Sua denúncia foi resolvida', time: '1 hora', unread: true }
@@ -41,19 +39,20 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
         setShowNotifications(false);
       }
       if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowSearch(false);
+        setSearchQuery('');
+        onSearch('');
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [onSearch]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     onSearch(searchQuery);
-    if (isMobile) return;
-    setShowSearch(false);
-    if (!sidebarOpen) toggleSidebar();
+    if (isMobile) {
+      setSearchQuery('');
+    }
   };
 
   const clearSearch = () => {
@@ -63,7 +62,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
 
   const clearNotifications = () => {
     setNotifications(notifications.map(n => ({ ...n, unread: false })));
-    setShowNotifications(false);
   };
 
   const handleProfileUpdate = async (e) => {
@@ -81,7 +79,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
       }
 
       try {
-        const res = await fetch(`http://localhost:3001/denuncias/${usuarioId}`, {
+        const res = await fetch(`http://localhost:3001/usuarios/${usuarioId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email }),
@@ -105,7 +103,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
       }
 
       try {
-        const res = await fetch(`http://localhost:3001/denuncias/${usuarioId}`, {
+        const res = await fetch(`http://localhost:3001/usuarios/${usuarioId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ senha: password }),
@@ -122,44 +120,22 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
   };
 
   const toggleNotifications = () => {
-    if (!isMobile && !sidebarOpen) {
-      toggleSidebar();
-      setTimeout(() => setShowNotifications(true), 300);
-    } else {
-      setShowNotifications(!showNotifications);
-    }
-    if (!showNotifications && notifications.some(n => n.unread)) {
+    if (notifications.some(n => n.unread)) {
       clearNotifications();
     }
-  };
-
-  const toggleSearch = () => {
-    if (!isMobile && !sidebarOpen) {
-      toggleSidebar();
-      setTimeout(() => setShowSearch(true), 300);
-    } else {
-      setShowSearch(!showSearch);
-    }
+    setShowNotifications(!showNotifications);
   };
 
   const navItems = [
     { 
       icon: <FiBell />, 
       label: 'Notificações', 
-      active: false, 
       count: notifications.filter(n => n.unread).length,
       action: toggleNotifications
     },
     { 
-      icon: <FiSearch />, 
-      label: 'Pesquisar', 
-      active: false,
-      action: toggleSearch
-    },
-    { 
       icon: <FiUser />, 
       label: 'Perfil', 
-      active: false,
       action: () => setShowProfileModal(true)
     }
   ];
@@ -176,17 +152,15 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
             {sidebarOpen && <h2 className="logo"><img src={Logo} alt="logo" /></h2>}
           </div>
 
-          {(sidebarOpen || showSearch) && (
-            <div className={`sidebar-search ${showSearch ? 'force-show' : ''}`} ref={searchRef}>
+          <div className={`sidebar-search-container ${sidebarOpen ? 'open' : ''}`} ref={searchRef}>
+            {sidebarOpen ? (
               <form onSubmit={handleSearch}>
                 <div className="search-container">
-                  <FiSearch className="search-icon" />
                   <input
                     type="text"
                     placeholder="Buscar posts..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    autoFocus={showSearch}
                   />
                   {searchQuery && (
                     <button type="button" className="clear-search" onClick={clearSearch}>
@@ -195,15 +169,24 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
                   )}
                 </div>
               </form>
-            </div>
-          )}
+            ) : (
+              <button className="search-icon-button" onClick={() => {
+                toggleSidebar();
+                setTimeout(() => {
+                  document.querySelector('.search-container input')?.focus();
+                }, 300);
+              }}>
+                <FiSearch />
+              </button>
+            )}
+          </div>
 
           <nav className="sidebar-nav">
             {navItems.map((item) => (
               <button 
                 key={item.label}
-                className={`nav-item ${item.active ? 'active' : ''}`}
-                onClick={item.action || (() => {})}
+                className="nav-item"
+                onClick={item.action}
               >
                 <span className="nav-icon">{item.icon}</span>
                 {sidebarOpen && (
@@ -217,19 +200,14 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
           </nav>
 
           {sidebarOpen && showNotifications && (
-            <div className="sidebar-content">
+            <div className="sidebar-content" ref={notificationsRef}>
               <div className="sidebar-section">
                 <div className="notifications-header">
                   <h3>Notificações</h3>
-                  {notifications.some(n => n.unread) && (
-                    <button className="clear-notifications" onClick={clearNotifications}>
-                      <FiX size={16} /> Limpar
-                    </button>
-                  )}
                 </div>
                 <div className="notifications-list">
                   {notifications.map(notification => (
-                    <div key={notification.id} className={`notification-item ${notification.unread ? 'unread' : ''}`}>
+                    <div key={notification.id} className="notification-item">
                       <p>{notification.text}</p>
                       <span className="notification-time">{notification.time}</span>
                     </div>
@@ -264,70 +242,46 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
 
       {/* Barra Inferior Mobile */}
       {isMobile && (
-        <>
-          <div className="mobile-search-container" ref={searchRef}>
-            <form onSubmit={handleSearch}>
-              <div className="mobile-search">
-                <FiSearch className="search-icon" />
-                <input
-                  type="text"
-                  placeholder="Buscar posts..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                {searchQuery && (
-                  <button type="button" className="clear-search" onClick={clearSearch}>
-                    <FiX size={16} />
-                  </button>
+        <div className="mobile-bottom-bar">
+          <nav className="mobile-nav">
+            <div className="mobile-nav-item" onClick={toggleNotifications}>
+              <div className="notification-wrapper">
+                <FiBell className="mobile-nav-icon" />
+                {notifications.filter(n => n.unread).length > 0 && (
+                  <span className="mobile-badge">
+                    {notifications.filter(n => n.unread).length}
+                  </span>
                 )}
               </div>
-            </form>
-          </div>
-
-          <div className="mobile-bottom-bar">
-            <nav className="mobile-nav">
-              <div className="mobile-nav-item" onClick={toggleNotifications}>
-                <div className="notification-wrapper">
-                  <FiBell className="mobile-nav-icon" />
-                  {notifications.filter(n => n.unread).length > 0 && (
-                    <span className="mobile-badge">
-                      {notifications.filter(n => n.unread).length}
-                    </span>
-                  )}
-                </div>
-                <span className="mobile-nav-label">Notificações</span>
-                {showNotifications && (
-                  <div className="mobile-notifications-box" ref={notificationsRef}>
-                    <div className="notifications-header">
-                      <h3>Notificações</h3>
-                      <button className="clear-notifications" onClick={clearNotifications}>
-                        <FiX size={16} />
-                      </button>
-                    </div>
-                    <div className="notifications-list">
-                      {notifications.map(notification => (
-                        <div key={notification.id} className="notification-item">
-                          <p>{notification.text}</p>
-                          <span className="notification-time">{notification.time}</span>
-                        </div>
-                      ))}
-                    </div>
+              <span className="mobile-nav-label">Notificações</span>
+              {showNotifications && (
+                <div className="mobile-notifications-box" ref={notificationsRef}>
+                  <div className="notifications-header">
+                    <h3>Notificações</h3>
                   </div>
-                )}
-              </div>
+                  <div className="notifications-list">
+                    {notifications.map(notification => (
+                      <div key={notification.id} className="notification-item">
+                        <p>{notification.text}</p>
+                        <span className="notification-time">{notification.time}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
 
-              <div className="mobile-nav-item" onClick={toggleSearch}>
-                <FiSearch className="mobile-nav-icon" />
-                <span className="mobile-nav-label">Pesquisar</span>
-              </div>
+            <div className="mobile-nav-item" onClick={() => setShowProfileModal(true)}>
+              <FiUser className="mobile-nav-icon" />
+              <span className="mobile-nav-label">Perfil</span>
+            </div>
 
-              <div className="mobile-nav-item" onClick={logout}>
-                <FiLogOut className="mobile-nav-icon" />
-                <span className="mobile-nav-label">Sair</span>
-              </div>
-            </nav>
-          </div>
-        </>
+            <div className="mobile-nav-item" onClick={logout}>
+              <FiLogOut className="mobile-nav-icon" />
+              <span className="mobile-nav-label">Sair</span>
+            </div>
+          </nav>
+        </div>
       )}
 
       {/* Modal de Perfil */}
@@ -415,6 +369,28 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
               </button>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* Search Mobile */}
+      {isMobile && (
+        <div className="mobile-search-container" ref={searchRef}>
+          <form onSubmit={handleSearch}>
+            <div className="mobile-search">
+              <FiSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Buscar posts..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button type="button" className="clear-search" onClick={clearSearch}>
+                  <FiX size={16} />
+                </button>
+              )}
+            </div>
+          </form>
         </div>
       )}
     </>

@@ -8,6 +8,7 @@
   border: 1px solid $cor-borda;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease;
+  position: relative;
 
   &:hover {
     transform: translateY(-4px);
@@ -20,6 +21,7 @@
   align-items: center;
   gap: 15px;
   margin-bottom: 16px;
+  position: relative;
 }
 
 .post-avatar {
@@ -33,12 +35,12 @@
   color: white;
   font-weight: 700;
   font-size: 20px;
- 
 }
 
 .post-user-info {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .post-user {
@@ -63,6 +65,46 @@
   line-height: 1.6;
   color: $cor-texto;
   margin-bottom: 20px;
+}
+
+.post-menu {
+  position: relative;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $cor-texto-claro;
+  padding: 5px;
+  
+  &:hover {
+    color: $cor-primaria;
+  }
+}
+
+.menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  min-width: 150px;
+  overflow: hidden;
+}
+
+.delete-button {
+  width: 100%;
+  padding: 8px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+
+  cursor: pointer;
+  
+
 }
 
 .post-actions {
@@ -180,36 +222,6 @@
   font-size: 14px;
 }
 
-.lista-denuncias {
-  h2 {
-    margin-bottom: 16px;
-  }
-}
-
-.denuncias-lista {
-  list-style: none;
-  padding: 0;
-}
-
-.denuncia-item {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.btn-excluir {
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: darkred;
-  }
-}
 .post-action.liked {
   color: red;
 
@@ -217,4 +229,3 @@
     fill: red;
   }
 }
-
