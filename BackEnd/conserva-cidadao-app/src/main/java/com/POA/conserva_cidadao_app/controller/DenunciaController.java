@@ -3,7 +3,6 @@ package com.POA.conserva_cidadao_app.controller;
 import com.POA.conserva_cidadao_app.dto.DenunciaRequestDTO;
 import com.POA.conserva_cidadao_app.dto.DenunciaResponseDTO;
 import com.POA.conserva_cidadao_app.model.Denuncia;
-import com.POA.conserva_cidadao_app.model.StatusDenuncia;
 import com.POA.conserva_cidadao_app.service.DenunciaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -80,13 +79,10 @@ public class DenunciaController {
         }
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarDenuncia(
             @PathVariable Long id,
-            @RequestBody Map<String, Object> body) {
-
-        Long usuarioId = Long.valueOf(body.get("usuarioId").toString());
+            @RequestParam Long usuarioId) {  // Mudança aqui, usando RequestParam
 
         try {
             denunciaService.deletarDenuncia(id, usuarioId);

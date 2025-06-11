@@ -1,11 +1,13 @@
-import { FiChevronLeft, FiChevronRight, FiHome, FiBell, FiUser, FiX, FiMail, FiLock, FiLogOut, FiSearch } from 'react-icons/fi';
+import { 
+  FiChevronLeft, FiChevronRight, FiBell, FiUser, FiX, FiMail, FiLock, FiLogOut, FiSearch 
+} from 'react-icons/fi';
 import { useAuth } from '../../../contexts/useAuth';
 import { useState, useEffect, useRef } from 'react';
 import "./Sidebar.scss";
 import Logo from "../../../assets/logo2.png";
 
 const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
-  const { usuarioNome, logout } = useAuth();
+  const { usuarioNome, logout, usuarioId } = useAuth(); // Assumindo que o contexto fornece o ID do usuário
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -16,26 +18,23 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const notificationsRef = useRef(null);
   const searchRef = useRef(null);
-  
-  // Dados de notificações
+
+  const [profileEditMode, setProfileEditMode] = useState('email'); // 'email' ou 'password'
+
   const [notifications, setNotifications] = useState([
     { id: 1, text: 'Nova mensagem recebida', time: '2 horas', unread: true },
     { id: 2, text: 'Sua denúncia foi resolvida', time: '1 hora', unread: true }
   ]);
 
-  // Verifica se é mobile
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth <= 1090);
     };
-    
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
-    
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
-  // Fecha notificações e busca ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
@@ -45,11 +44,8 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
         setShowSearch(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleSearch = (e) => {
@@ -70,10 +66,59 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
     setShowNotifications(false);
   };
 
-  const handleProfileUpdate = (e) => {
+  const handleProfileUpdate = async (e) => {
     e.preventDefault();
-    // Lógica para atualizar perfil
-    setShowProfileModal(false);
+
+    if (!usuarioId) {
+      alert('Usuário não identificado');
+      return;
+    }
+
+    if (profileEditMode === 'email') {
+      if (!email.trim()) {
+        alert('Informe um email válido.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`http://localhost:3001/denuncias/${usuarioId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+        if (!res.ok) throw new Error('Erro ao atualizar email');
+        alert('Email atualizado com sucesso!');
+        setShowProfileModal(false);
+        setEmail('');
+      } catch (error) {
+        alert('Falha ao atualizar email: ' + error.message);
+      }
+
+    } else if (profileEditMode === 'password') {
+      if (!password || !confirmPassword) {
+        alert('Preencha ambos os campos de senha.');
+        return;
+      }
+      if (password !== confirmPassword) {
+        alert('As senhas não coincidem!');
+        return;
+      }
+
+      try {
+        const res = await fetch(`http://localhost:3001/denuncias/${usuarioId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ senha: password }),
+        });
+        if (!res.ok) throw new Error('Erro ao atualizar senha');
+        alert('Senha atualizada com sucesso!');
+        setShowProfileModal(false);
+        setPassword('');
+        setConfirmPassword('');
+      } catch (error) {
+        alert('Falha ao atualizar senha: ' + error.message);
+      }
+    }
   };
 
   const toggleNotifications = () => {
@@ -83,7 +128,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
     } else {
       setShowNotifications(!showNotifications);
     }
-    
     if (!showNotifications && notifications.some(n => n.unread)) {
       clearNotifications();
     }
@@ -99,7 +143,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
   };
 
   const navItems = [
-   
     { 
       icon: <FiBell />, 
       label: 'Notificações', 
@@ -133,7 +176,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
             {sidebarOpen && <h2 className="logo"><img src={Logo} alt="logo" /></h2>}
           </div>
 
-          {/* Campo de Busca Desktop - Visível quando expandido ou quando showSearch é true */}
           {(sidebarOpen || showSearch) && (
             <div className={`sidebar-search ${showSearch ? 'force-show' : ''}`} ref={searchRef}>
               <form onSubmit={handleSearch}>
@@ -223,7 +265,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
       {/* Barra Inferior Mobile */}
       {isMobile && (
         <>
-          {/* Campo de Busca Mobile (aparece acima da barra) */}
           <div className="mobile-search-container" ref={searchRef}>
             <form onSubmit={handleSearch}>
               <div className="mobile-search">
@@ -255,8 +296,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
                   )}
                 </div>
                 <span className="mobile-nav-label">Notificações</span>
-                
-                {/* Caixa de Notificações */}
                 {showNotifications && (
                   <div className="mobile-notifications-box" ref={notificationsRef}>
                     <div className="notifications-header">
@@ -276,12 +315,12 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
                   </div>
                 )}
               </div>
-              
+
               <div className="mobile-nav-item" onClick={toggleSearch}>
                 <FiSearch className="mobile-nav-icon" />
                 <span className="mobile-nav-label">Pesquisar</span>
               </div>
-              
+
               <div className="mobile-nav-item" onClick={logout}>
                 <FiLogOut className="mobile-nav-icon" />
                 <span className="mobile-nav-label">Sair</span>
@@ -299,42 +338,80 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
               <FiX />
             </button>
             <h2>Editar Perfil</h2>
+
+            <div className="profile-edit-mode">
+              <button
+                type="button"
+                className={profileEditMode === 'email' ? 'active' : ''}
+                onClick={() => setProfileEditMode('email')}
+              >
+                Mudar Email
+              </button>
+              <button
+                type="button"
+                className={profileEditMode === 'password' ? 'active' : ''}
+                onClick={() => setProfileEditMode('password')}
+              >
+                Mudar Senha
+              </button>
+            </div>
+
             <form onSubmit={handleProfileUpdate}>
-              <div className="form-group">
-                <label>
-                  <FiMail /> Email
-                </label>
-                <input 
-                  type="email" 
-                  value={email} 
-                  onChange={(e) => setEmail(e.target.value)} 
-                  placeholder="Novo email" 
-                />
-              </div>
-              <div className="form-group">
-                <label>
-                  <FiLock /> Nova Senha
-                </label>
-                <input 
-                  type="password" 
-                  value={password} 
-                  onChange={(e) => setPassword(e.target.value)} 
-                  placeholder="Nova senha" 
-                />
-              </div>
-              <div className="form-group">
-                <label>
-                  <FiLock /> Confirmar Senha
-                </label>
-                <input 
-                  type="password" 
-                  value={confirmPassword} 
-                  onChange={(e) => setConfirmPassword(e.target.value)} 
-                  placeholder="Confirmar senha" 
-                />
-              </div>
-              <button type="submit" className="save-button">
-                Salvar Alterações
+              {profileEditMode === 'email' && (
+                <div className="form-group">
+                  <label htmlFor="email">Novo Email:</label>
+                  <div className="input-icon">
+                    <FiMail />
+                    <input
+                      type="email"
+                      id="email"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      placeholder="Digite o novo email"
+                      required
+                      autoFocus
+                    />
+                  </div>
+                </div>
+              )}
+
+              {profileEditMode === 'password' && (
+                <>
+                  <div className="form-group">
+                    <label htmlFor="password">Nova Senha:</label>
+                    <div className="input-icon">
+                      <FiLock />
+                      <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        placeholder="Digite a nova senha"
+                        required
+                        autoFocus
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="confirmPassword">Confirmar Senha:</label>
+                    <div className="input-icon">
+                      <FiLock />
+                      <input
+                        type="password"
+                        id="confirmPassword"
+                        value={confirmPassword}
+                        onChange={e => setConfirmPassword(e.target.value)}
+                        placeholder="Confirme a nova senha"
+                        required
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <button type="submit" className="save-btn">
+                Salvar
               </button>
             </form>
           </div>

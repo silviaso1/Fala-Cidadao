@@ -179,3 +179,42 @@
   margin-top: 5px;
   font-size: 14px;
 }
+
+.lista-denuncias {
+  h2 {
+    margin-bottom: 16px;
+  }
+}
+
+.denuncias-lista {
+  list-style: none;
+  padding: 0;
+}
+
+.denuncia-item {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.btn-excluir {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darkred;
+  }
+}
+.post-action.liked {
+  color: red;
+
+  svg {
+    fill: red;
+  }
+}
+

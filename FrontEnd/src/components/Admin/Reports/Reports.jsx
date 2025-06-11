@@ -17,7 +17,6 @@ const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
   const filteredReports = reports.filter(report => {
     const lowerSearch = searchTerm.toLowerCase();
 
-    // Garantindo que os campos existam para evitar erro
     const title = report.title ? report.title.toLowerCase() : '';
     const content = report.content ? report.content.toLowerCase() : '';
     const location = report.location ? report.location.toLowerCase() : '';
@@ -35,7 +34,6 @@ const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
 
     return matchesSearch && matchesStatus;
   });
-
 
   const indexOfLastReport = currentPage * reportsPerPage;
   const indexOfFirstReport = indexOfLastReport - reportsPerPage;

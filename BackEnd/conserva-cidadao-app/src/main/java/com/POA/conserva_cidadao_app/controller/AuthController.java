@@ -1,6 +1,5 @@
 package com.POA.conserva_cidadao_app.controller;
 
-import com.POA.conserva_cidadao_app.dto.UsuarioResponseDTO;
 import com.POA.conserva_cidadao_app.model.Usuario;
 import com.POA.conserva_cidadao_app.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +56,16 @@ public class AuthController {
             }
 
             return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return handleException(e);
+        }
+    }
+
+    @PutMapping("/usuarios/{id}")
+    public ResponseEntity<?> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioAtualizado) {
+        try {
+            Usuario atualizado = authService.atualizarUsuario(id, usuarioAtualizado);
+            return ResponseEntity.ok(atualizado);
         } catch (Exception e) {
             return handleException(e);
         }
