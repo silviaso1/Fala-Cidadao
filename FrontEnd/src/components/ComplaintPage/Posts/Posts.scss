@@ -1,14 +1,17 @@
 @use "../../../styles/App.scss" as *;
+@use 'sass:color';
+
 
 .post-card {
   background-color: $cor-card;
   border-radius: 16px;
-  padding: 24px;
+  padding: 28px;
   margin-bottom: 24px;
   border: 1px solid $cor-borda;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease;
   position: relative;
+  margin-left: 30px;
 
   &:hover {
     transform: translateY(-4px);
@@ -76,7 +79,7 @@
   border: none;
   cursor: pointer;
   color: $cor-texto-claro;
-  padding: 5px;
+  padding: 10px;
   
   &:hover {
     color: $cor-primaria;
@@ -88,24 +91,41 @@
   right: 0;
   top: 100%;
   background: white;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
   min-width: 150px;
   overflow: hidden;
+  border: 1px solid $cor-borda;
+  
 }
 
 .delete-button {
   width: 100%;
-  padding: 8px 16px;
+  padding: 5px 5px;
+  font-size: small;
   text-align: left;
-  background: none;
+  background: $cor-card;
+  color: $cor-texto;
   border: none;
-
   cursor: pointer;
-  
+  transition: background-color 0.3s ease;
+  text-align: center;
 
+  &:hover {
+    background-color: lighten($cor-card, 5%);
+  }
+
+  // Tema escuro
+  @media (prefers-color-scheme: dark) {
+    background: linear-gradient(
+      135deg,
+      color.adjust($cor-card, $lightness: -3%),
+      color.adjust($cor-card, $lightness: -8%)
+    );
+  }
 }
+
 
 .post-actions {
   display: flex;
@@ -228,4 +248,13 @@
   svg {
     fill: red;
   }
+}
+
+@media (max-width: 1080px) {
+  .post-card {
+    padding: 20px;
+    margin-left: 0;
+  }
+
+ 
 }

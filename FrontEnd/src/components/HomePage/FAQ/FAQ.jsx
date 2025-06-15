@@ -10,11 +10,7 @@ const FAQ = () => {
     {
       question: "O que é o Fala Cidadão?",
       answer: "O Fala Cidadão é um canal de comunicação criado para receber reclamações e denúncias de problemas urbanos."
-    },
-    {
-      question: "Posso anexar fotos, vídeos ou documentos?",
-      answer: "Sim. O sistema permite anexar arquivos para ajudar na análise e na resolução da manifestação."
-    },
+    },   
     {
       question: "Existe algum custo para usar o Fala Cidadão?",
       answer: "Não. O serviço é totalmente gratuito e acessível a qualquer cidadão."
@@ -29,13 +25,14 @@ const FAQ = () => {
       answer: "Sim! O sistema é responsivo e pode ser acessado por celular, tablet ou computador."
     },
     {
-      question: "É necessário anexar documentos ou evidências?",
-      answer: "Não é obrigatório, mas anexar provas (como fotos ou vídeos) é recomendável."
+      question: "Como posso acompanhar o status da minha manifestação?",
+      answer: "Você pode acompanhar o status diretamente no site, acessando sua conta e verificando suas manifestações."
     },
     {
-      question: "É necessário anexar documentos ou evidências?",
-      answer: "Não é obrigatório, mas anexar provas (como fotos ou vídeos) é recomendável."
+      question: "Quais tipos de problemas posso denunciar?",
+      answer: "Você pode denunciar problemas como buracos nas ruas, falta de iluminação pública, lixo acumulado, entre outros."
     },
+   
   ];
 
   const displayedFaqs = showAll ? allFaqs : allFaqs.slice(0, 4);

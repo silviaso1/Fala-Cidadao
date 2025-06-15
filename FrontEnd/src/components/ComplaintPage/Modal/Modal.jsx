@@ -128,8 +128,7 @@ function Modal({ showModal, closeModal, createNewPost }) {
               {formErrors.descricao && <span className="text-danger">{formErrors.descricao}</span>}
             </fieldset>
 
-            {renderInput('Imagens', 'imagens', 'Mande as imagens do problema (.png ou .jpg)', 'file')}
-
+            
             <button type="submit" className="post-submit mt-3">Publicar</button>
           </form>
         </div>

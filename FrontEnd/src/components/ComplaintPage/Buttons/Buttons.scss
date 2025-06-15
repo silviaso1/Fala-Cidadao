@@ -73,17 +73,7 @@
     border: 1px solid $cor-borda;
     pointer-events: none;
 
-    &::before {
-        content: "";
-        position: absolute;
-        bottom: -8px;
-        right: 25px;
-        width: 20px;
-        height: 20px;
-        background: white;
-        transform: rotate(45deg);
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.05);
-    }
+    
 
     &.open {
         opacity: 1;
@@ -220,4 +210,24 @@
             color: color.adjust($cor-primaria, $lightness: 10%);
         }
     }
+}
+
+@media (max-width: 768px) {
+    .floating-buttons {
+        bottom: 90px;
+        right: 20px;
+    }
+    .fab {
+        width: 55px;
+        height: 55px;
+        font-size: 18px;
+        box-shadow: 0 3px 10px rgba(108, 92, 231, 0.2);
+        
+    }
+    .filter-panel  {
+        width: 240px;
+        bottom: 60px;
+    }
+
+   
 }

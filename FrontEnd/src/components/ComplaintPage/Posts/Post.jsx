@@ -6,12 +6,29 @@ import CommentForm from '../FormComment/FormComment';
 import Comment from '../Comment/Comment';
 import './posts.scss';
 
-function Post({ post, addComment, onDelete }) {
+function Post({ post, addComment, onDelete, searchQuery }) {
   const { usuarioId } = useAuth();
   const [showComments, setShowComments] = useState(false);
   const [likes, setLikes] = useState(post.likes || 0);
   const [likedByUser, setLikedByUser] = useState(post.likedByUser || false);
   const [showMenu, setShowMenu] = useState(false);
+
+  // Função para verificar se o post corresponde à busca
+  const matchesSearch = () => {
+    if (!searchQuery) return true;
+    
+    const query = searchQuery.toLowerCase();
+    return (
+      post.title.toLowerCase().includes(query) ||
+      post.content.toLowerCase().includes(query) ||
+      post.user.name.toLowerCase().includes(query)
+    );
+  };
+
+  // Se não corresponder à busca, não renderiza o post
+  if (!matchesSearch()) {
+    return null;
+  }
 
   const toggleComments = () => setShowComments(!showComments);
 

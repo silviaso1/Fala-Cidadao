@@ -18,11 +18,17 @@ function Complaint() {
   const [showModal, setShowModal] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(''); // Estado para armazenar a busca
 
   const [posts, setPosts] = usePosts(usuarioId, activeTab, currentFilter, currentSort);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const toggleUserDropdown = () => setShowUserDropdown(!showUserDropdown);
+
+  // Função para lidar com a busca
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
 
   const createNewPost = async (formData) => {
     try {
@@ -59,7 +65,11 @@ function Complaint() {
 
   return (
     <div className="app-container">
-      <Sidebar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar 
+        sidebarOpen={sidebarOpen} 
+        toggleSidebar={toggleSidebar} 
+        onSearch={handleSearch} // Passando a função de busca para o Sidebar
+      />
       <div className="main-content">
         <TopNav
           activeTab={activeTab}
@@ -69,9 +79,26 @@ function Complaint() {
           closeUserMenu={() => setShowUserDropdown(false)}
         />
         <div className="tab-content">
-          {posts.map(post => (
-            <Post key={post.id} post={post} addComment={addComment} refreshPosts={() => {}} />
-          ))}
+          {posts
+            .filter(post => {
+              // Filtra os posts baseado no searchQuery
+              if (!searchQuery) return true;
+              const query = searchQuery.toLowerCase();
+              return (
+                post.title.toLowerCase().includes(query) ||
+                post.content.toLowerCase().includes(query) ||
+                post.user.name.toLowerCase().includes(query)
+              );
+            })
+            .map(post => (
+              <Post 
+                key={post.id} 
+                post={post} 
+                addComment={addComment} 
+                refreshPosts={() => {}} 
+                searchQuery={searchQuery} // Passando a query para o componente Post
+              />
+            ))}
         </div>
         <FloatingButtons
           openModal={() => setShowModal(true)}
@@ -80,11 +107,14 @@ function Complaint() {
           filterPosts={setCurrentFilter}
           sortPosts={setCurrentSort}
         />
-        <NewPostModal showModal={showModal} closeModal={() => setShowModal(false)} createNewPost={createNewPost} />
+        <NewPostModal 
+          showModal={showModal} 
+          closeModal={() => setShowModal(false)} 
+          createNewPost={createNewPost} 
+        />
       </div>
     </div>
   );
 }
 
 export default Complaint;
-

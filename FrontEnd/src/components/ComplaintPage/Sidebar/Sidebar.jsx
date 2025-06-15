@@ -1,5 +1,5 @@
 import { 
-  FiChevronLeft, FiChevronRight, FiBell, FiUser, FiX, FiMail, FiLock, FiLogOut, FiSearch 
+  FiChevronLeft, FiChevronRight, FiBell, FiUser, FiX, FiMail, FiLock, FiLogOut, FiSearch, FiTrash2
 } from 'react-icons/fi';
 import { useAuth } from '../../../contexts/useAuth';
 import { useState, useEffect, useRef } from 'react';
@@ -52,6 +52,12 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
     onSearch(searchQuery);
     if (isMobile) {
       setSearchQuery('');
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch(e);
     }
   };
 
@@ -161,6 +167,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
                     placeholder="Buscar posts..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
                   />
                   {searchQuery && (
                     <button type="button" className="clear-search" onClick={clearSearch}>
@@ -188,31 +195,70 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
                 className="nav-item"
                 onClick={item.action}
               >
-                <span className="nav-icon">{item.icon}</span>
+                <div className="nav-icon-wrapper">
+                  <span className="nav-icon">{item.icon}</span>
+                  {item.count > 0 && <span className="nav-badge">{item.count}</span>}
+                </div>
                 {sidebarOpen && (
-                  <>
-                    <span className="nav-label">{item.label}</span>
-                    {item.count > 0 && <span className="nav-badge">{item.count}</span>}
-                  </>
+                  <span className="nav-label">{item.label}</span>
                 )}
               </button>
             ))}
           </nav>
 
-          {sidebarOpen && showNotifications && (
-            <div className="sidebar-content" ref={notificationsRef}>
+          {/* Seção de Notificações (sempre visível quando a barra está aberta) */}
+          {sidebarOpen && (
+            <div className="sidebar-content">
               <div className="sidebar-section">
                 <div className="notifications-header">
                   <h3>Notificações</h3>
+                  <button 
+                    className="clear-notifications" 
+                    onClick={clearNotifications}
+                    title="Limpar notificações"
+                  >
+                    <FiTrash2 size={14} />
+                    <span>Limpar</span>
+                  </button>
                 </div>
                 <div className="notifications-list">
                   {notifications.map(notification => (
-                    <div key={notification.id} className="notification-item">
+                    <div 
+                      key={notification.id} 
+                      className={`notification-item ${notification.unread ? 'unread' : ''}`}
+                    >
                       <p>{notification.text}</p>
                       <span className="notification-time">{notification.time}</span>
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Notificações popup quando a barra está fechada */}
+          {!sidebarOpen && showNotifications && (
+            <div className="sidebar-notifications" ref={notificationsRef}>
+              <div className="notifications-header">
+                <h3>Notificações</h3>
+                <button 
+                  className="clear-notifications" 
+                  onClick={clearNotifications}
+                  title="Limpar notificações"
+                >
+                  <FiTrash2 size={14} />
+                </button>
+              </div>
+              <div className="notifications-list">
+                {notifications.map(notification => (
+                  <div 
+                    key={notification.id} 
+                    className={`notification-item ${notification.unread ? 'unread' : ''}`}
+                  >
+                    <p>{notification.text}</p>
+                    <span className="notification-time">{notification.time}</span>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -258,10 +304,21 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
                 <div className="mobile-notifications-box" ref={notificationsRef}>
                   <div className="notifications-header">
                     <h3>Notificações</h3>
+                    <button 
+                      className="clear-notifications" 
+                      onClick={clearNotifications}
+                      title="Limpar notificações"
+                    >
+                      <FiTrash2 size={14} />
+                      <span>Limpar</span>
+                    </button>
                   </div>
                   <div className="notifications-list">
                     {notifications.map(notification => (
-                      <div key={notification.id} className="notification-item">
+                      <div 
+                        key={notification.id} 
+                        className={`notification-item ${notification.unread ? 'unread' : ''}`}
+                      >
                         <p>{notification.text}</p>
                         <span className="notification-time">{notification.time}</span>
                       </div>
@@ -383,6 +440,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
                 placeholder="Buscar posts..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
               {searchQuery && (
                 <button type="button" className="clear-search" onClick={clearSearch}>
