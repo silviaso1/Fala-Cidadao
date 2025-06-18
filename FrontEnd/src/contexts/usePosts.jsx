@@ -46,6 +46,7 @@ export const usePosts = (usuarioId, activeTab, currentFilter, currentSort) => {
               image: post.imagens?.[0] || '',
               comments: commentsList.length,
               likes: post.likes || 0,
+              status: post.status,
               commentsList
             };
           })
@@ -87,9 +88,3 @@ const applyDateFilter = (posts, filter) => {
 
 const applySort = (posts, sort) =>
   posts.sort((a, b) => new Date(sort === 'recent' ? b.date : a.date) - new Date(sort === 'recent' ? a.date : b.date));
-
-
-
-
-
-

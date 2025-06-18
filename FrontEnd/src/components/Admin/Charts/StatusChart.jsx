@@ -12,7 +12,6 @@ const StatusChart = ({ reports }) => {
       analise: reports.filter(r => r.status === 'em_andamento').length,
       resolvido: reports.filter(r => r.status === 'resolvido').length
     };
-    console.log("aaaaaa", statusCounts);
 
     if (chartInstance.current) {
       chartInstance.current.destroy();

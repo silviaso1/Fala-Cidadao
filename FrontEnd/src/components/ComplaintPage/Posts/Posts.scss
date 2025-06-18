@@ -243,12 +243,34 @@
 }
 
 .post-action.liked {
-  color: red;
+  color: #fd79a8;
 
   svg {
-    fill: red;
+    fill: #fd79a8;
   }
 }
+
+.post-status {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.status-em_andamento {
+  color: orange;
+}
+
+.status-resolvido {
+  color: green;
+}
+
+.status-invalido {
+  color: red;
+}
+
+.status-denunciado {
+  color: gray;
+}
+
 
 @media (max-width: 1080px) {
   .post-card {
