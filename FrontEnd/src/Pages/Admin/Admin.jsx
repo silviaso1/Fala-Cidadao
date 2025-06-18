@@ -3,7 +3,6 @@ import axios from 'axios';
 import Stats from '../../components/Admin/Stats/Stats';
 import Reports from '../../components/Admin/Reports/Reports';
 import StatusChart from '../../components/Admin/Charts/StatusChart';
-// import CategoryChart from '../../components/Admin/Charts/CategoryChart';
 import "./Admin.scss";
 
 const Admin = () => {
@@ -82,7 +81,6 @@ const Admin = () => {
               </div>
             </div>
             <StatusChart reports={reports} />
-            {console.log(reports)}
           </div>
           {/* <div className="chart-card">
             <div className="chart-header">

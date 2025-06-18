@@ -86,7 +86,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
 
       try {
         const res = await fetch(`http://localhost:3001/usuarios/${usuarioId}`, {
-          method: 'PATCH',
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email }),
         });
@@ -110,7 +110,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
 
       try {
         const res = await fetch(`http://localhost:3001/usuarios/${usuarioId}`, {
-          method: 'PATCH',
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ senha: password }),
         });
@@ -124,6 +124,21 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
       }
     }
   };
+
+  const openProfileModal = async () => {
+  if (profileEditMode === 'email' && usuarioId) {
+    try {
+      const res = await fetch(`http://localhost:3001/usuarios/${usuarioId}`);
+      if (!res.ok) throw new Error('Falha ao buscar usuário');
+      const userData = await res.json();
+      setEmail(userData.email || '');
+    } catch (error) {
+      console.error('Erro ao carregar email:', error);
+    }
+  }
+  setShowProfileModal(true);
+};
+
 
   const toggleNotifications = () => {
     if (notifications.some(n => n.unread)) {
@@ -206,7 +221,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
             ))}
           </nav>
 
-          {/* Seção de Notificações (sempre visível quando a barra está aberta) */}
           {sidebarOpen && (
             <div className="sidebar-content">
               <div className="sidebar-section">
@@ -236,7 +250,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
             </div>
           )}
 
-          {/* Notificações popup quando a barra está fechada */}
           {!sidebarOpen && showNotifications && (
             <div className="sidebar-notifications" ref={notificationsRef}>
               <div className="notifications-header">
@@ -328,7 +341,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
               )}
             </div>
 
-            <div className="mobile-nav-item" onClick={() => setShowProfileModal(true)}>
+            <div className="mobile-nav-item" onClick={openProfileModal}>
               <FiUser className="mobile-nav-icon" />
               <span className="mobile-nav-label">Perfil</span>
             </div>

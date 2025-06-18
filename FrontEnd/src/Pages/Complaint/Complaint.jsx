@@ -51,13 +51,13 @@ function Complaint() {
       prev.map(post =>
         post.id === postId
           ? {
-              ...post,
-              comments: post.comments + 1,
-              commentsList: [
-                { name: 'Você', time: 'agora', text: commentText },
-                ...post.commentsList
-              ]
-            }
+            ...post,
+            comments: post.comments + 1,
+            commentsList: [
+              { name: 'Você', time: 'agora', text: commentText },
+              ...post.commentsList
+            ]
+          }
           : post
       )
     );
@@ -65,9 +65,9 @@ function Complaint() {
 
   return (
     <div className="app-container">
-      <Sidebar 
-        sidebarOpen={sidebarOpen} 
-        toggleSidebar={toggleSidebar} 
+      <Sidebar
+        sidebarOpen={sidebarOpen}
+        toggleSidebar={toggleSidebar}
         onSearch={handleSearch} // Passando a função de busca para o Sidebar
       />
       <div className="main-content">
@@ -81,7 +81,8 @@ function Complaint() {
         <div className="tab-content">
           {posts
             .filter(post => {
-              // Filtra os posts baseado no searchQuery
+              if (post.status === 'RESOLVIDO') return false;
+
               if (!searchQuery) return true;
               const query = searchQuery.toLowerCase();
               return (
@@ -91,14 +92,16 @@ function Complaint() {
               );
             })
             .map(post => (
-              <Post 
-                key={post.id} 
-                post={post} 
-                addComment={addComment} 
-                refreshPosts={() => {}} 
-                searchQuery={searchQuery} // Passando a query para o componente Post
+              <Post
+                key={post.id}
+                post={post}
+                addComment={addComment}
+                refreshPosts={() => { }}
+                searchQuery={searchQuery}
               />
-            ))}
+            ))
+          }
+
         </div>
         <FloatingButtons
           openModal={() => setShowModal(true)}
@@ -107,10 +110,10 @@ function Complaint() {
           filterPosts={setCurrentFilter}
           sortPosts={setCurrentSort}
         />
-        <NewPostModal 
-          showModal={showModal} 
-          closeModal={() => setShowModal(false)} 
-          createNewPost={createNewPost} 
+        <NewPostModal
+          showModal={showModal}
+          closeModal={() => setShowModal(false)}
+          createNewPost={createNewPost}
         />
       </div>
     </div>
