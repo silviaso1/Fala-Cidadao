@@ -7,7 +7,7 @@ import com.POA.conserva_cidadao_app.service.ComentarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.POA.conserva_cidadao_app.dto.ComentarioResponseDTO;
 import java.util.*;
 
 @RestController
@@ -32,7 +32,16 @@ public class ComentarioController {
             }
 
             Comentario novoComentario = comentarioService.adicionarComentario(denunciaId, usuario, texto);
-            return ResponseEntity.ok(novoComentario);
+
+            ComentarioResponseDTO response = new ComentarioResponseDTO(
+                    novoComentario.getId(),
+                    novoComentario.getTexto(),
+                    novoComentario.getUsuario().getNome(),
+                    novoComentario.getDataCriacao()
+            );
+
+            return ResponseEntity.ok(response);
+
 
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("erro", e.getMessage()));
@@ -45,9 +54,21 @@ public class ComentarioController {
     public ResponseEntity<?> listar(@PathVariable Long denunciaId) {
         try {
             List<Comentario> comentarios = comentarioService.listarComentariosPorDenuncia(denunciaId);
-            return ResponseEntity.ok(comentarios);
+
+            List<ComentarioResponseDTO> response = comentarios.stream()
+                    .map(c -> new ComentarioResponseDTO(
+                            c.getId(),
+                            c.getTexto(),
+                            c.getUsuario().getNome(),
+                            c.getDataCriacao()
+                    ))
+                    .toList();
+
+            return ResponseEntity.ok(response);
+
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of("erro", "Erro ao buscar comentários: " + e.getMessage()));
         }
     }
+
 }
