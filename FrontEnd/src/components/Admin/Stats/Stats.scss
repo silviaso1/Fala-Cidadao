@@ -16,13 +16,9 @@
   overflow: hidden;
   border: 1px solid $cor-borda;
 
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  }
 
   &.pendente {
-    background: linear-gradient(135deg, rgba(253, 203, 110, 0.1), $cor-card);
+    background: linear-gradient(135deg, rgba(253, 203, 110, 0.2), $cor-card);
   }
 
   &.analise {
@@ -54,7 +50,7 @@
   }
 
   .stat-value {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 700;
     margin-bottom: 5px;
   }

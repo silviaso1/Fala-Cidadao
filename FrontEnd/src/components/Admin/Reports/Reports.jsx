@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import axios from 'axios';
 import {
-  FaEye, FaEdit, FaCheck, FaClock, FaSearch, FaQuestion, FaTrash
+  FaEdit, FaCheck, FaClock, FaSearch, 
+  FaQuestion, FaTrash
 } from 'react-icons/fa';
 import Pagination from '../Pagination/Pagination';
 import './Reports.scss';
 import { useAuth } from '../../../contexts/useAuth';
 
-const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
+const Reports = ({ reports, onStatusChange, onDeleteReport }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,15 +21,13 @@ const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
     const title = report.title ? report.title.toLowerCase() : '';
     const content = report.content ? report.content.toLowerCase() : '';
     const location = report.location ? report.location.toLowerCase() : '';
-    const userName = report.user && report.user.name ? report.user.name.toLowerCase() : '';
-    const userUsername = report.user && report.user.username ? report.user.username.toLowerCase() : '';
+
 
     const matchesSearch =
       title.includes(lowerSearch) ||
       content.includes(lowerSearch) ||
-      location.includes(lowerSearch) ||
-      userName.includes(lowerSearch) ||
-      userUsername.includes(lowerSearch);
+      location.includes(lowerSearch);
+
 
     const matchesStatus = statusFilter === 'all' || report.status === statusFilter;
 
@@ -95,18 +94,18 @@ const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
       <div className="table-header">
         <h3 className="table-title">Todas as Denúncias</h3>
 
-        <input
-          type="text"
-          placeholder="Buscar denúncia, usuário, etc..."
-          className="filter-search"
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setCurrentPage(1);
-          }}
-        />
+        <div className="header-controls">
+          <input
+            type="text"
+            placeholder="Buscar denúncia, usuário, etc..."
+            className="filter-search"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
 
-        <div className="table-filters">
           <select
             className="filter-select"
             value={statusFilter}
@@ -117,7 +116,7 @@ const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
           >
             <option value="all">Todos Status</option>
             <option value="denunciado">Pendente</option>
-            <option value="analise">Em Análise</option>
+            <option value="em_andamento">Em Análise</option>
             <option value="resolvido">Resolvido</option>
           </select>
         </div>
@@ -136,49 +135,84 @@ const Reports = ({ reports, onStatusChange, onViewReport, onDeleteReport }) => {
             </tr>
           </thead>
           <tbody>
-            {currentReports.map(report => (
-              <tr key={report.id}>
-                <td className="report-id">#{report.id}</td>
-                <td>
-                  <div className="report-title">{report.title}</div>
-                  <div className="report-content">{report.content}</div>
-                </td>
-                <td>
-                  <div className="report-user">
-                    <div className="user-avatar-sm">{report.user.avatar}</div>
-                    <div className="user-info">
-                      <div className="user-name">{report.user.name}</div>
-                      <div className="user-username">{report.user.username}</div>
+            {currentReports.length > 0 ? (
+              currentReports.map(report => (
+                <tr key={report.id}>
+                  <td className="report-id">#{report.id}</td>
+                  <td>
+                    <div className="report-title">{report.title}</div>
+                    <div className="report-content">{report.content}</div>
+                    {report.location && (
+                      <div className="report-location">
+                        {report.location}
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <div className="report-user">
+                      <div className="user-avatar-sm">
+                        {report.user.avatar}
+                      </div>
+                      <div className="user-info">
+                        <div className="user-name">{report.user.name}</div>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td>
-                  <div className="report-date">{report.date}</div>
-                  <div className="report-time">{report.time}</div>
-                </td>
-                <td>
-                  <span className={`status-badge status-${report.status}`}>
-                    {getStatusIcon(report.status)} {getStatusText(report.status)}
-                  </span>
-                </td>
-                <td>
-                  <button className="action-btn view" onClick={() => onViewReport(report.id)}><FaEye /></button>
-                  <button className="action-btn edit" onClick={() => handleStatusChange(report.id, 'em_andamento')}><FaEdit /></button>
-                  <button className="action-btn resolve" onClick={() => handleStatusChange(report.id, 'resolvido')}><FaCheck /></button>
-                  <button className="action-btn delete" onClick={() => handleDeleteReport(report.id)}><FaTrash /></button>
+                  </td>
+                  <td>
+                    <div className="report-date">{report.date}</div>
+                    <div className="report-time">{report.time}</div>
+                  </td>
+                  <td>
+                    <span className={`status-badge status-${report.status}`}>
+                      {getStatusIcon(report.status)} {getStatusText(report.status)}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="action-buttons">
+                      <button 
+                        className="action-btn edit" 
+                        onClick={() => handleStatusChange(report.id, 'em_andamento')}
+                        title="Marcar como em análise"
+                      >
+                        <FaEdit />
+                      </button>
+                      <button 
+                        className="action-btn resolve" 
+                        onClick={() => handleStatusChange(report.id, 'resolvido')}
+                        title="Marcar como resolvido"
+                      >
+                        <FaCheck />
+                      </button>
+                      <button 
+                        className="action-btn delete" 
+                        onClick={() => handleDeleteReport(report.id)}
+                        title="Excluir denúncia"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="no-results">
+                  Nenhuma denúncia encontrada com os filtros atuais.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        itemsPerPage={reportsPerPage}
-        totalItems={filteredReports.length}
-        currentPage={currentPage}
-        paginate={paginate}
-      />
+      {filteredReports.length > 0 && (
+        <Pagination
+          itemsPerPage={reportsPerPage}
+          totalItems={filteredReports.length}
+          currentPage={currentPage}
+          paginate={paginate}
+        />
+      )}
     </div>
   );
 };

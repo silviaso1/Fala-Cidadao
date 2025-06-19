@@ -25,9 +25,9 @@
     }
 
     &.active {
-      background-color: $cor-primaria;
+      background-color: rgba($cor-destaque, 0.7);
       color: white;
-      border-color: $cor-primaria;
+      border-color: $cor-destaque;
     }
 
     &.disabled {
