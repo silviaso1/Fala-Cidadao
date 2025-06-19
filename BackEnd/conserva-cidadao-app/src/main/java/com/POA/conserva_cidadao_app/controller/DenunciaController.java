@@ -45,7 +45,8 @@ public class DenunciaController {
     public ResponseEntity<?> buscarDenunciaPorId(@PathVariable Long id) {
         Optional<Denuncia> denuncia = denunciaService.buscarDenunciaPorId(id);
         if (denuncia.isPresent()) {
-            return ResponseEntity.ok(denuncia.get());
+            DenunciaResponseDTO dto = denunciaService.mapToDTO(denuncia.get());
+            return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.status(404).body(Map.of(
                     "status_code", 404,
