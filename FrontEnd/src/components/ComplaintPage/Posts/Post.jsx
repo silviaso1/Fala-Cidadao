@@ -30,9 +30,20 @@ function Post({ post, addComment, /*onDelete, */ searchQuery }) {
 
   const toggleComments = () => setShowComments(!showComments);
 
-  const handleAddComment = (commentText) => {
-    addComment(post.id, commentText);
-  };
+  const handleAddComment = async (commentText) => {
+  try {
+    await axios.post(
+      `http://localhost:3001/denuncias/${post.id}/comentarios?usuarioId=${usuarioId}`,
+      { texto: commentText }
+    );
+
+    addComment(post.id, commentText);  // Atualiza o estado local (UI)
+  } catch (error) {
+    console.error('Erro ao adicionar comentário:', error);
+    alert('Erro ao enviar comentário. Tente novamente.');
+  }
+};
+
 
   const toggleLike = async () => {
     try {
