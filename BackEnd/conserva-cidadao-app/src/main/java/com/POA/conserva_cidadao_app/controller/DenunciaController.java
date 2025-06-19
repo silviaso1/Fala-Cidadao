@@ -30,13 +30,8 @@ public class DenunciaController {
     public ResponseEntity<?> criarDenuncia(@RequestBody DenunciaRequestDTO request) {
         try {
             Denuncia novaDenuncia = denunciaService.criarDenuncia(request);
-            return ResponseEntity.ok(Map.of(
-                    "mensagem", "Denúncia registrada com sucesso.",
-                    "denuncia", Map.of(
-                            "id", novaDenuncia.getId(),
-                            "status", novaDenuncia.getStatus().toString()
-                    )
-            ));
+            DenunciaResponseDTO dto = denunciaService.mapToDTO(novaDenuncia);
+            return ResponseEntity.status(201).body(dto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of(
                     "status_code", 400,
@@ -44,6 +39,7 @@ public class DenunciaController {
             ));
         }
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarDenunciaPorId(@PathVariable Long id) {

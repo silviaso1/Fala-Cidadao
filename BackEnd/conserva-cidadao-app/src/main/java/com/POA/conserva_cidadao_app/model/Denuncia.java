@@ -1,6 +1,8 @@
 package com.POA.conserva_cidadao_app.model;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -36,6 +38,18 @@ public class Denuncia {
     @Column(nullable = false)
     private String bairro;
 
+    @OneToMany(mappedBy = "denuncia", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Like> likesList;
+
+    @OneToMany(mappedBy = "denuncia", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comentario> comentarios;
+
+    @Column(name = "data_criacao", nullable = false, updatable = false)
+    private LocalDateTime dataCriacao = LocalDateTime.now();
+
+
+    // Getters e Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Usuario getUsuario() { return usuario; }
@@ -52,4 +66,20 @@ public class Denuncia {
     public void setImagens(List<String> imagens) { this.imagens = imagens; }
     public String getBairro() { return bairro; }
     public void setBairro(String bairro) { this.bairro = bairro; }
+
+    public List<Like> getLikesList() {
+        return likesList;
+    }
+
+    public void setLikesList(List<Like> likesList) {
+        this.likesList = likesList;
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
 }

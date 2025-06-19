@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.POA.conserva_cidadao_app.repository.LikeRepository;
+import com.POA.conserva_cidadao_app.repository.ComentarioRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +27,7 @@ public class DenunciaService {
     private final DenunciaRepository denunciaRepository;
     private final UsuarioRepository usuarioRepository;
     private final LocalRepository localRepository;
+
 
     @Autowired
     public DenunciaService(DenunciaRepository denunciaRepository,
@@ -68,7 +72,7 @@ public class DenunciaService {
                 .collect(Collectors.toList());
     }
 
-    private DenunciaResponseDTO mapToDTO(Denuncia denuncia) {
+    public DenunciaResponseDTO mapToDTO(Denuncia denuncia) {
         Usuario usuario = denuncia.getUsuario();
 
         UsuarioResponseDTO usuarioDTO = null;
@@ -88,7 +92,8 @@ public class DenunciaService {
                 denuncia.getBairro(),
                 denuncia.getStatus(),
                 denuncia.getLikes(),
-                denuncia.getImagens()
+                denuncia.getImagens(),
+                denuncia.getDataCriacao()
         );
     }
 
@@ -105,6 +110,9 @@ public class DenunciaService {
         denuncia.setLikes(0);
         denuncia.setBairro(request.getBairro());
 
+        // Aqui: seta a data de criação
+        denuncia.setDataCriacao(LocalDateTime.now());
+
         Denuncia savedDenuncia = denunciaRepository.save(denuncia);
 
         if (isStatusAtivo(savedDenuncia.getStatus())) {
@@ -113,6 +121,7 @@ public class DenunciaService {
 
         return savedDenuncia;
     }
+
 
     public Optional<Denuncia> buscarDenunciaPorId(Long id) {
         return denunciaRepository.findById(id);
@@ -175,8 +184,11 @@ public class DenunciaService {
             atualizarContagemBairro(denuncia.getBairro(), false);
         }
 
-        denunciaRepository.delete(denuncia);
+        LikeRepository.deleteByDenunciaId(id);
+        denunciaRepository.deleteById(id);
+        ComentarioRepository.deleteByDenunciaId(id);
     }
+
 
     private void tratarMudancasParaContagemBairro(Denuncia denuncia, StatusDenuncia statusAntigo, String bairroAntigo) {
         StatusDenuncia statusNovo = denuncia.getStatus();

@@ -2,6 +2,7 @@ package com.POA.conserva_cidadao_app.dto;
 
 import com.POA.conserva_cidadao_app.model.StatusDenuncia;
 import java.util.List;
+import java.time.LocalDateTime;
 
 public class DenunciaResponseDTO {
     private Long id;
@@ -12,10 +13,11 @@ public class DenunciaResponseDTO {
     private StatusDenuncia status;
     private int likes;
     private List<String> imagens;
+    private LocalDateTime dataCriacao;
 
     public DenunciaResponseDTO() {}
 
-    public DenunciaResponseDTO(Long id, UsuarioResponseDTO usuario, String titulo, String descricao, String bairro, StatusDenuncia status, int likes, List<String> imagens) {
+    public DenunciaResponseDTO(Long id, UsuarioResponseDTO usuario, String titulo, String descricao, String bairro, StatusDenuncia status, int likes, List<String> imagens, LocalDateTime dataCriacao) {
         this.id = id;
         this.usuario = usuario;
         this.titulo = titulo;
@@ -24,6 +26,7 @@ public class DenunciaResponseDTO {
         this.status = status;
         this.likes = likes;
         this.imagens = imagens;
+        this.dataCriacao = dataCriacao;
     }
 
     public String getBairro() {
@@ -88,5 +91,14 @@ public class DenunciaResponseDTO {
 
     public void setImagens(List<String> imagens) {
         this.imagens = imagens;
+    }
+
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 }
