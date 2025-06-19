@@ -103,12 +103,22 @@
     }
 }
 
+@media (max-width: 1090px) {
+    .tabs-container {
+        margin-top: 180px;
+    }
+
+
+}
+
 @media (max-width: 768px) {
    
 
     .tab {
-        padding-top: 30px;
-        font-size: 14px;
+        font-size: 16px;
+        
+        
     }
+
 
 }

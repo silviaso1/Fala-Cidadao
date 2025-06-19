@@ -1,17 +1,15 @@
 @use '../../../styles/App.scss' as *;
 
 
-
-
-
 .hero {
-  padding: 80px 0;
+
   position: relative;
   height: 100vh;
   background: linear-gradient(135deg, #1c1e26, #282a36);
-  display: flex;
+  display: flex !important;
   justify-content: center;
   align-items: center;
+  padding-top: 60px;
 
   &-content {
     display: flex;
@@ -27,8 +25,8 @@
         margin-bottom: 20px;
         background: linear-gradient(90deg, $cor-primaria, $cor-destaque);
         background-clip: text;
-        -webkit-background-clip: text;
         color: transparent;
+        font-weight: 800;
       }
 
       p {
@@ -174,80 +172,57 @@
   100% { transform: scale(1); }
 }
 
-@media (max-width: 1024px) {
-  .hero-content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+@media (max-width: 1090px) {
+   .hero {
+    height: 100vh !important;
+
+   
+
+    &-content {
+      flex-direction: column;
+      align-items: center;
+
+      .hero-conteudo {
+        text-align: center;
+        
+        p{
+          margin: 40px;
+          margin-top: 10px;
+          font-size: 19px;
+        }
+        h2{
+          font-size: 45px;
+          font-weight: 800;
+          margin-top: 50px;
+        }
+      }
+
+      .hero-ilustracao {
+        width: 100%;
+        height: 300px;
+      }
+    }
   }
 
-  .hero-conteudo,
-  .hero-ilustracao {
-    flex: none;
-    width: 100%;
+  .feed-social{
+    display: none;
   }
 
-  .hero-ilustracao {
-    height: auto;
-    margin-top: 30px;
-  }
 
-  .hero-conteudo h2 {
-    font-size: 2.5rem;
-  }
-
-  .hero-conteudo p {
-    max-width: 100%;
-  }
 }
 
 @media (max-width: 768px) {
+ 
+.hero{
+  margin-top: 0;
+}
   .feed-social {
-    transform: none;
-    border-radius: 10px;
     padding: 15px;
   }
 
   .post {
-    padding: 12px;
+    padding: 10px;
   }
 
-  .post-cabecalho {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 
-  .post-acoes {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .post-destaque {
-    font-size: 0.9rem;
-    padding: 8px 12px;
-    bottom: 15px;
-    right: 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    padding: 60px 0;
-  }
-
-  .hero-conteudo h2 {
-    font-size: 2rem;
-  }
-
-  .post-usuario,
-  .post-tempo,
-  .post-local,
-  .post-acao {
-    font-size: 0.85rem;
-  }
-
-  .post-avatar {
-    width: 32px;
-    height: 32px;
-  }
 }

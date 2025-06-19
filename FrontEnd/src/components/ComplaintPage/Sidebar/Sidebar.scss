@@ -1,7 +1,6 @@
 @use "../../../styles/App.scss" as *;
 @use "sass:color";
 
-/* ESTILOS PARA DESKTOP (acima de 1090px) */
 .sidebar {
   width: 280px;
   height: 100vh;
@@ -38,7 +37,6 @@
     .nav-item {
       justify-content: center;
       padding: 12px 0;
-      // margin-left: 8px;
     }
     
     .nav-icon {
@@ -73,12 +71,11 @@
     transition: all 0.2s ease;
     
     &:hover {
-      background: rgba($cor-primaria, 0.1);
-      color: $cor-primaria;
+      background: rgba($cor-destaque, 0.1);
+      color: $cor-destaque;
     }
   }
 
-  /* Estilos para o container de pesquisa */
   .sidebar-search-container {
     padding: 0 9px;
     margin-bottom: -8px;
@@ -90,10 +87,10 @@
       .search-container {
         display: flex;
         align-items: center;
-        background-color: $cor-fundo;
         border-radius: 20px;
         padding: 8px 10px;
         border: 1px solid $cor-borda;
+
 
         input {
           flex: 1;
@@ -103,6 +100,8 @@
           color: $cor-texto;
           font-size: 14px;
           padding: 8px 12px;
+
+          
         }
 
         .clear-search {
@@ -121,15 +120,16 @@
       .search-icon-button {
         background: none;
         border: none;
-        color: $cor-texto-claro;
+        color: white;
         cursor: pointer;
         padding: 8px;
         font-size: 20px;
         transition: color 0.3s ease;
         margin-left: 8px;
+      
 
         &:hover {
-          color: $cor-primaria;
+          color: $cor-destaque;
         }
       }
     }
@@ -150,10 +150,11 @@
       cursor: pointer;
       transition: all 0.2s ease;
       position: relative;
+      margin-left: 7px;
       
       &:hover {
         background: rgba($cor-primaria, 0.05);
-        color: $cor-primaria;
+        color: $cor-destaque;
       }
       
       .nav-icon-wrapper {
@@ -186,9 +187,11 @@
   }
 
   .sidebar-content {
+    margin-top: -70px;
     padding: 0 20px 20px;
     overflow-y: auto;
     flex: 1;
+    
     
     .sidebar-section {
       margin-bottom: 25px;
@@ -406,7 +409,6 @@
   }
 }
 
-/* BARRA INFERIOR MOBILE */
 .mobile-bottom-bar {
   display: none;
   position: fixed;
@@ -489,8 +491,10 @@
 
       .mobile-notifications-box {
         position: absolute;
+        z-index: 10000;
         bottom: 72px;
-        right: 0;
+        right:-220px;
+        border: 2px solid $cor-borda;
         width: 320px;
         max-width: 90vw;
         background: $cor-card;
@@ -576,7 +580,6 @@
   }
 }
 
-/* Busca Mobile */
 .mobile-search-container {
   position: fixed;
   top: 0;
@@ -586,13 +589,7 @@
   z-index: 99;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba($cor-primaria, 0.1);
-   @media (prefers-color-scheme: dark) {
-    background: linear-gradient(
-      135deg,
-      color.adjust($cor-card, $lightness: -4%),
-      color.adjust($cor-card, $lightness: -3%)
-    );
-  }
+  background: $cor-card;
 
   .mobile-search {
     position: relative;
@@ -606,7 +603,7 @@
       color: rgba($cor-texto, 0.6);
     }
 
-    input {
+    .mobile-search-input {
       width: 100%;
       padding: 12px 15px 12px 45px;
       border: 1px solid rgba($cor-primaria, 0.2);
@@ -614,23 +611,30 @@
       background: rgba($cor-primaria, 0.03);
       font-size: 1rem;
       transition: all 0.2s ease;
+      color: $cor-texto;
 
       &:focus {
         outline: none;
         border-color: $cor-primaria;
-        background: white;
+        background: $cor-fundo;
+        box-shadow: 0 0 0 2px rgba($cor-primaria, 0.1);
       }
     }
 
     .clear-search {
       position: absolute;
       right: 15px;
-      background: transparent;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
       border: none;
-      color: rgba($cor-texto, 0.4);
+      color: rgba($cor-texto, 0.5);
       cursor: pointer;
-      padding: 2px;
-
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
       &:hover {
         color: $cor-destaque;
       }
@@ -638,7 +642,7 @@
   }
 }
 
-/* RESPONSIVIDADE */
+
 @media (max-width: 1090px) {
   .sidebar {
     display: none;
@@ -654,132 +658,262 @@
   }
 }
 
-/* Modal de Perfil */
-.profile-modal {
+.profile-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px) saturate(180%);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+.profile-modal {
+  width: 100%;
+  max-width: 450px;
+  margin: 20px;
+  animation: slideUp 0.3s ease-out;
+  
+  @keyframes slideUp {
+    from { 
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   
   .modal-content {
     background: $cor-card;
-    padding: 25px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
-    position: relative;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     
-    .close-modal {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: transparent;
-      border: none;
-      color: rgba($cor-texto, 0.6);
-      cursor: pointer;
-      font-size: 1.2rem;
-      
-      &:hover {
-        color: $cor-destaque;
-      }
-    }
-    
-    h2 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      color: $cor-primaria;
-      text-align: center;
-    }
-    
-    .profile-edit-mode {
+    .modal-header {
+      padding: 20px;
+      background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
+      color: white;
       display: flex;
-      margin-bottom: 20px;
-      border-bottom: 1px solid rgba($cor-primaria, 0.1);
+      justify-content: space-between;
+      align-items: center;
       
-      button {
-        flex: 1;
-        padding: 10px;
-        background: none;
+      h2 {
+        margin: 0;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        
+        .header-icon {
+          margin-right: 10px;
+        }
+      }
+      
+      .close-modal {
+        background: rgba(255, 255, 255, 0.2);
         border: none;
-        border-bottom: 2px solid transparent;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
         cursor: pointer;
-        color: $cor-texto-claro;
-        font-weight: 500;
         transition: all 0.2s ease;
         
-        &.active {
-          color: $cor-primaria;
-          border-bottom-color: $cor-primaria;
+        &:hover {
+          background: rgba(255, 255, 255, 0.3);
+          transform: rotate(90deg) scale(1.1);
+        background-color: rgba($cor-primaria, 0.1);
+        box-shadow: 0 0 0 4px rgba($cor-primaria, 0.1);
         }
       }
     }
     
-    .form-group {
-      margin-bottom: 15px;
+    .edit-mode-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba($cor-primaria, 0.1);
       
-      label {
-        display: block;
-        margin-bottom: 5px;
-        color: $cor-texto;
-        font-size: 0.9rem;
-      }
-      
-      .input-icon {
+      .tab-btn {
+        flex: 1;
+        padding: 15px;
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         position: relative;
+        cursor: pointer;
+        color: $cor-texto-claro;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
         
-        svg {
-          position: absolute;
-          left: 12px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: rgba($cor-texto, 0.6);
+        .tab-icon {
+          font-size: 1.2rem;
+          margin-bottom: 5px;
+          color: inherit;
         }
         
-        input {
-          width: 100%;
-          padding: 10px 12px 10px 40px;
-          border: 1px solid rgba($cor-primaria, 0.3);
-          border-radius: 5px;
-          background: rgba($cor-primaria, 0.03);
-          transition: all 0.2s ease;
-          font-size: 0.9rem;
+        &.active {
+          color: $cor-destaque;
+          font-weight: 500;
           
-          &:focus {
-            outline: none;
-            border-color: $cor-primaria;
-            background: white;
-            box-shadow: 0 0 0 2px rgba($cor-primaria, 0.1);
+          .active-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: $cor-primaria;
+            border-radius: 3px 3px 0 0;
+          }
+        }
+        
+        &:hover:not(.active) {
+          color: $cor-texto;
+          background: rgba($cor-primaria, 0.05);
+        }
+      }
+    }
+    
+    .profile-form {
+      padding: 20px;
+      
+      .form-group {
+        margin-bottom: 20px;
+        
+        label {
+          display: flex;
+          align-items: center;
+          margin-bottom: 8px;
+          font-size: 0.9rem;
+          color: $cor-texto;
+          font-weight: 500;
+          
+          .input-icon {
+            margin-right: 8px;
+            color: $cor-destaque;
+          }
+        }
+        
+        .input-wrapper {
+          position: relative;
+          
+          input.profile-input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid rgba($cor-primaria, 0.2);
+            border-radius: 8px;
+            background: rgba($cor-primaria, 0.03);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            color: $cor-texto;
+            
+            &:focus {
+              outline: none;
+              border-color: $cor-primaria;
+              box-shadow: 0 0 0 3px rgba($cor-primaria, 0.1);
+            }
+          }
+          
+          .edit-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba($cor-texto, 0.5);
+          }
+          
+          .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba($cor-texto, 0.5);
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            &:hover {
+              color: $cor-destaque;
+            }
           }
         }
       }
+      
+      .save-btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        margin-top: 10px;
+        
+        .btn-icon {
+          margin-right: 8px;
+        }
+        
+        &:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba($cor-primaria, 0.3);
+        }
+        
+        &:active {
+          transform: translateY(0);
+        }
+      }
     }
     
-    .save-btn {
-      width: 100%;
-      padding: 12px;
-      background: $cor-primaria;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      margin-top: 10px;
-      font-size: 1rem;
+    .modal-footer {
+      padding: 15px 20px;
+      border-top: 1px solid rgba($cor-primaria, 0.1);
       
-      &:hover {
-        background: darken($cor-primaria, 10%);
-      }
-      
-      &:active {
-        transform: translateY(1px);
+      .logout-btn {
+        width: 100%;
+        padding: 10px;
+        background: none;
+        border: none;
+        color: $cor-destaque;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border-radius: 6px;
+        
+        .btn-icon {
+          margin-right: 8px;
+        }
+        
+        &:hover {
+          background: rgba($cor-destaque, 0.1);
+        }
       }
     }
   }

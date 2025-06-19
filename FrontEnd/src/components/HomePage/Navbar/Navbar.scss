@@ -57,12 +57,27 @@
   }
 }
 
+@media (max-width: 1100px) {
+ 
+
+  .logo img {
+    width: 120px;
+  }
+
+  .menu {
+    gap: 15px;
+  }
+
+  .botao {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
 
-    .navbar{
-        margin-top: -60px;
-    }
+
   .menu-toggle {
     display: block;
   }

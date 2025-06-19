@@ -40,6 +40,10 @@ body {
     img{
         width: 160px;
     }
+
+ body{
+    padding: 0;
+ }
 }
 
 .auth-container {
@@ -194,6 +198,9 @@ body {
             text-decoration: underline;
         }
     }
+}
+body{
+    padding: 0!important;
 }
 
 @keyframes fadeIn {

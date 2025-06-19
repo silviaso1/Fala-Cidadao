@@ -23,3 +23,10 @@
   margin: 0 auto;
   overflow: hidden; 
 }
+
+@media (max-width: 1090px) {
+  .tab-content {
+    margin-top: 160px;
+    margin-bottom: 90px;
+  }
+}

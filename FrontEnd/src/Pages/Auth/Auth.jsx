@@ -69,7 +69,7 @@
         };
 
         return (
-            <div className="container-fluid min-vh-100 d-md-flex align-items-center p-0 ">
+            <div className="container-fluid min-vh-100 d-md-flex align-items-center p-0 alinha ">
                 <div
                     className="col-md-6 d-flex flex-column justify-content-between 
                     align-items-center p-5 text-white text-center lado bemvindo"

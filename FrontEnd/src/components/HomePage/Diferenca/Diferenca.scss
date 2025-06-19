@@ -95,3 +95,24 @@
         color: $cor-texto;
     }
 }
+
+@media(max-width:460px){
+    .cta{
+        h2{
+        &::after {
+            top:85px;
+        }
+    }
+    }
+
+    .cta-participantes {
+        margin-left: 25px;
+        margin-top: 60px;
+
+        p{
+            font-size: 0.9rem;
+        }
+    }
+        
+    
+}

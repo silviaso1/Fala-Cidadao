@@ -3,8 +3,8 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(14, 14, 26, 0.85);
-  backdrop-filter: blur(8px) saturate(180%);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px) saturate(180%);
   z-index: 1000;
   opacity: 0;
   pointer-events: none;
@@ -45,6 +45,10 @@
     transform: translate(-50%, -50%) scale(1);
   }
 
+  .cep{
+    background: linear-gradient(130deg, $cor-primaria, $cor-destaque) !important;
+  }
+
   .modal-header {
     flex-shrink: 0;
     display: flex;
@@ -52,7 +56,7 @@
     align-items: center;
     padding: 1.75rem 2rem;
     border-bottom: 1px solid rgba($cor-borda, 0.3);
-    background: linear-gradient(to right, rgba($cor-primaria, 0.08), rgba($cor-secundaria, 0.04));
+    background: linear-gradient(130deg, $cor-primaria, $cor-destaque);
     position: relative;
     overflow: hidden;
 
@@ -69,37 +73,32 @@
     }
 
     .modal-title {
-      font-size: 1.625rem;
+      font-size: 22px;
       font-weight: 700;
-      color: $cor-destaque;
+      color: white !important;
       margin: 0;
       letter-spacing: -0.5px;
       position: relative;
-      background: linear-gradient(to right, $cor-destaque, lighten($cor-destaque, 15%));
+      background: white;
       -webkit-background-clip: text;
       background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     .close-modal {
-      background: none;
-      border: none;
-      color: rgba($cor-texto-claro, 0.8);
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      padding: 0.5rem;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      background-color: rgba($cor-texto-claro, 0.05);
+     background: rgba(255, 255, 255, 0.2);
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
 
       &:hover {
-        color: $cor-primaria;
+        background: rgba(255, 255, 255, 0.2);
         transform: rotate(90deg) scale(1.1);
         background-color: rgba($cor-primaria, 0.1);
         box-shadow: 0 0 0 4px rgba($cor-primaria, 0.1);
@@ -253,7 +252,7 @@
       }
 
       .post-submit {
-        background: linear-gradient(to right, $cor-primaria, $cor-secundaria);
+        background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
         color: white;
         border: none;
         border-radius: 14px;
@@ -287,13 +286,7 @@
 
         &:hover {
           transform: translateY(-3px);
-          box-shadow: 
-            0 8px 15px rgba(0, 0, 0, 0.15),
-            0 6px 6px rgba(0, 0, 0, 0.1);
           
-          &::before {
-            opacity: 1;
-          }
         }
 
         &:active {
@@ -306,7 +299,6 @@
   }
 }
 
-// Responsividade
 @media (max-width: 768px) {
   .new-post-modal {
     width: 95%;
@@ -365,3 +357,4 @@
     }
   }
 }
+

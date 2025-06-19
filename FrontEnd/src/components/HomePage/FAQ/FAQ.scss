@@ -10,6 +10,7 @@ $faq-text-light: #bdc3c7;
 
 .faq-section {
     padding: 5rem 0;
+    margin-bottom: -80px;
     
 
     .accordion,
@@ -21,6 +22,8 @@ $faq-text-light: #bdc3c7;
     }
 }
 
+
+
 .section-title {
     text-align: center;
     margin-bottom: 3rem;
@@ -28,7 +31,7 @@ $faq-text-light: #bdc3c7;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    font-size: 2rem;
+    font-size: 32px;
     font-weight: 700;
     color: $faq-text;
     position: relative;
@@ -58,8 +61,6 @@ $faq-text-light: #bdc3c7;
     position: relative;
     z-index: 1;
     transition: all 0.3s ease;
-
-   
 
     .faq-header {
 
@@ -125,38 +126,27 @@ $faq-text-light: #bdc3c7;
 }
 
 @media (max-width: 992px) {
-    .section-title {
-        font-size: 1.8rem;
+
+    .section-title{
+        margin-bottom: 70px;
     }
+   
 
     .faq-item {
         .faq-header {
-            padding: 1.2rem 1.5rem;
-            font-size: 1rem;
+            padding: 1rem 1rem;
+            
         }
 
         .faq-answer {
-            padding: 1.2rem 1.5rem;
-        }
-    }
-}
-
-@media (max-width: 576px) {
-    .faq-section {
-        padding: 3rem 0;
-    }
-
-    .section-title {
-        font-size: 1.5rem;
-        flex-direction: column;
-        gap: 0.5rem;
-
-        .icon {
-            font-size: 1.5rem;
+            padding: 1rem 2.5rem;
         }
     }
 
-    .show-more-btn {
-        width: 100%;
+    .accordion-button{
+
+        margin-top: -30px;
     }
 }
+
+ 

@@ -72,7 +72,7 @@ function Modal({ showModal, closeModal, createNewPost }) {
         />
         {
           id === 'cep' &&
-          <button type="button" onClick={handleCepSearch} className="btn btn-primary">
+          <button type="button" onClick={handleCepSearch} className="btn btn-primary cep">
             Buscar CEP
           </button>
         }
@@ -86,7 +86,7 @@ function Modal({ showModal, closeModal, createNewPost }) {
       <div className={`modal-overlay ${showModal ? 'active' : ''}`} onClick={closeModal}></div>
       <div className={`new-post-modal ${showModal ? 'active' : ''}`}>
         <div className="modal-header">
-          <div className="modal-title">Criar Novo Post</div>
+          <div className="modal-title">Nova Denúncia</div>
           <button className="close-modal" onClick={closeModal}>
             <FaTimes />
           </button>

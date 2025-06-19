@@ -1,5 +1,6 @@
 import { 
-  FiChevronLeft, FiChevronRight, FiBell, FiUser, FiX, FiMail, FiLock, FiLogOut, FiSearch, FiTrash2
+  FiChevronLeft, FiChevronRight, FiBell, FiUser, FiX, FiMail, FiLock, 
+  FiLogOut, FiSearch, FiTrash2, FiEdit2, FiCheck, FiEye, FiEyeOff 
 } from 'react-icons/fi';
 import { useAuth } from '../../../contexts/useAuth';
 import { useState, useEffect, useRef } from 'react';
@@ -15,6 +16,8 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const notificationsRef = useRef(null);
   const searchRef = useRef(null);
 
@@ -68,6 +71,14 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
 
   const clearNotifications = () => {
     setNotifications(notifications.map(n => ({ ...n, unread: false })));
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   const handleProfileUpdate = async (e) => {
@@ -126,19 +137,18 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
   };
 
   const openProfileModal = async () => {
-  if (profileEditMode === 'email' && usuarioId) {
-    try {
-      const res = await fetch(`http://localhost:3001/usuarios/${usuarioId}`);
-      if (!res.ok) throw new Error('Falha ao buscar usuário');
-      const userData = await res.json();
-      setEmail(userData.email || '');
-    } catch (error) {
-      console.error('Erro ao carregar email:', error);
+    if (profileEditMode === 'email' && usuarioId) {
+      try {
+        const res = await fetch(`http://localhost:3001/usuarios/${usuarioId}`);
+        if (!res.ok) throw new Error('Falha ao buscar usuário');
+        const userData = await res.json();
+        setEmail(userData.email || '');
+      } catch (error) {
+        console.error('Erro ao carregar email:', error);
+      }
     }
-  }
-  setShowProfileModal(true);
-};
-
+    setShowProfileModal(true);
+  };
 
   const toggleNotifications = () => {
     if (notifications.some(n => n.unread)) {
@@ -157,7 +167,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
     { 
       icon: <FiUser />, 
       label: 'Perfil', 
-      action: () => setShowProfileModal(true)
+      action: openProfileModal
     }
   ];
 
@@ -354,95 +364,149 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
         </div>
       )}
 
-      {/* Modal de Perfil */}
+      {/* Modal de Perfil Atualizado */}
       {showProfileModal && (
-        <div className="profile-modal">
-          <div className="modal-content">
-            <button className="close-modal" onClick={() => setShowProfileModal(false)}>
-              <FiX />
-            </button>
-            <h2>Editar Perfil</h2>
+        <div className="profile-modal-overlay">
+          <div className="profile-modal">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h2>
+                  Editar Perfil
+                </h2>
+                <button 
+                  className="close-modal" 
+                  onClick={() => setShowProfileModal(false)}
+                  aria-label="Fechar modal"
+                >
+                  <FiX size={20} />
+                </button>
+              </div>
 
-            <div className="profile-edit-mode">
-              <button
-                type="button"
-                className={profileEditMode === 'email' ? 'active' : ''}
-                onClick={() => setProfileEditMode('email')}
-              >
-                Mudar Email
-              </button>
-              <button
-                type="button"
-                className={profileEditMode === 'password' ? 'active' : ''}
-                onClick={() => setProfileEditMode('password')}
-              >
-                Mudar Senha
-              </button>
-            </div>
+              <div className="edit-mode-tabs">
+                <button
+                  type="button"
+                  className={`tab-btn ${profileEditMode === 'email' ? 'active' : ''}`}
+                  onClick={() => setProfileEditMode('email')}
+                >
+                  <FiMail className="tab-icon" />
+                  <span>Email</span>
+                  {profileEditMode === 'email' && <div className="active-indicator" />}
+                </button>
+                <button
+                  type="button"
+                  className={`tab-btn ${profileEditMode === 'password' ? 'active' : ''}`}
+                  onClick={() => setProfileEditMode('password')}
+                >
+                  <FiLock className="tab-icon" />
+                  <span>Senha</span>
+                  {profileEditMode === 'password' && <div className="active-indicator" />}
+                </button>
+              </div>
 
-            <form onSubmit={handleProfileUpdate}>
-              {profileEditMode === 'email' && (
-                <div className="form-group">
-                  <label htmlFor="email">Novo Email:</label>
-                  <div className="input-icon">
-                    <FiMail />
-                    <input
-                      type="email"
-                      id="email"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      placeholder="Digite o novo email"
-                      required
-                      autoFocus
-                    />
-                  </div>
-                </div>
-              )}
-
-              {profileEditMode === 'password' && (
-                <>
+              <form onSubmit={handleProfileUpdate} className="profile-form">
+                {profileEditMode === 'email' && (
                   <div className="form-group">
-                    <label htmlFor="password">Nova Senha:</label>
-                    <div className="input-icon">
-                      <FiLock />
+                    <label htmlFor="email">
+                      <FiMail className="input-icon" />
+                      Novo Email
+                    </label>
+                    <div className="input-wrapper">
                       <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        placeholder="Digite a nova senha"
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        placeholder="Digite seu novo email"
                         required
                         autoFocus
+                        className="profile-input"
                       />
+                      <FiEdit2 className="edit-icon" />
                     </div>
                   </div>
+                )}
 
-                  <div className="form-group">
-                    <label htmlFor="confirmPassword">Confirmar Senha:</label>
-                    <div className="input-icon">
-                      <FiLock />
-                      <input
-                        type="password"
-                        id="confirmPassword"
-                        value={confirmPassword}
-                        onChange={e => setConfirmPassword(e.target.value)}
-                        placeholder="Confirme a nova senha"
-                        required
-                      />
+                {profileEditMode === 'password' && (
+                  <>
+                    <div className="form-group">
+                      <label htmlFor="password">
+                        <FiLock className="input-icon" />
+                        Nova Senha
+                      </label>
+                      <div className="input-wrapper">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          id="password"
+                          value={password}
+                          onChange={e => setPassword(e.target.value)}
+                          placeholder="Digite sua nova senha"
+                          required
+                          autoFocus
+                          className="profile-input"
+                        />
+                        <button 
+                          type="button" 
+                          className="password-toggle"
+                          onClick={togglePasswordVisibility}
+                          aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                        >
+                          {showPassword ? <FiEyeOff /> : <FiEye />}
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </>
-              )}
 
-              <button type="submit" className="save-btn">
-                Salvar
-              </button>
-            </form>
+                    <div className="form-group">
+                      <label htmlFor="confirmPassword">
+                        <FiLock className="input-icon" />
+                        Confirmar Senha
+                      </label>
+                      <div className="input-wrapper">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          id="confirmPassword"
+                          value={confirmPassword}
+                          onChange={e => setConfirmPassword(e.target.value)}
+                          placeholder="Confirme sua nova senha"
+                          required
+                          className="profile-input"
+                        />
+                        <button 
+                          type="button" 
+                          className="password-toggle"
+                          onClick={toggleConfirmPasswordVisibility}
+                          aria-label={showConfirmPassword ? "Ocultar senha" : "Mostrar senha"}
+                        >
+                          {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                <button type="submit" className="save-btn">
+                  <FiCheck className="btn-icon" />
+                  Salvar Alterações
+                </button>
+              </form>
+
+              <div className="modal-footer">
+                <button 
+                  className="logout-btn"
+                  onClick={() => {
+                    setShowProfileModal(false);
+                    logout();
+                  }}
+                >
+                  <FiLogOut className="btn-icon" />
+                  Sair da Conta
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Search Mobile */}
+      {/* Search Mobile Atualizado */}
       {isMobile && (
         <div className="mobile-search-container" ref={searchRef}>
           <form onSubmit={handleSearch}>
@@ -454,9 +518,15 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
+                className="mobile-search-input"
               />
               {searchQuery && (
-                <button type="button" className="clear-search" onClick={clearSearch}>
+                <button 
+                  type="button" 
+                  className="clear-search"
+                  onClick={clearSearch}
+                  aria-label="Limpar busca"
+                >
                   <FiX size={16} />
                 </button>
               )}
