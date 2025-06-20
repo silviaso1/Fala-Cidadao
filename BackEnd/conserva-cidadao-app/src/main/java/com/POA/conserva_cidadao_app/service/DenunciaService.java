@@ -127,7 +127,7 @@ public class DenunciaService {
         Denuncia savedDenuncia = denunciaRepository.save(denuncia);
 
         if (isStatusAtivo(savedDenuncia.getStatus())) {
-            tualizarContagemBairro(savedDenuncia.getBairro(), true);
+            atualizarContagemBairro(savedDenuncia.getBairro(), true);
         }
 
         return savedDenuncia;
