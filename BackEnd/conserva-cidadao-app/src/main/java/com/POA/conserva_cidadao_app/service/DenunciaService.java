@@ -193,12 +193,15 @@ public class DenunciaService {
         return denunciaAtualizada;
     }
 
-    public void deletarDenuncia(Long id, Long usuarioId) {
+    public void deletarDenuncia(Long id, Long usuarioId, String perfilUsuario) {
         Denuncia denuncia = denunciaRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Denúncia não encontrada"));
 
-        if (!denuncia.getUsuario().getId().equals(usuarioId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado. Somente o criador pode excluir esta denúncia");
+        boolean isAutor = denuncia.getUsuario().getId().equals(usuarioId);
+        boolean isAdmin = "admin".equalsIgnoreCase(perfilUsuario);
+
+        if (!isAutor && !isAdmin) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado. Somente o criador ou admin pode excluir esta denúncia");
         }
 
         if (isStatusAtivo(denuncia.getStatus())) {
@@ -209,6 +212,7 @@ public class DenunciaService {
         denunciaRepository.deleteById(id);
         ComentarioRepository.deleteByDenunciaId(id);
     }
+
 
 
     private void tratarMudancasParaContagemBairro(Denuncia denuncia, StatusDenuncia statusAntigo, String bairroAntigo) {

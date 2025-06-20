@@ -6,9 +6,12 @@ import com.POA.conserva_cidadao_app.model.Denuncia;
 import com.POA.conserva_cidadao_app.service.DenunciaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -79,15 +82,16 @@ public class DenunciaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarDenuncia(
             @PathVariable Long id,
-            @RequestParam Long usuarioId) {  // Mudança aqui, usando RequestParam
+            @RequestParam Long usuarioId,
+            @RequestParam String perfil) {  // recebe perfil também
 
         try {
-            denunciaService.deletarDenuncia(id, usuarioId);
+            denunciaService.deletarDenuncia(id, usuarioId, perfil);
             return ResponseEntity.ok(Map.of("mensagem", "Denúncia excluída com sucesso."));
-        } catch (SecurityException e) {
-            return ResponseEntity.status(403).body(Map.of("erro", e.getMessage()));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(404).body(Map.of("erro", "Denúncia não encontrada."));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode().value())
+                    .body(Map.of("erro", Objects.requireNonNull(e.getReason())));
         }
     }
+
 }
