@@ -14,10 +14,15 @@ public class DenunciaResponseDTO {
     private int likes;
     private List<String> imagens;
     private LocalDateTime dataCriacao;
+    private Double latitude;
+    private Double longitude;
+
 
     public DenunciaResponseDTO() {}
 
-    public DenunciaResponseDTO(Long id, UsuarioResponseDTO usuario, String titulo, String descricao, String bairro, StatusDenuncia status, int likes, List<String> imagens, LocalDateTime dataCriacao) {
+    public DenunciaResponseDTO(Long id, UsuarioResponseDTO usuario, String titulo, String descricao,
+                               String bairro, StatusDenuncia status, int likes, List<String> imagens,
+                               LocalDateTime dataCriacao, Double latitude, Double longitude) {
         this.id = id;
         this.usuario = usuario;
         this.titulo = titulo;
@@ -27,7 +32,10 @@ public class DenunciaResponseDTO {
         this.likes = likes;
         this.imagens = imagens;
         this.dataCriacao = dataCriacao;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
+
 
     public String getBairro() {
         return bairro;
@@ -101,4 +109,21 @@ public class DenunciaResponseDTO {
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
 }

@@ -38,6 +38,13 @@ public class Denuncia {
     @Column(nullable = false)
     private String bairro;
 
+    @Column(nullable = true)
+    private Double latitude;
+
+    @Column(nullable = true)
+    private Double longitude;
+
+
     @OneToMany(mappedBy = "denuncia", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Like> likesList;
 
@@ -85,5 +92,22 @@ public class Denuncia {
 
     public List<Comentario> getComentarios() { return comentarios; }
     public void setComentarios(List<Comentario> comentarios) { this.comentarios = comentarios; }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
 
 }

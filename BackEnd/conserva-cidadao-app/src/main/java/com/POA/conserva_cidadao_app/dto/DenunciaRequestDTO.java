@@ -8,6 +8,8 @@ public class DenunciaRequestDTO {
     private String descricao;
     private String bairro;
     private List<String> imagens;
+    private String endereco;
+
 
     public String getBairro() {
         return bairro;
@@ -48,4 +50,13 @@ public class DenunciaRequestDTO {
     public void setImagens(List<String> imagens) {
         this.imagens = imagens;
     }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
 }

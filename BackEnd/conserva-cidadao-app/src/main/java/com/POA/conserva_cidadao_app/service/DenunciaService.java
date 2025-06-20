@@ -32,11 +32,18 @@ public class DenunciaService {
     @Autowired
     public DenunciaService(DenunciaRepository denunciaRepository,
                            UsuarioRepository usuarioRepository,
-                           LocalRepository localRepository) {
+                           LocalRepository localRepository,
+                           GeocodingService geocodingService) {
         this.denunciaRepository = denunciaRepository;
         this.usuarioRepository = usuarioRepository;
         this.localRepository = localRepository;
+        this.geocodingService = geocodingService;
     }
+
+
+    @Autowired
+    private GeocodingService geocodingService;
+
 
     @PostConstruct
     public void init() {
@@ -93,13 +100,18 @@ public class DenunciaService {
                 denuncia.getStatus(),
                 denuncia.getLikes(),
                 denuncia.getImagens(),
-                denuncia.getDataCriacao()
+                denuncia.getDataCriacao(),
+                denuncia.getLatitude(),
+                denuncia.getLongitude()
         );
     }
 
     public Denuncia criarDenuncia(DenunciaRequestDTO request) {
         Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+
+        // 🔍 Obter lat/lng/bairro com base no endereço
+        Map<String, Object> geoData = geocodingService.getLatLng(request.getEndereco());
 
         Denuncia denuncia = new Denuncia();
         denuncia.setTitulo(request.getTitulo());
@@ -108,9 +120,17 @@ public class DenunciaService {
         denuncia.setUsuario(usuario);
         denuncia.setStatus(StatusDenuncia.DENUNCIADO);
         denuncia.setLikes(0);
-        denuncia.setBairro(request.getBairro());
 
-        // Aqui: seta a data de criação
+        denuncia.setLatitude((Double) geoData.get("latitude"));
+        denuncia.setLongitude((Double) geoData.get("longitude"));
+
+        // Prioriza bairro da geolocalização, mas usa o informado se não vier
+        if (geoData.get("bairro") != null) {
+            denuncia.setBairro(geoData.get("bairro").toString());
+        } else {
+            denuncia.setBairro(request.getBairro());
+        }
+
         denuncia.setDataCriacao(LocalDateTime.now());
 
         Denuncia savedDenuncia = denunciaRepository.save(denuncia);
@@ -121,6 +141,7 @@ public class DenunciaService {
 
         return savedDenuncia;
     }
+
 
 
     public Optional<Denuncia> buscarDenunciaPorId(Long id) {
@@ -237,5 +258,13 @@ public class DenunciaService {
 
     private boolean isStatusAtivo(StatusDenuncia status) {
         return status == StatusDenuncia.DENUNCIADO || status == StatusDenuncia.EM_ANDAMENTO;
+    }
+
+    public GeocodingService getGeocodingService() {
+        return geocodingService;
+    }
+
+    public void setGeocodingService(GeocodingService geocodingService) {
+        this.geocodingService = geocodingService;
     }
 }
