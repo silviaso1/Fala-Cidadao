@@ -1,7 +1,7 @@
 import UserDropdown from '../Dropdown/Dropdown';
 import './TopNav.scss';
 
-function TopNav({ activeTab, switchTab, showUserDropdown, toggleUserDropdown, closeUserMenu }) {
+function TopNav({ activeTab, switchTab }) {
   return (
     <div className="top-nav">
       <div className="tabs-container">
@@ -18,6 +18,7 @@ function TopNav({ activeTab, switchTab, showUserDropdown, toggleUserDropdown, cl
           Meus Posts
         </div>
       </div>
+
     </div>
   );
 }
