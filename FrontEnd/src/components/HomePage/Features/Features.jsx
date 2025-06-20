@@ -15,21 +15,21 @@ const Features = () => {
               <FaMapMarkedAlt />
             </div>
             <h4>Mapa Interativo</h4>
-            <p>Visualize problemas reportados em sua cidade em um mapa intuitivo e fácil de usar. Filtre por tipo de problema e status de resolução.</p>
+            <p> Filtre por praças e parques, principais espaços urbanos, ou selecione qualquer qualquer local da cidade no mapa.</p>
           </div>
           <div className="recurso-card" data-anime="top">
             <div className="recurso-icone">
               <FaBullhorn />
             </div>
             <h4>Reporte Fácil</h4>
-            <p>Com poucos cliques, reporte problemas urbanos com fotos e descrição. Seu relato é geolocalizado automaticamente.</p>
+            <p>Reporte problemas urbanos em poucos cliques. Seu relato é geolocalizado automaticamente.</p>
           </div>
           <div className="recurso-card" data-anime="right">
             <div className="recurso-icone">
               <FaUsers />
             </div>
             <h4>Comunidade Ativa</h4>
-            <p>Conecte-se com outros cidadãos, apoie reportes e acompanhe as soluções. Juntos somos mais fortes!</p>
+            <p>Apoie denúncias e acompanhe as soluções.</p>
           </div>
         </div>
 
