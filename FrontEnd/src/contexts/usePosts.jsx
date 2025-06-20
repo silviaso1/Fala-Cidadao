@@ -27,7 +27,7 @@ export const usePosts = (usuarioId, activeTab, currentFilter, currentSort) => {
           filtered.map(async (post) => {
             const { data: comentarios } = await axios.get(`http://localhost:3001/denuncias/${post.id}/comentarios`);
             const commentsList = comentarios.map(c => ({
-              name: c.usuario.nome,
+              name: c.nomeUsuario,
               time: dayjs(c.dataCriacao).fromNow(),
               text: c.texto
             }));
