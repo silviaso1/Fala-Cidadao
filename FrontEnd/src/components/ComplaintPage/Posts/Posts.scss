@@ -1,0 +1,305 @@
+@use "../../../styles/App.scss" as *;
+@use 'sass:color';
+
+
+.post-card {
+  background-color: $cor-card;
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 24px;
+  border: 1px solid $cor-borda;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  position: relative;
+  margin-left: 30px;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: $cor-primaria;
+  }
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.post-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.post-user-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.post-user {
+  font-weight: 600;
+  font-size: 18px;
+  margin: 0;
+}
+
+.post-time {
+  color: $cor-texto-claro;
+  font-size: 14px;
+}
+
+.post-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 10px 0 8px;
+}
+
+.post-content {
+  font-size: 16px;
+  line-height: 1.6;
+  color: $cor-texto;
+  margin-bottom: 20px;
+}
+
+.post-menu {
+  position: relative;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $cor-texto-claro;
+  padding: 10px;
+  
+  &:hover {
+    color: $cor-primaria;
+  }
+}
+
+.menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  min-width: 150px;
+  overflow: hidden;
+  border: 1px solid $cor-borda;
+  
+}
+
+.delete-button {
+  width: 100%;
+  padding: 5px 5px;
+  font-size: small;
+  text-align: left;
+  background: $cor-card;
+  color: $cor-texto;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+
+  &:hover {
+    background-color: lighten($cor-card, 5%);
+  }
+
+  // Tema escuro
+  @media (prefers-color-scheme: dark) {
+    background: linear-gradient(
+      135deg,
+      color.adjust($cor-card, $lightness: -3%),
+      color.adjust($cor-card, $lightness: -8%)
+    );
+  }
+}
+
+
+.post-actions {
+  display: flex;
+  gap: 25px;
+  padding-top: 15px;
+  border-top: 1px solid $cor-borda;
+}
+
+.post-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $cor-texto-claro;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $cor-destaque;
+  }
+
+  &.active {
+    color: $cor-destaque;
+  }
+}
+
+.comments-section {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  margin-top: 15px;
+
+  &.expanded {
+    max-height: 1000px;
+  }
+}
+
+.comment-form {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $cor-secundaria, $cor-primaria);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.comment-input {
+  flex: 1;
+  display: flex;
+  gap: 10px;
+
+  input {
+    flex: 1;
+    background-color: $cor-fundo;
+    border: 1px solid $cor-borda;
+    border-radius: 20px;
+    padding: 10px 15px;
+    color: $cor-texto;
+    outline: none;
+    font-size: 14px;
+  }
+
+  button {
+    background-color: $cor-primaria;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+
+    &:hover {
+      background-color: darken($cor-primaria, 10%);
+    }
+  }
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.comment {
+  display: flex;
+  gap: 12px;
+}
+
+.comment-content {
+  background-color: $cor-fundo;
+  padding: 12px 15px;
+  border-radius: 12px;
+  flex: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.comment-user {
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+.comment-text {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.post-action.liked {
+  color: #fd79a8;
+
+  svg {
+    fill: #fd79a8;
+  }
+}
+
+.post-status {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.status-em_andamento {
+  color: orange;
+}
+
+.status-resolvido {
+  color: green;
+}
+
+.status-invalido {
+  color: red;
+}
+
+.status-denunciado {
+  color: gray;
+}
+
+
+@media (max-width: 1080px) {
+  .post-card {
+    padding: 20px;
+    margin-left: 0;
+    
+  }
+
+
+ 
+}
+
+@media (max-width: 460px){
+  .post-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+  }
+  .post-user {
+    font-size: 16px;
+  }
+  .post-status {
+    font-size: 13px;
+  }
+  .post-title {
+    font-size: 17px;
+  }
+  .post-content {
+    font-size: 14px;
+  }
+}

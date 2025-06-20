@@ -1,0 +1,113 @@
+@use '../../../styles/App.scss' as *;
+
+.recursos {
+  padding: 80px 0;
+  position: relative;
+   background: linear-gradient(
+            135deg,
+            #292955 0%,
+           #7a436d 50%,
+            #1f2c44 100%
+        );
+
+ 
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(187, 17, 76, 0.05) 0%, rgba(253, 121, 168, 0) 70%);
+    z-index: -1;
+  }
+  
+
+  &-titulo {
+    text-align: center;
+    margin-bottom: 60px;
+
+    h3 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, $cor-primaria, $cor-destaque);
+        border-radius: 2px;
+      }
+    }
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+}
+
+.recurso-card {
+  background-color: $cor-card;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: $sombra;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid $cor-borda;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, $cor-primaria, $cor-destaque);
+  }
+
+  h4 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: $cor-texto;
+  }
+}
+
+.recurso-icone {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: white;
+  font-size: 1.5rem;
+  box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 992px) {
+  .recursos::before {
+    display: none;
+  }
+}

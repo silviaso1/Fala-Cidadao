@@ -1,0 +1,78 @@
+@use '../../../styles/App.scss' as *;
+
+.rodape {
+    background: $cor-card;
+  color: white;
+  padding: 60px 0 20px;
+  border-top: 1px solid $cor-borda;
+
+  &-conteudo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+    align-items: flex-start;
+  }
+
+  &-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+
+    img {
+      width: 250px;
+    }
+  }
+
+  &-sobre {
+    p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+  }
+
+  &-links {
+    h4 {
+      color: white;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $cor-destaque;
+      }
+    }
+  }
+
+  &-copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 1100px) {
+    footer{
+      margin-bottom: -80px;
+    }
+}
