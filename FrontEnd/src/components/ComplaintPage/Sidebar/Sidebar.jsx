@@ -6,6 +6,7 @@ import { useAuth } from '../../../contexts/useAuth';
 import { useState, useEffect, useRef } from 'react';
 import "./Sidebar.scss";
 import Logo from "../../../assets/logo2.png";
+import { Link } from 'react-router-dom';
 
 const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
   const { usuarioNome, logout, usuarioId } = useAuth();
@@ -180,7 +181,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, onSearch }) => {
             <button className="sidebar-toggle" onClick={toggleSidebar}>
               {sidebarOpen ? <FiChevronLeft size={20} /> : <FiChevronRight size={20} />}
             </button>
-            {sidebarOpen && <h2 className="logo"><img src={Logo} alt="logo" /></h2>}
+            {sidebarOpen && <h2 className="logo"> <Link to="/"><img src={Logo} alt="logo" /></Link>  </h2>}
           </div>
 
           <div className={`sidebar-search-container ${sidebarOpen ? 'open' : ''}`} ref={searchRef}>

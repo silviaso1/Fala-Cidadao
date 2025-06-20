@@ -10,7 +10,7 @@ const Diferenca = () => {
           <h2>Pronto para fazer a diferença?</h2>
           <p>Junte-se a milhares de cidadãos ativos que estão transformando suas cidades através da participação coletiva.</p>
           <div className="cta-botoes">
-            <Link to="/auth/posts" className="botao botao-primario">
+            <Link to="/posts" className="botao botao-primario">
                Faça uma denúncia
             </Link>
           </div>
