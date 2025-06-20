@@ -1,0 +1,250 @@
+@use '../../../styles/App.scss' as *;
+
+
+.hero {
+  padding: 80px 0;
+  position: relative;
+  top: 25px;
+  height: 100vh;
+  background: $cor-fundo;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-content {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    .hero-conteudo {
+      flex: 1; 
+      position: relative;
+      z-index: 2;
+
+      h2 {
+        font-size: 2.7rem;
+        margin-bottom: 20px;
+        background: linear-gradient(90deg, $cor-primaria, $cor-destaque);
+        background-clip: text;
+        color: transparent;
+      }
+
+      p {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        max-width: 90%;
+      }
+    }
+
+    .hero-ilustracao {
+      flex: 1; 
+      position: relative;
+      height: 400px;
+      perspective: 1000px;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #a29bfe1a 0%, #a29bfe00 70%);
+    z-index: -1;
+  }
+}
+
+.feed-social {
+  width: 100%;
+  height: 100%;
+  background-color: $cor-card;
+  border-radius: 20px;
+  box-shadow: $sombra;
+  padding: 20px;
+  transform-style: preserve-3d;
+  transform: rotateY(-10deg) rotateX(5deg);
+  transition: transform 0.5s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid $cor-borda;
+
+  &:hover {
+    transform: rotateY(-5deg) rotateX(3deg);
+  }
+}
+
+.post {
+  background-color: rgba(10, 25, 47, 0.6);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  border: 1px solid $cor-borda;
+  backdrop-filter: blur(5px);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  &-cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  &-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+  }
+
+  &-usuario {
+    font-weight: 600;
+  }
+
+  &-tempo {
+    font-size: 0.8rem;
+    color: $cor-texto-claro;
+  }
+
+  &-conteudo {
+    margin-bottom: 10px;
+  }
+
+  &-local {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: $cor-secundaria;
+  }
+
+  &-acoes {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  &-acao {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: $cor-texto-claro;
+
+    svg {
+      color: $cor-destaque;
+    }
+  }
+}
+
+.post-destaque {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, $cor-primaria, $cor-destaque);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 50px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(253, 121, 168, 0.4);
+  animation: pulse 2s infinite;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+@media (max-width: 1024px) {
+  .hero-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-conteudo,
+  .hero-ilustracao {
+    flex: none;
+    width: 100%;
+  }
+
+  .hero-ilustracao {
+    height: auto;
+    margin-top: 30px;
+  }
+
+  .hero-conteudo h2 {
+    font-size: 2.5rem;
+  }
+
+  .hero-conteudo p {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .feed-social {
+    transform: none;
+    border-radius: 10px;
+    padding: 15px;
+  }
+
+  .post {
+    padding: 12px;
+  }
+
+  .post-cabecalho {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .post-acoes {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .post-destaque {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 60px 0;
+  }
+
+  .hero-conteudo h2 {
+    font-size: 2rem;
+  }
+
+  .post-usuario,
+  .post-tempo,
+  .post-local,
+  .post-acao {
+    font-size: 0.85rem;
+  }
+
+  .post-avatar {
+    width: 32px;
+    height: 32px;
+  }
+}

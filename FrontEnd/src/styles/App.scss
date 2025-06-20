@@ -1,0 +1,43 @@
+$cor-primaria: #6c5ce7;
+$cor-secundaria: #a29bfe;
+$cor-destaque: #fd79a8;
+$cor-texto: #f5f6fa;
+$cor-texto-claro: #bdc3c7;
+$cor-fundo: #141416;
+$cor-card: #141825;
+$cor-borda: #2d4059;
+$cor-sucesso: #00b894;
+$cor-alerta: #e84393;
+$sombra: 0 8px 24px rgba(0, 0, 0, 0.3);
+$sombra-destaque: 0 12px 28px rgba(108, 92, 231, 0.25);
+$destaque: #21242c;
+$transition-speed: 0.3s;
+$cor-fundo-claro: #1E1E2F;
+$cor-pendente: #FDCB6E;
+$cor-analise: #0984E3;
+$cor-resolvido: #00B894;
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var($cor-fundo);
+    color: var($cor-texto);
+    line-height: 1.6;
+    overflow-x: hidden;
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-weight: 700;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}

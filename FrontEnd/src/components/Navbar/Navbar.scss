@@ -1,0 +1,63 @@
+@use "../../styles/App.scss" as *;
+
+.navbar {
+    padding: 20px 0;
+    position: fixed;
+    z-index: 100;
+    background-color: #000000d0;
+    backdrop-filter: blur(25px);
+    width: 100%;
+
+    .botao {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 15px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        color: #fff;
+        background-color: transparent;
+        // box-shadow: $sombra-destaque;
+        border: 2px solid $cor-primaria;
+        &:hover {
+            box-shadow: 0 0 30px 5px #6c5ce766;
+        }
+
+        &-primario {
+            &:hover {
+                transform: translateY(-2px);
+                background-color: $cor-primaria;
+            }
+        }
+
+        &-secundario {
+            background-color: $cor-primaria;
+
+            &:hover {
+                transform: translateY(-2px);
+                background-color: #000;
+            }
+        }
+    }
+
+    &-menu {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+
+        .icon{
+            scale: 2;
+        }
+    }
+}
+@media (max-width: 576px) {
+    .cabecalho {
+        width: 100%;
+        gap: 20px;
+    }
+
+    .cabecalho-menu {
+        gap: 15px;
+    }
+}
