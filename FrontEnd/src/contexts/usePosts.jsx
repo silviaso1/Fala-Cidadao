@@ -39,8 +39,8 @@ export const usePosts = (usuarioId, activeTab, currentFilter, currentSort) => {
                 name: post.usuario.nome,
                 username: `@${post.usuario.nome.toLowerCase().replace(/\s/g, '')}`
               },
-              date: post.date || new Date().toISOString(),
-              timeAgo: dayjs(post.date || new Date()).fromNow(),
+              date: post.dataCriacao,
+              timeAgo: dayjs(post.dataCriacao).fromNow(),
               title: post.titulo,
               content: post.descricao,
               image: post.imagens?.[0] || '',
@@ -49,6 +49,7 @@ export const usePosts = (usuarioId, activeTab, currentFilter, currentSort) => {
               status: post.status,
               commentsList
             };
+
           })
         );
 

@@ -25,26 +25,30 @@ function Complaint() {
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const toggleUserDropdown = () => setShowUserDropdown(!showUserDropdown);
 
-  // Função para lidar com a busca
   const handleSearch = (query) => {
     setSearchQuery(query);
   };
 
+
+
   const createNewPost = async (formData) => {
-    try {
-      await axios.post('http://localhost:3001/denuncias', {
-        usuarioId: Number(usuarioId),
-        titulo: formData.titulo,
-        descricao: formData.descricao,
-        bairro: formData.bairro,
-        imagens: formData.imagens || []
-      });
-      setShowModal(false);
-    } catch (error) {
-      console.error('Erro ao criar nova denúncia:', error);
-      alert('Erro ao enviar denúncia. Tente novamente.');
-    }
-  };
+  try {
+    await axios.post('http://localhost:3001/denuncias', {
+      usuarioId: Number(usuarioId),
+      titulo: formData.titulo,
+      descricao: formData.descricao,
+      bairro: formData.bairro,
+      imagens: formData.imagens || [],
+      endereco: `${formData.rua}, ${formData.numero}, ${formData.bairro}`,
+      latitude: formData.latitude,
+      longitude: formData.longitude
+    });
+    setShowModal(false);
+  } catch (error) {
+    console.error('Erro ao criar nova denúncia:', error);
+    alert('Erro ao enviar denúncia. Tente novamente.');
+  }
+};
 
   const addComment = (postId, commentText) => {
     setPosts(prev =>

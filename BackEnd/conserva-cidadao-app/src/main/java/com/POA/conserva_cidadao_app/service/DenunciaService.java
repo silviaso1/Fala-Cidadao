@@ -108,10 +108,8 @@ public class DenunciaService {
 
     public Denuncia criarDenuncia(DenunciaRequestDTO request) {
         Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
-
-        // 🔍 Obter lat/lng/bairro com base no endereço
-        Map<String, Object> geoData = geocodingService.getLatLng(request.getEndereco());
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, 
+        "Usuário não encontrado"));
 
         Denuncia denuncia = new Denuncia();
         denuncia.setTitulo(request.getTitulo());
@@ -120,23 +118,16 @@ public class DenunciaService {
         denuncia.setUsuario(usuario);
         denuncia.setStatus(StatusDenuncia.DENUNCIADO);
         denuncia.setLikes(0);
-
-        denuncia.setLatitude((Double) geoData.get("latitude"));
-        denuncia.setLongitude((Double) geoData.get("longitude"));
-
-        // Prioriza bairro da geolocalização, mas usa o informado se não vier
-        if (geoData.get("bairro") != null) {
-            denuncia.setBairro(geoData.get("bairro").toString());
-        } else {
-            denuncia.setBairro(request.getBairro());
-        }
-
+        denuncia.setBairro(request.getBairro());
         denuncia.setDataCriacao(LocalDateTime.now());
+        denuncia.setLatitude(request.getLatitude());
+        denuncia.setLongitude(request.getLongitude());
+
 
         Denuncia savedDenuncia = denunciaRepository.save(denuncia);
 
         if (isStatusAtivo(savedDenuncia.getStatus())) {
-            atualizarContagemBairro(savedDenuncia.getBairro(), true);
+            tualizarContagemBairro(savedDenuncia.getBairro(), true);
         }
 
         return savedDenuncia;

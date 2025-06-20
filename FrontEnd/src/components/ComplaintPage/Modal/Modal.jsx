@@ -16,6 +16,32 @@ function Modal({ showModal, closeModal, createNewPost }) {
   });
   const [mapCenter, setMapCenter] = useState(null);
 
+  const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+  const fetchLatLng = async (form) => {
+const fullAddress = `${form.rua} ${form.numero}, ${form.bairro}, Cidade, Rio de Janeiro, ${form.cep}, Brasil`;    console.log("fullAddress", fullAddress);
+    try {
+      const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+        params: {
+          address: fullAddress,
+          key: GOOGLE_API_KEY,
+        },
+      });
+
+      const result = response.data.results[0];
+      if (result) {
+        const { lat, lng } = result.geometry.location;
+        return { lat, lng };
+      } else {
+        console.error('Endereço não encontrado na API Google.');
+        return null;
+      }
+    } catch (error) {
+      console.error('Erro ao buscar coordenadas na API Google:', error);
+      return null;
+    }
+  };
+
   const updateField = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
     if (value.trim()) removeError(field);
@@ -46,15 +72,32 @@ function Modal({ showModal, closeModal, createNewPost }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const errors = {};
     for (const key of ['cep', 'rua', 'numero', 'bairro', 'titulo', 'descricao']) {
       if (!form[key]?.trim()) errors[key] = 'Campo obrigatório';
     }
     if (Object.keys(errors).length > 0) return setFormErrors(errors);
 
-    createNewPost(form);
+    // Aqui chamamos a API do Google para pegar lat/lng do endereço
+    const location = await fetchLatLng(form);
+    if (!location) {
+      alert('Falha ao localizar o endereço. Verifique os campos.');
+      return;
+    }
+
+    // Prepara os dados para enviar pro backend, incluindo lat e lng
+    const postData = {
+      ...form,
+      latitude: location.lat,
+      longitude: location.lng,
+    };
+
+    createNewPost(postData);
+
+    // Resetar form e erros após envio
     setForm({ titulo: '', descricao: '', cep: '', rua: '', numero: '', bairro: '' });
     setFormErrors({});
   };
@@ -128,7 +171,6 @@ function Modal({ showModal, closeModal, createNewPost }) {
               {formErrors.descricao && <span className="text-danger">{formErrors.descricao}</span>}
             </fieldset>
 
-            
             <button type="submit" className="post-submit mt-3">Publicar</button>
           </form>
         </div>
