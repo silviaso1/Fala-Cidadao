@@ -29,8 +29,8 @@ const Admin = () => {
             name: item.usuario.nome,
             username: `@${item.usuario.nome.toLowerCase().replace(/\s+/g, '')}`
           },
-          date: new Date(item.createdAt).toLocaleDateString(),
-          time: new Date(item.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+          date: new Date(item.dataCriacao).toLocaleDateString(),
+          time: new Date(item.dataCriacao).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
           status: item.status.toLowerCase(),
           comments: 0,
           location: item.bairro,
