@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import {
-  FaEdit, FaCheck, FaClock, FaSearch, 
+  FaEdit, FaCheck, FaClock, FaSearch,
   FaQuestion, FaTrash
 } from 'react-icons/fa';
 import Pagination from '../Pagination/Pagination';
@@ -13,21 +13,18 @@ const Reports = ({ reports, onStatusChange, onDeleteReport }) => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const reportsPerPage = 10;
-  const { usuarioId } = useAuth();
+  const { token } = useAuth(); // Só precisa do token. usuarioId é fixo (1)
 
   const filteredReports = reports.filter(report => {
     const lowerSearch = searchTerm.toLowerCase();
-
-    const title = report.title ? report.title.toLowerCase() : '';
-    const content = report.content ? report.content.toLowerCase() : '';
-    const location = report.location ? report.location.toLowerCase() : '';
-
+    const title = report.title?.toLowerCase() || '';
+    const content = report.content?.toLowerCase() || '';
+    const location = report.location?.toLowerCase() || '';
 
     const matchesSearch =
       title.includes(lowerSearch) ||
       content.includes(lowerSearch) ||
       location.includes(lowerSearch);
-
 
     const matchesStatus = statusFilter === 'all' || report.status === statusFilter;
 
@@ -63,29 +60,50 @@ const Reports = ({ reports, onStatusChange, onDeleteReport }) => {
 
   const handleStatusChange = async (reportId, newStatus) => {
     try {
-      await axios.put(`http://localhost:3001/denuncias/${reportId}`, {
-        usuarioId: Number(usuarioId),
-        status: newStatus.toUpperCase(),
-      });
+      await axios.put(
+        `http://localhost:3001/denuncias/${reportId}`,
+        {
+          usuarioId: 1,
+          status: newStatus.toUpperCase(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
 
       onStatusChange(reportId, newStatus);
-      alert(`Status da denúncia ${reportId} atualizado para ${getStatusText(newStatus)}`);
     } catch (error) {
       console.error(`Erro ao atualizar status da denúncia ${reportId}:`, error);
-      alert('Erro ao atualizar o status. Tente novamente.');
     }
   };
 
   const handleDeleteReport = async (reportId) => {
-    if (confirm(`Tem certeza que deseja remover a denúncia #${reportId}?`)) {
-      try {
-        await axios.delete(`http://localhost:3001/denuncias/${reportId}`);
+    if (!confirm(`Tem certeza que deseja remover a denúncia #${reportId}?`)) return;
+
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/denuncias/${reportId}?usuarioId=1&perfil=admin`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      if (response.status === 200) {
         onDeleteReport(reportId);
-        alert(`Denúncia #${reportId} removida com sucesso.`);
-      } catch (error) {
-        console.error(`Erro ao remover denúncia ${reportId}:`, error);
-        alert('Erro ao remover a denúncia. Tente novamente.');
+        window.location.reload(); // Recarrega a página após deletar
       }
+    } catch (error) {
+      console.error('Erro ao remover denúncia:', {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message
+      });
     }
   };
 
@@ -143,16 +161,12 @@ const Reports = ({ reports, onStatusChange, onDeleteReport }) => {
                     <div className="report-title">{report.title}</div>
                     <div className="report-content">{report.content}</div>
                     {report.location && (
-                      <div className="report-location">
-                        {report.location}
-                      </div>
+                      <div className="report-location">{report.location}</div>
                     )}
                   </td>
                   <td>
                     <div className="report-user">
-                      <div className="user-avatar-sm">
-                        {report.user.avatar}
-                      </div>
+                      <div className="user-avatar-sm">{report.user.avatar}</div>
                       <div className="user-info">
                         <div className="user-name">{report.user.name}</div>
                       </div>
@@ -169,22 +183,22 @@ const Reports = ({ reports, onStatusChange, onDeleteReport }) => {
                   </td>
                   <td>
                     <div className="action-buttons">
-                      <button 
-                        className="action-btn edit" 
+                      <button
+                        className="action-btn edit"
                         onClick={() => handleStatusChange(report.id, 'em_andamento')}
                         title="Marcar como em análise"
                       >
                         <FaEdit />
                       </button>
-                      <button 
-                        className="action-btn resolve" 
+                      <button
+                        className="action-btn resolve"
                         onClick={() => handleStatusChange(report.id, 'resolvido')}
                         title="Marcar como resolvido"
                       >
                         <FaCheck />
                       </button>
-                      <button 
-                        className="action-btn delete" 
+                      <button
+                        className="action-btn delete"
                         onClick={() => handleDeleteReport(report.id)}
                         title="Excluir denúncia"
                       >
