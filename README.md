@@ -257,7 +257,6 @@ google.geocoding.url=https://maps.googleapis.com/maps/api/geocode/json
 
 Fala Cidadão, initially named *Conserva Cidadão*, is a social media-style platform developed to promote interaction between citizens and public agencies. The application allows users to register complaints - with or without using the map - track the progress of their requests, and actively collaborate for city development and well-being. Through an accessible and interactive interface, the system aims to strengthen citizen participation and make public management more transparent and efficient.
 
-You can find the project article and LaTeX code [here](https://github.com/silviaso1/Fala-Cidadao-LaTeX-article).
 
 ## Project Structure
 
@@ -494,6 +493,7 @@ google.geocoding.url=https://maps.googleapis.com/maps/api/geocode/json
 [![Jonathan](https://img.shields.io/badge/Jonathan-Profile-%2342B983?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Jojobms)
 
 </div>
+
 
 
 
