@@ -8,8 +8,6 @@
 
 O Fala Cidadão, inicialmente chamado de *Conserva Cidadão*, é uma plataforma em formato de rede social desenvolvida para promover a interação entre cidadãos e órgãos públicos. A aplicação permite que os usuários registrem denúncias — com ou sem uso do mapa —, acompanhem o andamento de suas solicitações e colaborem ativamente para o desenvolvimento e bem-estar da cidade. Por meio de uma interface acessível e interativa, o sistema busca fortalecer a participação cidadã e tornar a gestão pública mais transparente e eficiente.
 
-Você pode encontrar o artigo e o código LaTeX do projeto [aqui](https://github.com/silviaso1/Fala-Cidadao-LaTeX-article).
-
 
 ## Estrutura do Projeto
 
@@ -496,6 +494,7 @@ google.geocoding.url=https://maps.googleapis.com/maps/api/geocode/json
 [![Jonathan](https://img.shields.io/badge/Jonathan-Profile-%2342B983?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Jojobms)
 
 </div>
+
 
 
 
